@@ -37,13 +37,13 @@ public class PlayerScript : MonoBehaviour
     }
 
     void Move(Vector3 dir){
+
+        Debug.Log(dir);
         if (dir == Vector3.zero) {
             return;
         }
-        transform.Translate(dir * speed * Time.deltaTime);
-        transform.Rotate(new Vector3(0, Mathf.Atan(dir.x / dir.z) * 180 / Mathf.PI, 0)
-            * Time.fixedDeltaTime,Space.World );
-
+        transform.Translate(dir * speed * Time.deltaTime,Space.World);
+        transform.rotation = Quaternion.LookRotation(dir);
 
     }
 
