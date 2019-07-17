@@ -62,9 +62,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\MenuController.cs" />
+    <Compile Include="Assets\FantasyCharactersDwarf-Free\Scene\Script\buttondraftfree.cs" />
     <Compile Include="Assets\Script\BaseCharacter.cs" />
     <Compile Include="Assets\Script\CameraScript.cs" />
+    <Compile Include="Assets\Script\GameController.cs" />
+    <Compile Include="Assets\Script\MenuController.cs" />
     <Compile Include="Assets\Script\PlayerScript.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>/Users/cchaiyatad/Documents/Unity/BattleArena/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
