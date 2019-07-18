@@ -1,7 +1,17 @@
 ﻿using UnityEngine;
 
-public class PlayerScript : Fighter
+public class PlayerScript : MonoBehaviour
+
 {
+    public float moveSpeed = 2f;
+    public float attackDelay = 4f;
+    public int hp = 3;
+
+    private Animator animator;
+    private bool isMove;
+    private float nextAttackTime;
+
+    public bool isAttack;
 
     private Vector3 direction;
     private bool isAlreadyDead;
@@ -46,7 +56,7 @@ public class PlayerScript : Fighter
 
     }
 
-    protected override void Move(Vector3 dir)
+    private void Move(Vector3 dir)
     {
         if (dir == Vector3.zero || isAttack)
         {
@@ -54,5 +64,10 @@ public class PlayerScript : Fighter
         }
         transform.Translate(dir * moveSpeed * Time.deltaTime, Space.World);
         transform.rotation = Quaternion.LookRotation(dir);
+    }
+
+    private void Dead()
+    {
+        animator.SetTrigger("IsDeath");
     }
 }
