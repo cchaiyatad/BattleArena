@@ -1,20 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PlayerScript : MonoBehaviour
+public class PlayerScript : Fighter
 {
-    public float moveSpeed = 0.1f;
-    public float attackDelay = 2f;
-
 
     private Vector3 direction;
-    private Animator animator;
-    private bool isMove;
-    private float nextAttackTime;
-
-    public bool isAttack;
-
+    private bool isAlreadyDead;
 
     void Start()
     {
@@ -38,23 +28,31 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
+        if (hp == 0 && !isAlreadyDead)
+        {
+            Dead();
+            isAlreadyDead = true;
+        }
+
     }
 
     void FixedUpdate()
     {
+        if(isAlreadyDead)
+        {
+            return;
+        }
         Move(direction);
 
     }
 
-    void Move(Vector3 dir){
-
-        
+    protected override void Move(Vector3 dir)
+    {
         if (dir == Vector3.zero || isAttack)
         {
             return;
         }
-        transform.Translate(dir * moveSpeed * Time.deltaTime,Space.World);
+        transform.Translate(dir * moveSpeed * Time.deltaTime, Space.World);
         transform.rotation = Quaternion.LookRotation(dir);
-
     }
 }

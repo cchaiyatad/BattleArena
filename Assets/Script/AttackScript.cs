@@ -8,7 +8,6 @@ public class AttackScript : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         
-
         PlayerScript player = animator.GetComponent<PlayerScript>();
 
         player.isAttack = true;
