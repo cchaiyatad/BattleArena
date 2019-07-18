@@ -425,9 +425,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  attackDelay: 5
+  attackDelay: 3
   hp: 3
   isAttack: 0
+  isDamaged: 0
 --- !u!1001 &1567583186
 PrefabInstance:
   m_ObjectHideFlags: 0

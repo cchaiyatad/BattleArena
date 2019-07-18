@@ -1,22 +1,9 @@
 ﻿using UnityEngine;
 
-public class PlayerScript : MonoBehaviour
+public class PlayerScript : CharacterBase
 
 {
-    public float moveSpeed = 2f;
-    public float attackDelay = 4f;
-    public int hp = 3;
-
-    private Animator animator;
-    private bool isMove;
-    private float nextAttackTime;
-
-    public bool isAttack;
-
     private Vector3 direction;
-    private bool isAlreadyDead;
-
-    public bool isDamaged;
 
     void Start()
     {
@@ -63,7 +50,7 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    private void Move(Vector3 dir)
+    protected override void Move(Vector3 dir)
     {
         if (dir == Vector3.zero || isAttack)
         {
@@ -73,12 +60,12 @@ public class PlayerScript : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(dir);
     }
 
-    private void Dead()
+    protected override void Dead()
     {
         animator.SetTrigger("IsDeath");
     }
 
-    private void Damaged()
+    protected override void Damaged()
     {
         animator.SetTrigger("IsDameged");
         hp -= 1;
