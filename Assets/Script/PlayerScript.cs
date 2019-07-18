@@ -16,6 +16,8 @@ public class PlayerScript : MonoBehaviour
     private Vector3 direction;
     private bool isAlreadyDead;
 
+    public bool isDamaged;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -44,6 +46,11 @@ public class PlayerScript : MonoBehaviour
             isAlreadyDead = true;
         }
 
+        if (isDamaged && !isAlreadyDead)
+        {
+            Damaged();
+            isDamaged = false;
+        }
     }
 
     void FixedUpdate()
@@ -70,4 +77,12 @@ public class PlayerScript : MonoBehaviour
     {
         animator.SetTrigger("IsDeath");
     }
+
+    private void Damaged()
+    {
+        animator.SetTrigger("IsDameged");
+        hp -= 1;
+    }
+
+    
 }
