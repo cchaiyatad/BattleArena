@@ -63,9 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\FantasyCharactersDwarf-Free\Scene\Script\buttondraftfree.cs" />
-    <Compile Include="Assets\Script\BaseCharacter.cs" />
+    <Compile Include="Assets\Script\AttackScript.cs" />
     <Compile Include="Assets\Script\CameraScript.cs" />
-    <Compile Include="Assets\Script\GameController.cs" />
     <Compile Include="Assets\Script\MenuController.cs" />
     <Compile Include="Assets\Script\PlayerScript.cs" />
     <Reference Include="Unity.Timeline.Editor">

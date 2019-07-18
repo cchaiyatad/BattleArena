@@ -4,30 +4,40 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    public float speed = 0.1f;
+    public float moveSpeed = 0.1f;
+    public float attackDelay = 2f;
+
 
     private Vector3 direction;
     private Animator animator;
+    private bool isMove;
+    private float nextAttackTime;
 
-    // Start is called before the first frame update
+    public bool isAttack;
+
+
     void Start()
     {
         animator = GetComponent<Animator>();
+        animator.SetFloat("MoveSpeed", moveSpeed);
     }
 
-    // Update is called once per frame
     void Update()
     {
         direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        
-        if (direction != Vector3.zero)
+
+        isMove = (direction != Vector3.zero);
+        animator.SetBool("IsMove", isMove );
+
+        if (Time.time > nextAttackTime)
         {
-            animator.SetBool("IsMove", true);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                nextAttackTime = Time.time + attackDelay;
+                animator.SetTrigger("IsAttack");
+            }
         }
-        else
-        {
-            animator.SetBool("IsMove",  false);
-        }
+
     }
 
     void FixedUpdate()
@@ -38,14 +48,13 @@ public class PlayerScript : MonoBehaviour
 
     void Move(Vector3 dir){
 
-        Debug.Log(dir);
-        if (dir == Vector3.zero) {
+        
+        if (dir == Vector3.zero || isAttack)
+        {
             return;
         }
-        transform.Translate(dir * speed * Time.deltaTime,Space.World);
+        transform.Translate(dir * moveSpeed * Time.deltaTime,Space.World);
         transform.rotation = Quaternion.LookRotation(dir);
 
     }
-
-
 }
