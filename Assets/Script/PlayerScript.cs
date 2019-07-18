@@ -27,17 +27,19 @@ public class PlayerScript : CharacterBase
             }
         }
 
-        if (hp == 0 && !isAlreadyDead)
-        {
-            Dead();
-            isAlreadyDead = true;
-        }
-
         if (isDamaged && !isAlreadyDead)
         {
             Damaged();
             isDamaged = false;
         }
+
+        if (hp == 0 && !isAlreadyDead)
+        {
+            Dead();
+            isAlreadyDead = true;
+            
+        }
+
     }
 
     void FixedUpdate()
@@ -58,18 +60,5 @@ public class PlayerScript : CharacterBase
         }
         transform.Translate(dir * moveSpeed * Time.deltaTime, Space.World);
         transform.rotation = Quaternion.LookRotation(dir);
-    }
-
-    protected override void Dead()
-    {
-        animator.SetTrigger("IsDeath");
-    }
-
-    protected override void Damaged()
-    {
-        animator.SetTrigger("IsDameged");
-        hp -= 1;
-    }
-
-    
+    }  
 }

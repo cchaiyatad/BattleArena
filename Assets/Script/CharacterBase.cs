@@ -3,8 +3,8 @@ using System.Collections;
 
 public abstract class CharacterBase : MonoBehaviour
 {
-    public float moveSpeed = 2f;
-    public float attackDelay = 4f;
+    public float moveSpeed = 3f;
+    public float attackDelay = 3f;
     public int hp = 3;
 
     public bool isAttack;
@@ -16,9 +16,16 @@ public abstract class CharacterBase : MonoBehaviour
     public bool isAlreadyDead { get; set; }
 
     protected abstract void Move(Vector3 dir);
+         
+    protected void Dead()
+    {
+        animator.SetTrigger("IsDeath");
+    }
 
-    protected abstract void Dead();
-
-    protected abstract void Damaged();
+    protected void Damaged()
+    {
+        animator.SetTrigger("IsDameged");
+        hp -= 1;
+    }
 
 }
