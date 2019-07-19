@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class CharacterBase : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public abstract class CharacterBase : MonoBehaviour
     public int hp = 3;
     public GameObject hitArea;
     [HideInInspector] public HitAreaScript hitAreaScript;
+    public Text UI;
 
     public byte attackState;
     public bool isDamaged;
@@ -34,7 +36,8 @@ public abstract class CharacterBase : MonoBehaviour
 
     protected void Damaged()
     {
-        //animator.StopPlayback();
+        animator.StopPlayback();
+        
         animator.SetTrigger("IsDameged");
         hp -= 1;
     }
@@ -50,6 +53,8 @@ public abstract class CharacterBase : MonoBehaviour
         {
             Damaged();
             isDamaged = false;
+            UI.text = gameObject.tag + " HP: " + hp;
+
         }
 
         if (hp == 0 && !isAlreadyDead)
