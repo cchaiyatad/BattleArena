@@ -4,7 +4,6 @@ public class EnemyScript : CharacterBase
 {
     public GameObject target;
 
-
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -12,12 +11,9 @@ public class EnemyScript : CharacterBase
         hitAreaScript = hitArea.GetComponent<HitAreaScript>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-
         CharacterBehavior();
-
     }
 
     private void FixedUpdate()
@@ -31,7 +27,6 @@ public class EnemyScript : CharacterBase
         if (Time.time < nextAttackTime && attackState == 0)
         {
             targetPath *= -1;
-            moveSpeed = 2;
         }
         Move(targetPath);
     }
@@ -43,14 +38,15 @@ public class EnemyScript : CharacterBase
         {
             return;
         }
-        if (dir.magnitude <= 0.5)
+
+        if (dir.magnitude <= 0.6)
         {
             dir *= -1;
         }
-        else if (dir.magnitude <= 0.7)
+
+        else if (dir.magnitude <= 0.75)
         {
             animator.SetBool("IsMove", false);
-
             if (Time.time > nextAttackTime)
             {
                 Attack();
@@ -66,14 +62,7 @@ public class EnemyScript : CharacterBase
     protected override void AttackRotate(Vector3 dir)
     {
         Debug.Log("rotate");
+       
     }
-
-    protected override void Attack()
-    {
-        nextAttackTime = Time.time + attackDelay;
-        animator.SetTrigger("IsAttack");
-    }
-
-
 
 }

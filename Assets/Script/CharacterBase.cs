@@ -21,7 +21,11 @@ public abstract class CharacterBase : MonoBehaviour
 
     protected abstract void AttackRotate(Vector3 dir);
 
-    protected abstract void Attack();
+    protected void Attack()
+    {
+        nextAttackTime = Time.time + attackDelay;
+        animator.SetTrigger("IsAttack");
+    }
 
     protected void Dead()
     {

@@ -60,12 +60,4 @@ public class PlayerScript : CharacterBase
         }
         transform.rotation = Quaternion.LookRotation(dir);
     }
-    
-    protected override void Attack()
-    {
-        nextAttackTime = Time.time + attackDelay;
-        animator.SetTrigger("IsAttack");
-    }
-
-    
 }
