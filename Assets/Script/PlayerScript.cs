@@ -9,6 +9,9 @@ public class PlayerScript : CharacterBase
     {
         animator = GetComponent<Animator>();
         animator.SetFloat("MoveSpeed", moveSpeed);
+
+        HitAreaScript myHitArea = hitArea.GetComponent<HitAreaScript>();
+        myHitArea.myTag = gameObject.tag;
     }
 
     void Update()
@@ -18,12 +21,12 @@ public class PlayerScript : CharacterBase
         isMove = (direction != Vector3.zero);
         animator.SetBool("IsMove", isMove );
 
+        
         if (Time.time > nextAttackTime)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                nextAttackTime = Time.time + attackDelay;
-                animator.SetTrigger("IsAttack");
+                Attack();
             }
         }
 
@@ -40,6 +43,16 @@ public class PlayerScript : CharacterBase
             
         }
 
+        if (attackState == 2)
+        {
+            attackState = 0;
+            Vector3 hitLocation = new Vector3(this.transform.position.x,
+                0.5f, this.transform.position.z);
+            hitLocation.x += Mathf.Sin(Mathf.PI / 180 * gameObject.transform.eulerAngles.y);
+            hitLocation.z += Mathf.Cos(Mathf.PI / 180 * gameObject.transform.eulerAngles.y);
+            Debug.Log(hitLocation);
+            Instantiate(hitArea, hitLocation, Quaternion.identity);
+        }
     }
 
     void FixedUpdate()
@@ -54,11 +67,22 @@ public class PlayerScript : CharacterBase
 
     protected override void Move(Vector3 dir)
     {
-        if (dir == Vector3.zero || isAttack)
+        if (dir == Vector3.zero || attackState == 1)
         {
             return;
         }
         transform.Translate(dir * moveSpeed * Time.deltaTime, Space.World);
         transform.rotation = Quaternion.LookRotation(dir);
-    }  
+    }
+
+    protected override void Attack()
+    {
+        nextAttackTime = Time.time + attackDelay;
+        animator.SetTrigger("IsAttack");
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        isDamaged = other.GetComponent<HitAreaScript>().myTag != gameObject.tag;
+    }
 }

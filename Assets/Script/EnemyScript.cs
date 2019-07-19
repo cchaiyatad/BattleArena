@@ -16,6 +16,13 @@ public class EnemyScript : CharacterBase
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Attack();
+        }
+
+
+
         if (isDamaged && !isAlreadyDead)
         {
             Damaged();
@@ -27,6 +34,8 @@ public class EnemyScript : CharacterBase
             Dead();
             isAlreadyDead = true;
         }
+
+
     }
 
     protected override void Move(Vector3 dir)
@@ -34,5 +43,11 @@ public class EnemyScript : CharacterBase
         Debug.Log("Move");
     }
 
-    
+    protected override void Attack()
+    {
+        animator.SetTrigger("IsAttack");
+    }
+
+
+
 }

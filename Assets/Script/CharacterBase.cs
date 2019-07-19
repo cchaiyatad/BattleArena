@@ -6,8 +6,9 @@ public abstract class CharacterBase : MonoBehaviour
     public float moveSpeed = 3f;
     public float attackDelay = 3f;
     public int hp = 3;
+    public GameObject hitArea;
 
-    public bool isAttack;
+    public byte attackState;
     public bool isDamaged;
 
     public Animator animator { get; set; }
@@ -16,7 +17,9 @@ public abstract class CharacterBase : MonoBehaviour
     public bool isAlreadyDead { get; set; }
 
     protected abstract void Move(Vector3 dir);
-         
+
+    protected abstract void Attack();
+
     protected void Dead()
     {
         animator.SetTrigger("IsDeath");
@@ -27,5 +30,7 @@ public abstract class CharacterBase : MonoBehaviour
         animator.SetTrigger("IsDameged");
         hp -= 1;
     }
+
+
 
 }

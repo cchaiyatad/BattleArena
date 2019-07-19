@@ -68,6 +68,7 @@
     <Compile Include="Assets\Script\CharacterBase.cs" />
     <Compile Include="Assets\Script\EnemyScript.cs" />
     <Compile Include="Assets\Script\Fighter.cs" />
+    <Compile Include="Assets\Script\HitAreaScript.cs" />
     <Compile Include="Assets\Script\MenuController.cs" />
     <Compile Include="Assets\Script\PlayerScript.cs" />
     <Reference Include="Unity.Timeline.Editor">

@@ -207,7 +207,7 @@ Transform:
   m_GameObject: {fileID: 583176816}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -411,6 +411,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 100014, guid: 4b31158a600f6cd46b2255fe65387395, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 400014, guid: 4b31158a600f6cd46b2255fe65387395, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6
@@ -459,6 +463,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 595239d8392964d4986b65d111b54d84, type: 2}
+    - target: {fileID: 13700000, guid: 4b31158a600f6cd46b2255fe65387395, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b31158a600f6cd46b2255fe65387395, type: 3}
 --- !u!1 &1028458316 stripped
@@ -484,6 +492,36 @@ MonoBehaviour:
   hp: 3
   isAttack: 0
   isDamaged: 0
+--- !u!136 &1028458320
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028458316}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.4
+  m_Height: 1.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.65, z: 0}
+--- !u!54 &1028458321
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028458316}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1226698561 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100012, guid: 06033faff6ed98c4292f7a342b048834,
@@ -513,6 +551,36 @@ MonoBehaviour:
   hp: 3
   isAttack: 0
   isDamaged: 0
+--- !u!136 &1226698565
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226698561}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.4
+  m_Height: 1.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.65, z: 0}
+--- !u!54 &1226698566
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226698561}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &1567583186
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -522,6 +590,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100012, guid: 06033faff6ed98c4292f7a342b048834, type: 3}
       propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 100012, guid: 06033faff6ed98c4292f7a342b048834, type: 3}
+      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 06033faff6ed98c4292f7a342b048834, type: 3}
