@@ -6,12 +6,11 @@ public abstract class CharacterBase : MonoBehaviour
     public float attackDelay = 3f;
     public int hp = 3;
     public GameObject hitArea;
-    public HitAreaScript hitAreaScript;
+    [HideInInspector] public HitAreaScript hitAreaScript;
 
     public byte attackState;
     public bool isDamaged;
-    public float hitPositionX;
-    public float hitPositionZ;
+    public float hitDirection;
 
     public Animator animator { get; set; }
     public float nextAttackTime { get; set; }
@@ -19,6 +18,8 @@ public abstract class CharacterBase : MonoBehaviour
     public bool isAlreadyDead { get; set; }
 
     protected abstract void Move(Vector3 dir);
+
+    protected abstract void AttackRotate(Vector3 dir);
 
     protected abstract void Attack();
 
@@ -58,13 +59,15 @@ public abstract class CharacterBase : MonoBehaviour
         {
             hitAreaScript.attacker = gameObject.tag;
 
-            Vector3 hitLocation = new Vector3(hitPositionX, 0.5f, hitPositionZ);
-            hitLocation.x += Mathf.Sin(Mathf.PI / 180 * gameObject.transform.eulerAngles.y);
-            hitLocation.z += Mathf.Cos(Mathf.PI / 180 * gameObject.transform.eulerAngles.y);
+            Vector3 hitLocation = gameObject.transform.position;
+            hitLocation.y = 0.5f;
+            hitLocation.x += Mathf.Sin(Mathf.Deg2Rad * hitDirection);
+            hitLocation.z += Mathf.Cos(Mathf.Deg2Rad * hitDirection);
             
             Instantiate(hitArea, hitLocation, Quaternion.identity);
             attackState = 0;
         }
+
     }
 
 

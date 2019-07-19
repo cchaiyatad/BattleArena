@@ -34,6 +34,7 @@ public class PlayerScript : CharacterBase
             return;
         }
         Move(direction);
+        AttackRotate(direction);
 
     }
 
@@ -48,6 +49,15 @@ public class PlayerScript : CharacterBase
         }
 
         transform.Translate(dir * moveSpeed * Time.deltaTime, Space.World);
+        
+    }
+
+    protected override void AttackRotate(Vector3 dir) 
+    {
+        if (dir == Vector3.zero)
+        {
+            return;
+        }
         transform.rotation = Quaternion.LookRotation(dir);
     }
     

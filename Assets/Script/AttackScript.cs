@@ -24,8 +24,7 @@ public class AttackScript : StateMachineBehaviour
     {
         CharacterBase player = animator.GetComponent<CharacterBase>();
         player.attackState = 2;
-        player.hitPositionX = player.transform.position.x;
-        player.hitPositionZ = player.transform.position.z;
+        player.hitDirection = player.transform.rotation.eulerAngles.y;
 
     }
 
