@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class HitAreaScript : MonoBehaviour
 {
-    public string myTag;
-    public float time = 0.5f;
+    public string attacker;
+    public float time = 0.3f;
 
     private void Update()
     {

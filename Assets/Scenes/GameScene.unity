@@ -490,7 +490,8 @@ MonoBehaviour:
   moveSpeed: 3
   attackDelay: 3
   hp: 3
-  isAttack: 0
+  hitArea: {fileID: 7757521122207146529, guid: 815c9f5c3aac448159618f4144ccb32d, type: 3}
+  attackState: 0
   isDamaged: 0
 --- !u!136 &1028458320
 CapsuleCollider:
@@ -549,7 +550,8 @@ MonoBehaviour:
   moveSpeed: 3
   attackDelay: 3
   hp: 3
-  isAttack: 0
+  hitArea: {fileID: 7757521122207146529, guid: 815c9f5c3aac448159618f4144ccb32d, type: 3}
+  attackState: 0
   isDamaged: 0
 --- !u!136 &1226698565
 CapsuleCollider:

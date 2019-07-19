@@ -1,16 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyScript : CharacterBase
 {
     
-
-    // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         animator.SetFloat("MoveSpeed", moveSpeed);
+        hitAreaScript = hitArea.GetComponent<HitAreaScript>();
     }
 
     // Update is called once per frame
@@ -21,20 +18,7 @@ public class EnemyScript : CharacterBase
             Attack();
         }
 
-
-
-        if (isDamaged && !isAlreadyDead)
-        {
-            Damaged();
-            isDamaged = false;
-        }
-
-        if (hp == 0 && !isAlreadyDead)
-        {
-            Dead();
-            isAlreadyDead = true;
-        }
-
+        CharacterBehavior();
 
     }
 
@@ -47,7 +31,5 @@ public class EnemyScript : CharacterBase
     {
         animator.SetTrigger("IsAttack");
     }
-
-
 
 }
