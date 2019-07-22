@@ -45,7 +45,7 @@ public class PlayerScript : CharacterBase
         isMove = (direction != Vector3.zero);
         animator.SetBool("IsMove", isMove);
 
-        if (dir == Vector3.zero || attackState == 1 || isHitObstacle)
+        if (dir == Vector3.zero || attackState|| isHitObstacle)
         {
            return;
         }
@@ -65,6 +65,7 @@ public class PlayerScript : CharacterBase
 
     protected override void CheckObstacle()
     {
+        
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 0.8f))
         {
             isHitObstacle = hit.transform.CompareTag("Obstacle");

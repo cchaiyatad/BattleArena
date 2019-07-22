@@ -7,6 +7,10 @@ public class EnemyScript : CharacterBase
     private int newVector;
     private bool isEscaping;
 
+    private bool forwardHit;
+    private bool leftHit;
+    private bool rightHit;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -27,7 +31,7 @@ public class EnemyScript : CharacterBase
             return;
         }
         targetPath = target.gameObject.transform.position - transform.position;
-        if (Time.time < nextAttackTime && attackState == 0)
+        if (Time.time < nextAttackTime && !attackState)
         {
             targetPath *= -1;
         }
@@ -39,7 +43,7 @@ public class EnemyScript : CharacterBase
     protected override void Move(Vector3 dir)
     {
 
-        if (attackState == 1)
+        if (attackState)
         {
             return;
         }
@@ -74,45 +78,43 @@ public class EnemyScript : CharacterBase
 
     protected override void CheckObstacle()
     {
+        
 
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit))
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 0.8f))
         {
-            isHitObstacle = (transform.position - hit.transform.position).magnitude < 0.8;
+            //isHitObstacle = (transform.position - hit.transform.position).magnitude < 0.8;
 
-            if (hit.transform.CompareTag("Obstacle") && !isEscaping)
+            if (hit.transform.CompareTag("Obstacle"))
             {
-                isEscaping = true;
-                newVector = Random.Range(-1, 2);
-                while (newVector == 0)
-                {
-                    newVector = Random.Range(-1, 2);
-                }
-
+                forwardHit = true;
+                isHitObstacle = true;
+                Debug.Log(targetPath + " "+ (hit.transform.position - transform.position) + " "
+                    + targetPath.magnitude + " " +
+                    (hit.transform.position - transform.position - new Vector3(0, 0.5f, 0)).magnitude + " "
+                    + Vector3.Dot(targetPath, hit.transform.position - transform.position));
+                Debug.Log(Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot(targetPath, hit.transform.position - transform.position)/(targetPath.magnitude *
+                    (hit.transform.position - transform.position - new Vector3(0, 0.5f, 0)).magnitude)));
+                Debug.Log(targetPath - (hit.transform.position - transform.position));
             }
+
         }
 
-        if (isEscaping)
+        /*if (isHitObstacle)
         {
             
 
-            if (Physics.Raycast(transform.position, targetPath, out RaycastHit side))
+            if (Physics.Raycast(transform.position, transform.right, out RaycastHit rightHitRay, 0.8f))
             {
-                if (side.transform.CompareTag("Player"))
-                {
-                    isEscaping = false;
-                    return;
-                }
+                rightHit = rightHitRay.transform.CompareTag("Obstacle");
+            }
+            if (Physics.Raycast(transform.position, transform.right * (-1), out RaycastHit leftHitRay, 0.8f))
+            {
+                leftHit = rightHitRay.transform.CompareTag("Obstacle");
             }
 
-            targetPath = Vector3.Cross(transform.up * newVector, targetPath);
-            if (isHitObstacle)
-            {
-                Debug.Log("foo");
-            }
-        }
 
 
-
+        }*/
 
     }
 }

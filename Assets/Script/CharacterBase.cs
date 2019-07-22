@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public abstract class CharacterBase : MonoBehaviour
@@ -11,7 +12,7 @@ public abstract class CharacterBase : MonoBehaviour
     public Text UI;
     public bool isHitObstacle;
 
-    public byte attackState;
+    public bool attackState;
     public bool isDamaged;
     public float hitDirection;
 
@@ -19,6 +20,8 @@ public abstract class CharacterBase : MonoBehaviour
     public float nextAttackTime { get; set; }
     public bool isMove { get; set; }
     public bool isAlreadyDead { get; set; }
+
+    private Vector3 hitLocation;
 
     protected abstract void Move(Vector3 dir);
 
@@ -30,6 +33,7 @@ public abstract class CharacterBase : MonoBehaviour
     {
         nextAttackTime = Time.time + attackDelay;
         animator.SetTrigger("IsAttack");
+        StartCoroutine(SpawnAttack());
     }
 
     protected void Dead()
@@ -40,17 +44,18 @@ public abstract class CharacterBase : MonoBehaviour
     protected void Damaged()
     {
         animator.StopPlayback();
-        
+
         animator.SetTrigger("IsDameged");
         hp -= 1;
+        StartCoroutine(DamagedDelay());
     }
 
     protected void OnTriggerEnter(Collider other)
     {
-       
+
 
         //isHitObstacle = other.CompareTag("Obstacle");
-        
+
         isDamaged = !other.CompareTag("Obstacle") &&
             !gameObject.CompareTag(other.GetComponent<HitAreaScript>().attacker);
     }
@@ -77,20 +82,27 @@ public abstract class CharacterBase : MonoBehaviour
 
         }
 
-        if (attackState == 2)
-        {
-            hitAreaScript.attacker = gameObject.tag;
-
-            Vector3 hitLocation = gameObject.transform.position;
-            hitLocation.y = 0.5f;
-            hitLocation.x += Mathf.Sin(Mathf.Deg2Rad * hitDirection);
-            hitLocation.z += Mathf.Cos(Mathf.Deg2Rad * hitDirection);
-            
-            Instantiate(hitArea, hitLocation, Quaternion.identity);
-            attackState = 0;
-        }
-
     }
 
+    IEnumerator SpawnAttack()
+    {
+        attackState = true;
+        hitAreaScript.attacker = gameObject.tag;
+        yield return new WaitForSeconds(0.5f);
+        hitDirection = transform.rotation.eulerAngles.y;
+        hitLocation = gameObject.transform.position;
+        hitLocation.y = 0.5f;
+        hitLocation.x += Mathf.Sin(Mathf.Deg2Rad * hitDirection);
+        hitLocation.z += Mathf.Cos(Mathf.Deg2Rad * hitDirection);
+        Instantiate(hitArea, hitLocation, Quaternion.identity);
+        yield return new WaitForSeconds(0.1f);
+        attackState = false;
+    }
 
+    IEnumerator DamagedDelay()
+    {
+        attackState = true;
+        yield return new WaitForSeconds(0.3f);
+        attackState = false;
+    }
 }
