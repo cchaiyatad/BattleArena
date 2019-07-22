@@ -9,6 +9,7 @@ public abstract class CharacterBase : MonoBehaviour
     public GameObject hitArea;
     [HideInInspector] public HitAreaScript hitAreaScript;
     public Text UI;
+    public bool isHitObstacle;
 
     public byte attackState;
     public bool isDamaged;
@@ -22,6 +23,8 @@ public abstract class CharacterBase : MonoBehaviour
     protected abstract void Move(Vector3 dir);
 
     protected abstract void AttackRotate(Vector3 dir);
+
+    protected abstract void CheckObstacle();
 
     protected void Attack()
     {
@@ -44,8 +47,18 @@ public abstract class CharacterBase : MonoBehaviour
 
     protected void OnTriggerEnter(Collider other)
     {
-        isDamaged = other.GetComponent<HitAreaScript>().attacker != gameObject.tag;
+       
+
+        //isHitObstacle = other.CompareTag("Obstacle");
+        
+        isDamaged = !other.CompareTag("Obstacle") &&
+            !gameObject.CompareTag(other.GetComponent<HitAreaScript>().attacker);
     }
+
+    //protected void OnTriggerExit(Collider other)
+    //{
+    //    isHitObstacle = false;
+    //}
 
     protected void CharacterBehavior()
     {

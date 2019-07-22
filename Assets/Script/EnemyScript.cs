@@ -3,6 +3,9 @@
 public class EnemyScript : CharacterBase
 {
     public GameObject target;
+    private Vector3 targetPath;
+    private int newVector;
+    private bool isEscaping;
 
     void Start()
     {
@@ -23,17 +26,19 @@ public class EnemyScript : CharacterBase
         {
             return;
         }
-        Vector3 targetPath = target.gameObject.transform.position - transform.position;
+        targetPath = target.gameObject.transform.position - transform.position;
         if (Time.time < nextAttackTime && attackState == 0)
         {
             targetPath *= -1;
         }
+        CheckObstacle();
         Move(targetPath);
     }
 
 
     protected override void Move(Vector3 dir)
     {
+
         if (attackState == 1)
         {
             return;
@@ -53,6 +58,8 @@ public class EnemyScript : CharacterBase
             }
             return;
         }
+
+
         animator.SetBool("IsMove", true);
         dir.Normalize();
         transform.Translate(dir * moveSpeed * Time.deltaTime, Space.World);
@@ -62,7 +69,51 @@ public class EnemyScript : CharacterBase
     protected override void AttackRotate(Vector3 dir)
     {
         Debug.Log("rotate");
-       
+
     }
 
+    protected override void CheckObstacle()
+    {
+
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit))
+        {
+            isHitObstacle = (transform.position - hit.transform.position).magnitude < 0.8;
+
+            if (hit.transform.CompareTag("Obstacle") && !isEscaping)
+            {
+                isEscaping = true;
+                newVector = Random.Range(-1, 2);
+                while (newVector == 0)
+                {
+                    newVector = Random.Range(-1, 2);
+                }
+
+            }
+        }
+
+        if (isEscaping)
+        {
+            
+
+            if (Physics.Raycast(transform.position, targetPath, out RaycastHit side))
+            {
+                if (side.transform.CompareTag("Player"))
+                {
+                    isEscaping = false;
+                    return;
+                }
+            }
+
+            targetPath = Vector3.Cross(transform.up * newVector, targetPath);
+            if (isHitObstacle)
+            {
+                Debug.Log("foo");
+            }
+        }
+
+
+
+
+    }
 }
+

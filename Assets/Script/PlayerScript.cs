@@ -16,6 +16,8 @@ public class PlayerScript : CharacterBase
     {
         direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
+        CheckObstacle();
+
         if (Time.time > nextAttackTime)
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -43,9 +45,9 @@ public class PlayerScript : CharacterBase
         isMove = (direction != Vector3.zero);
         animator.SetBool("IsMove", isMove);
 
-        if (dir == Vector3.zero || attackState == 1)
+        if (dir == Vector3.zero || attackState == 1 || isHitObstacle)
         {
-            return;
+           return;
         }
 
         transform.Translate(dir * moveSpeed * Time.deltaTime, Space.World);
@@ -59,5 +61,18 @@ public class PlayerScript : CharacterBase
             return;
         }
         transform.rotation = Quaternion.LookRotation(dir);
+    }
+
+    protected override void CheckObstacle()
+    {
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 0.8f))
+        {
+            isHitObstacle = hit.transform.CompareTag("Obstacle");
+        }
+        else
+        {
+            isHitObstacle = false;
+        }
+
     }
 }
