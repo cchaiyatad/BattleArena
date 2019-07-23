@@ -52,18 +52,10 @@ public abstract class CharacterBase : MonoBehaviour
 
     protected void OnTriggerEnter(Collider other)
     {
-
-
-        //isHitObstacle = other.CompareTag("Obstacle");
-
         isDamaged = !other.CompareTag("Obstacle") &&
             !gameObject.CompareTag(other.GetComponent<HitAreaScript>().attacker);
     }
 
-    //protected void OnTriggerExit(Collider other)
-    //{
-    //    isHitObstacle = false;
-    //}
 
     protected void CharacterBehavior()
     {

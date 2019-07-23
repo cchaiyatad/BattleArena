@@ -297,7 +297,6 @@
 /define:CSHARP_7_OR_LATER
 /define:CSHARP_7_3_OR_NEWER
 "Assets/FantasyCharactersDwarf-Free/Scene/Script/buttondraftfree.cs"
-"Assets/Script/AttackScript.cs"
 "Assets/Script/CameraScript.cs"
 "Assets/Script/CharacterBase.cs"
 "Assets/Script/EnemyScript.cs"
