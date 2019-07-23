@@ -24,9 +24,7 @@ public abstract class CharacterBase : MonoBehaviour
     private Vector3 hitLocation;
 
     protected abstract void Move(Vector3 dir);
-
-    protected abstract void AttackRotate(Vector3 dir);
-
+    
     protected abstract void CheckObstacle();
 
     protected void Attack()

@@ -54,7 +54,7 @@ public class PlayerScript : CharacterBase
         
     }
 
-    protected override void AttackRotate(Vector3 dir) 
+    protected void AttackRotate(Vector3 dir) 
     {
         if (dir == Vector3.zero)
         {

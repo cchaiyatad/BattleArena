@@ -9,4 +9,14 @@ public class MenuController : MonoBehaviour
     {
         SceneManager.LoadScene("GameScene");
     }
+
+    public void OnPlayDungeonButtonClick()
+    {
+        SceneManager.LoadScene("DungeonScene");
+    }
+
+    public void Restart()
+    {
+
+    }
 }

@@ -6,18 +6,15 @@ public class EnemyScript : CharacterBase
 {
     public GameObject target;
     private Vector3 targetPath;
-    private int newVector;
-    private bool isEscaping;
 
-    private bool forwardHit;
-    private bool sideHit;
-
+    private List<(float, float)> pathList;
+    private Vector3 escapedPoint;
+    private bool hasEscapedPoint;
     void Start()
     {
         animator = GetComponent<Animator>();
         animator.SetFloat("MoveSpeed", moveSpeed);
         hitAreaScript = hitArea.GetComponent<HitAreaScript>();
-        AStar();
     }
 
     void Update()
@@ -32,11 +29,24 @@ public class EnemyScript : CharacterBase
         {
             return;
         }
-        targetPath = target.gameObject.transform.position - transform.position;
-        if (Time.time < nextAttackTime && !attackState)
+
+        if (Time.time < nextAttackTime)
         {
-            targetPath *= -1;
+            if (!hasEscapedPoint)
+            {
+                escapedPoint = Escape();
+                hasEscapedPoint = true;
+            }
+            pathList = AStar(escapedPoint, true);
         }
+        else
+        {
+            hasEscapedPoint = false;
+            pathList = AStar(target.transform.position, false);
+        }
+
+        targetPath = new Vector3(pathList[0].Item1 - transform.position.x, 0, pathList[0].Item2 - transform.position.z);
+
 
         Move(targetPath);
     }
@@ -45,17 +55,20 @@ public class EnemyScript : CharacterBase
     protected override void Move(Vector3 dir)
     {
 
+        float distanceToTarget = (target.gameObject.transform.position - transform.position).magnitude;
+
         if (attackState)
         {
             return;
         }
 
-        if (dir.magnitude <= 0.6)
+        if (distanceToTarget <= 0.6)
         {
             dir *= -1;
         }
 
-        else if (dir.magnitude <= 0.75)
+
+        if (distanceToTarget <= 0.75)
         {
             animator.SetBool("IsMove", false);
             if (Time.time > nextAttackTime)
@@ -64,8 +77,6 @@ public class EnemyScript : CharacterBase
             }
             return;
         }
-        CheckObstacle();
-
 
         animator.SetBool("IsMove", true);
         dir.Normalize();
@@ -73,53 +84,55 @@ public class EnemyScript : CharacterBase
         transform.rotation = Quaternion.LookRotation(dir);
     }
 
-    protected override void AttackRotate(Vector3 dir)
-    {
-        Debug.Log("rotate");
-
-    }
 
     protected override void CheckObstacle()
     {
+        Debug.Log("obstacle");
+    }
 
+    private Vector3 Escape()
+    {
+        var corners = new List<Vector3> { };
+        Vector3 size = GameObject.Find("Plane").GetComponent<Renderer>().bounds.size - (2 * Vector3.one);
 
-        if (Physics.Raycast(transform.position, targetPath, out RaycastHit hit))
+        for (int i = -1; i < 2; i += 2)
         {
-            //isHitObstacle = (transform.position - hit.transform.position).magnitude < 0.8
-            if (hit.transform.CompareTag("Obstacle"))
+            for (int j = -1; j < 2; j += 2)
             {
-                isHitObstacle = true;
+                corners.Add(new Vector3(size.x / 2 * i, 0f, size.z / 2 * j));
+            }
+        }
+
+        float max = -1;
+        int index = -1;
+        for (int i = 0; i < corners.Count; i++)
+        {
+            float distance = (corners[i] - transform.position).magnitude;
+            if (max < distance)
+            {
+                max = distance;
+                index = i;
             }
 
         }
 
 
-        if (isHitObstacle)
-        {
-            //AStar();
-            isHitObstacle = false;
-
-        }
-
-
+        return corners[index];
     }
 
-    public void AStar()
+    public List<(float, float)> AStar(Vector3 destination, bool isEscape)
     {
         bool isFound = false;
         var openList = new List<Node> { };
         var closeList = new List<Node> { };
-
-        (float, float) startPosition = (transform.position.x, transform.position.z);
-        (float, float) destinationPosition = (target.transform.position.x, target.transform.position.z);
         Node currentNode;
-        Node startNode = new Node(startPosition)
+        Node startNode = new Node((transform.position.x, transform.position.z))
         {
             G = 0,
-            DestinationPosition = destinationPosition
+            DestinationPosition = (destination.x, destination.z)
         };
 
-           
+
         Node endNode = null;
 
         openList.Add(startNode);
@@ -140,19 +153,23 @@ public class EnemyScript : CharacterBase
             var adjacentList = new List<Node> { };
             for (int i = 0; i < 360; i += 45)
             {
+                float xAxisRay = Mathf.Sin(Mathf.Deg2Rad * i);
+                float zAxisRay = Mathf.Cos(Mathf.Deg2Rad * i);
+
                 if (Physics.Raycast(
                     new Vector3(currentNode.currentPosition.Item1, 0, currentNode.currentPosition.Item2)
-                    , new Vector3(Mathf.Sin(Mathf.Deg2Rad * i), 0, Mathf.Cos(Mathf.Deg2Rad * i))
+                    , new Vector3(xAxisRay, 0, zAxisRay)
                     , out RaycastHit hit, 1f))
                 {
                     if (hit.transform.CompareTag("Obstacle"))
                     {
                         continue;
                     }
-                    if (hit.transform.CompareTag("Player")) {
+                    if (hit.transform.CompareTag("Player") && !isEscape)
+                    {
                         endNode = new Node((
-                        currentNode.currentPosition.Item1 + Mathf.Sin(Mathf.Deg2Rad * i),
-                        currentNode.currentPosition.Item2 + Mathf.Cos(Mathf.Deg2Rad * i))
+                        currentNode.currentPosition.Item1 + xAxisRay,
+                        currentNode.currentPosition.Item2 + zAxisRay)
                         , currentNode)
                         {
                             G = currentNode.G + 1,
@@ -161,12 +178,32 @@ public class EnemyScript : CharacterBase
                         isFound = true;
                         break;
                     }
+
                 }
                 else
                 {
+                    if (isEscape)
+                    {
+                        float currentX = currentNode.currentPosition.Item1;
+                        float currentZ = currentNode.currentPosition.Item2;
+                        if ((currentX + xAxisRay - destination.x) * (destination.x - currentX) >= 0 &&
+                            (currentZ + zAxisRay - destination.z) * (destination.z - currentZ) >= 0)
+                        {
+                            endNode = new Node((
+                        currentNode.currentPosition.Item1 + xAxisRay,
+                        currentNode.currentPosition.Item2 + zAxisRay)
+                        , currentNode)
+                            {
+                                G = currentNode.G + 1,
+                                DestinationPosition = currentNode.DestinationPosition
+                            };
+                            isFound = true;
+                            break;
+                        }
+                    }
                     adjacentList.Add(new Node((
-                        currentNode.currentPosition.Item1 + Mathf.Sin(Mathf.Deg2Rad * i),
-                        currentNode.currentPosition.Item2 + Mathf.Cos(Mathf.Deg2Rad * i))
+                        currentNode.currentPosition.Item1 + xAxisRay,
+                        currentNode.currentPosition.Item2 + zAxisRay)
                         , currentNode)
                     {
                         G = currentNode.G + 1,
@@ -175,7 +212,7 @@ public class EnemyScript : CharacterBase
                 }
             }
 
-            
+
             foreach (Node node in adjacentList)
             {
                 if (closeList.Contains(node))
@@ -186,33 +223,27 @@ public class EnemyScript : CharacterBase
                 {
                     openList.Add(node);
                 }
-                else {
-                    if (openList.Find(x => x.Equals(node)).Compare(openList.Find(x => x.Equals(node)), node) == 1)
+                else
+                {
+                    if (openList.Find(j => j.Equals(node)).Compare(openList.Find(j => j.Equals(node)), node) == 1)
                     {
-                        openList.Remove(openList.Find(x => x.Equals(node)));
+                        openList.Remove(openList.Find(j => j.Equals(node)));
                         openList.Add(node);
                     }
                 }
 
             }
 
-            
-
         } while (openList.Count != 0);
 
-
-        var temp = FindPath(endNode);
-        foreach ((float, float) i in temp)
-        {
-            print(i);
-        }
+        return FindPath(endNode);
     }
 
     public List<(float, float)> FindPath(Node node)
     {
-        
+
         var pathList = new List<(float, float)> { };
-        while(node.parentNode != null)
+        while (node.parentNode != null)
         {
             pathList.Add(node.currentPosition);
             node = node.parentNode;
@@ -272,11 +303,11 @@ public class Node : IComparable<Node>
 
     public override string ToString()
     {
-        if(parentNode == null)
+        if (parentNode == null)
         {
             return "postion = " + currentPosition;
         }
-        return "postion = " + currentPosition +  " Parent Postion = " + parentNode.currentPosition + " G = " + G + " H = " + CalculateH(DestinationPosition) + " P = " + CalculateP();
+        return "postion = " + currentPosition + " Parent Postion = " + parentNode.currentPosition + " G = " + G + " H = " + CalculateH(DestinationPosition) + " P = " + CalculateP();
     }
 
     public int CompareTo(Node other)
