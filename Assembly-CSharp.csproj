@@ -66,6 +66,8 @@
     <Compile Include="Assets\Script\ArenaGameController.cs" />
     <Compile Include="Assets\Script\CameraScript.cs" />
     <Compile Include="Assets\Script\CharacterBase.cs" />
+    <Compile Include="Assets\Script\DungeonEnemyScript.cs" />
+    <Compile Include="Assets\Script\DungeonSceneController.cs" />
     <Compile Include="Assets\Script\EnemyScript.cs" />
     <Compile Include="Assets\Script\Fighter.cs" />
     <Compile Include="Assets\Script\HitAreaScript.cs" />

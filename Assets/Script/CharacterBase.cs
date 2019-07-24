@@ -55,7 +55,7 @@ public abstract class CharacterBase : MonoBehaviour
     }
 
 
-    protected void CharacterBehavior()
+    protected virtual void CharacterBehavior()
     {
         if (isDamaged && !isAlreadyDead)
         {
