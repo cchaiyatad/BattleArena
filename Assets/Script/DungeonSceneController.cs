@@ -39,7 +39,7 @@ public class DungeonSceneController : MonoBehaviour
 
         if (nextSpawnTime < Time.time && !isPause && !isFinish)
         {
-            nextSpawnTime += 11f;
+            nextSpawnTime += 12f;
             Instantiate(Enemy, corners[Random.Range(0, 4)], Quaternion.identity);
         }
 

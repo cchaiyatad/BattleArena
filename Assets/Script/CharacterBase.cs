@@ -42,9 +42,10 @@ public abstract class CharacterBase : MonoBehaviour
     protected void Damaged()
     {
         animator.StopPlayback();
-
         animator.SetTrigger("IsDameged");
+
         hp -= 1;
+
         StartCoroutine(DamagedDelay());
     }
 

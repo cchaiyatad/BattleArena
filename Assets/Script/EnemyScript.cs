@@ -63,6 +63,7 @@ public class EnemyScript : CharacterBase
 
         if (distanceToTarget <= 0.6)
         {
+
             dir *= -1;
         }
 
@@ -72,7 +73,9 @@ public class EnemyScript : CharacterBase
             animator.SetBool("IsMove", false);
             if (Time.time > nextAttackTime)
             {
-                Attack();
+				dir *= -1;
+				transform.rotation = Quaternion.LookRotation(dir);
+				Attack();
             }
             return;
         }
