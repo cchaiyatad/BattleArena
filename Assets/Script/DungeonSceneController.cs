@@ -30,6 +30,7 @@ public class DungeonSceneController : MonoBehaviour
                 corners.Add(new Vector3(size.x / 2 * i, 0f, size.z / 2 * j));
             }
         }
+		nextSpawnTime = Time.time;
 
     }
 

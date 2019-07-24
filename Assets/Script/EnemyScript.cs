@@ -15,6 +15,7 @@ public class EnemyScript : CharacterBase
         animator = GetComponent<Animator>();
         animator.SetFloat("MoveSpeed", moveSpeed);
         hitAreaScript = hitArea.GetComponent<HitAreaScript>();
+		playerName = "enemy";
     }
 
     void Update()
@@ -74,7 +75,7 @@ public class EnemyScript : CharacterBase
             if (Time.time > nextAttackTime)
             {
 				dir *= -1;
-				transform.rotation = Quaternion.LookRotation(dir);
+				//transform.rotation = Quaternion.LookRotation(dir);
 				Attack();
             }
             return;

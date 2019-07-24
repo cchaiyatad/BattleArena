@@ -13,6 +13,7 @@ public class ArenaGameController : MonoBehaviour
     private bool isPause;
     private bool isFinish;
 
+
     // Start is called before the first frame update
     void Start()
     {

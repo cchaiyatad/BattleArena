@@ -17,13 +17,6 @@ public class DungeonEnemyScript : EnemyScript
 
     protected override void CharacterBehavior()
     {
-        if (isDamaged && !isAlreadyDead)
-        {
-            Damaged();
-            isDamaged = false;
-
-        }
-
         if (hp == 0 && !isAlreadyDead)
         {
             Dead();
@@ -36,9 +29,7 @@ public class DungeonEnemyScript : EnemyScript
             isAlreadyDead = true;
             Destroy(gameObject, 3f);
 
-        }
-        
+        }   
     }
-
 }
 

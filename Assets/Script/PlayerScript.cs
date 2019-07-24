@@ -10,6 +10,8 @@ public class PlayerScript : CharacterBase
         animator = GetComponent<Animator>();
         animator.SetFloat("MoveSpeed", moveSpeed);
         hitAreaScript = hitArea.GetComponent<HitAreaScript>();
+        playerName = "player";
+
     }
 
     void Update()
