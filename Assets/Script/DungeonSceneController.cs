@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class DungeonSceneController : MonoBehaviour
 {
     public GameObject PauseMenu;
     public Text text;
     public CharacterBase Player;
     public CharacterBase Enemy;
-    public int count = 0;
+    public int count;
 
     private bool isPause;
     private bool isFinish;
@@ -38,7 +39,7 @@ public class DungeonSceneController : MonoBehaviour
 
         if (nextSpawnTime < Time.time && !isPause && !isFinish)
         {
-            nextSpawnTime += 15f;
+            nextSpawnTime += 11f;
             Instantiate(Enemy, corners[Random.Range(0, 4)], Quaternion.identity);
         }
 
@@ -62,7 +63,6 @@ public class DungeonSceneController : MonoBehaviour
             if (Player.hp == 0)
             {
                 text.text = "Kill: " + count;
-                print(count);
             }
         }
 

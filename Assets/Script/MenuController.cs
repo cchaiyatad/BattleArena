@@ -22,7 +22,7 @@ public class MenuController : MonoBehaviour
 
     public void OnBackButtonClick()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        SceneManager.LoadScene("MainMenuScene");
     }
 
 }
