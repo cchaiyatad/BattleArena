@@ -1,10 +1,11 @@
 ﻿<Properties StartupConfiguration="{60942A5D-093A-93CC-E298-9AAFF4336EAD}|">
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/MenuController.cs">
     <Files>
-      <File FileName="Assets/Script/CharacterBase.cs" Line="27" Column="5" />
-      <File FileName="Assets/Script/PlayerScript.cs" Line="57" Column="15" />
-      <File FileName="Assets/Script/EnemyScript.cs" Line="36" Column="22" />
-      <File FileName="Assets/Script/MenuController.cs" Line="13" Column="20" />
+      <File FileName="Assets/Script/CharacterBase.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/PlayerScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/EnemyScript.cs" Line="172" Column="38" />
+      <File FileName="Assets/Script/ArenaGameController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/MenuController.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -18,16 +19,11 @@
           </Node>
         </State>
       </Pad>
-      <Pad Id="MonoDevelop.UnitTesting.TestPad">
-        <State name="__root__">
-          <Node name="BattleArena" expanded="True" selected="True" />
-        </State>
-      </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="6de370aa-6d0a-4c1b-aba2-e79639a25ef6" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="29ab2bbf-99f3-4366-8bd2-4159593f8589" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

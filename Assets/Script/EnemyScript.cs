@@ -165,8 +165,12 @@ public class EnemyScript : CharacterBase
                     {
                         continue;
                     }
-                    if (hit.transform.CompareTag("Player") && !isEscape)
+                    if (hit.transform.CompareTag("Player"))
                     {
+                        if (isEscape)
+                        {
+                            continue;
+                        }
                         endNode = new Node((
                         currentNode.currentPosition.Item1 + xAxisRay,
                         currentNode.currentPosition.Item2 + zAxisRay)

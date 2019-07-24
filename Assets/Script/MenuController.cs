@@ -15,8 +15,14 @@ public class MenuController : MonoBehaviour
         SceneManager.LoadScene("DungeonScene");
     }
 
-    public void Restart()
+    public void OnRestartButtonClick()
     {
-
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+    public void OnBackButtonClick()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
+
 }
