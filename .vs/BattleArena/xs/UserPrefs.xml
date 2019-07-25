@@ -1,5 +1,5 @@
 ﻿<Properties StartupConfiguration="{60942A5D-093A-93CC-E298-9AAFF4336EAD}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/GameController/Arena/ArenaGameController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/GameController/MenuController.cs">
     <Files>
       <File FileName="Assets/Script/Character/AI/DungeonEnemyScript.cs" Line="11" Column="6" />
       <File FileName="Assets/Script/Character/Player/PlayerScript.cs" Line="77" Column="10" />
@@ -7,6 +7,7 @@
       <File FileName="Assets/Script/Character/CharacterBase.cs" Line="52" Column="1" />
       <File FileName="Assets/Script/Character/AI/AStar/NewMonoBehaviour.cs" Line="3" Column="22" />
       <File FileName="Assets/Script/GameController/Arena/ArenaGameController.cs" Line="39" Column="1" />
+      <File FileName="Assets/Script/GameController/MenuController.cs" Line="10" Column="33" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -21,9 +22,8 @@
                   <Node name="Player" expanded="True" />
                 </Node>
                 <Node name="GameController" expanded="True">
-                  <Node name="Arena" expanded="True">
-                    <Node name="ArenaGameController.cs" selected="True" />
-                  </Node>
+                  <Node name="Arena" expanded="True" />
+                  <Node name="MenuController.cs" selected="True" />
                 </Node>
               </Node>
             </Node>

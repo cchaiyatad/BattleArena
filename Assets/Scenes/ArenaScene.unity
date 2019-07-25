@@ -4310,29 +4310,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 986628383}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1028458319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1028458316}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e419e153baaa451881606c475ece98b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 3
-  attackDelay: 3
-  hp: 3
-  hitArea: {fileID: 7757521122207146529, guid: 815c9f5c3aac448159618f4144ccb32d, type: 3}
-  hitAreaScript: {fileID: 0}
-  UI: {fileID: 374368702}
-  isHitObstacle: 0
-  attackState: 0
-  isDamaged: 0
-  hitDirection: 0
-  target: {fileID: 1834503099}
 --- !u!136 &1028458320
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4363,6 +4340,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1028458322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028458316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e592855922474683bc497b4554d7b93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
+  attackDelay: 3
+  hp: 3
+  hitArea: {fileID: 7757521122207146529, guid: 815c9f5c3aac448159618f4144ccb32d, type: 3}
+  hitAreaScript: {fileID: 0}
+  isHitObstacle: 0
+  attackState: 0
+  hitDirection: 0
+  playerName: 
+  target: {fileID: 1834503099}
+  UI: {fileID: 374368702}
 --- !u!1 &1034918867
 GameObject:
   m_ObjectHideFlags: 0
@@ -4599,7 +4599,7 @@ MonoBehaviour:
   PauseMenu: {fileID: 1329462135}
   text: {fileID: 350388452}
   Player: {fileID: 1834503100}
-  Enemy: {fileID: 1028458319}
+  Enemy: {fileID: 1028458322}
 --- !u!1 &1132167946
 GameObject:
   m_ObjectHideFlags: 0
@@ -6874,11 +6874,11 @@ MonoBehaviour:
   hp: 3
   hitArea: {fileID: 7757521122207146529, guid: 815c9f5c3aac448159618f4144ccb32d, type: 3}
   hitAreaScript: {fileID: 0}
-  UI: {fileID: 472323150}
   isHitObstacle: 0
   attackState: 0
-  isDamaged: 0
   hitDirection: 0
+  playerName: 
+  UI: {fileID: 472323150}
 --- !u!136 &1834503101
 CapsuleCollider:
   m_ObjectHideFlags: 0

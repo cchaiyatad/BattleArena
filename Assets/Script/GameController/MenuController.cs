@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
-    public void OnPlayButtonClick()
+    public void OnPlaySingleArenaButtonClick()
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("ArenaScene");
     }
 
     public void OnPlayDungeonButtonClick()
