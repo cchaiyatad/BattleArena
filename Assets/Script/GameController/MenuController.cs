@@ -7,7 +7,9 @@ public class MenuController : MonoBehaviour
 {
     public void OnPlaySingleArenaButtonClick()
     {
+        PlayerPrefs.SetInt("mode", 0);
         SceneManager.LoadScene("ArenaScene");
+
     }
 
     public void OnPlayDungeonButtonClick()

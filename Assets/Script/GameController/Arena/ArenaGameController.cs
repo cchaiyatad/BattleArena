@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ArenaGameController : MonoBehaviour
@@ -17,6 +15,10 @@ public class ArenaGameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(PlayerPrefs.GetInt("mode") == 0)
+        {
+            gameObject.SetActive(false);
+        }
 
     }
 
