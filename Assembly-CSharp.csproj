@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\FantasyCharactersDwarf-Free\Scene\Script\buttondraftfree.cs" />
+    <Compile Include="Assets\Script\Character\AI\AStar\AStar.cs" />
+    <Compile Include="Assets\Script\Character\AI\AStar\Node.cs" />
     <Compile Include="Assets\Script\Character\AI\DungeonEnemyScript.cs" />
     <Compile Include="Assets\Script\Character\AI\EnemyScript.cs" />
     <Compile Include="Assets\Script\Character\CameraScript.cs" />

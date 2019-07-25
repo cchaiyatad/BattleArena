@@ -37,7 +37,8 @@ public abstract class CharacterBase : MonoBehaviour
 	protected void Dead()
 	{
 		animator.SetTrigger("IsDeath");
-	}
+        isAlreadyDead = true;
+    }
 
 	protected void Damaged(int damage)
 	{
@@ -70,8 +71,6 @@ public abstract class CharacterBase : MonoBehaviour
 		if (hp == 0 && !isAlreadyDead)
 		{
 			Dead();
-			isAlreadyDead = true;
-
 		}
 
 	}
