@@ -63,16 +63,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\FantasyCharactersDwarf-Free\Scene\Script\buttondraftfree.cs" />
-    <Compile Include="Assets\Script\ArenaGameController.cs" />
-    <Compile Include="Assets\Script\CameraScript.cs" />
-    <Compile Include="Assets\Script\CharacterBase.cs" />
-    <Compile Include="Assets\Script\DungeonEnemyScript.cs" />
-    <Compile Include="Assets\Script\DungeonSceneController.cs" />
-    <Compile Include="Assets\Script\EnemyScript.cs" />
-    <Compile Include="Assets\Script\Fighter.cs" />
-    <Compile Include="Assets\Script\HitAreaScript.cs" />
-    <Compile Include="Assets\Script\MenuController.cs" />
-    <Compile Include="Assets\Script\PlayerScript.cs" />
+    <Compile Include="Assets\Script\Character\AI\DungeonEnemyScript.cs" />
+    <Compile Include="Assets\Script\Character\AI\EnemyScript.cs" />
+    <Compile Include="Assets\Script\Character\CameraScript.cs" />
+    <Compile Include="Assets\Script\Character\CharacterBase.cs" />
+    <Compile Include="Assets\Script\Character\HitAreaScript.cs" />
+    <Compile Include="Assets\Script\Character\Player\PlayerScript.cs" />
+    <Compile Include="Assets\Script\GameController\Arena\ArenaGameController.cs" />
+    <Compile Include="Assets\Script\GameController\Dungeon\DungeonSceneController.cs" />
+    <Compile Include="Assets\Script\GameController\MenuController.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>/Users/cchaiyatad/Documents/Unity/BattleArena/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

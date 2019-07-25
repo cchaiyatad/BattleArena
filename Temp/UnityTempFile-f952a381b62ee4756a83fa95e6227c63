@@ -303,7 +303,6 @@
 "Assets/Script/DungeonEnemyScript.cs"
 "Assets/Script/DungeonSceneController.cs"
 "Assets/Script/EnemyScript.cs"
-"Assets/Script/Fighter.cs"
 "Assets/Script/HitAreaScript.cs"
 "Assets/Script/MenuController.cs"
 "Assets/Script/PlayerScript.cs"
