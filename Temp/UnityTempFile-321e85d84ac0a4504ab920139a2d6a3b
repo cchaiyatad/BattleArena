@@ -297,6 +297,9 @@
 /define:CSHARP_7_OR_LATER
 /define:CSHARP_7_3_OR_NEWER
 "Assets/FantasyCharactersDwarf-Free/Scene/Script/buttondraftfree.cs"
+"Assets/Script/Character/AI/ArenaEnemyScript.cs"
+"Assets/Script/Character/AI/AStar/AStar.cs"
+"Assets/Script/Character/AI/AStar/Node.cs"
 "Assets/Script/Character/AI/DungeonEnemyScript.cs"
 "Assets/Script/Character/AI/EnemyScript.cs"
 "Assets/Script/Character/CameraScript.cs"

@@ -7,11 +7,24 @@ public class EnemyScript : CharacterBase
     public GameObject target;
     private Vector3 targetPath;
 
-    private List<(float, float)> pathList;
+    private Vector3 path;
     private Vector3 escapedPoint;
     private bool hasEscapedPoint;
+    //private bool isHit;
+    private List<Vector3> corners = new List<Vector3> { };
+
     void Start()
     {
+        
+        Vector3 size = GameObject.Find("Plane").GetComponent<Renderer>().bounds.size - (2 * Vector3.one);
+        for (int i = -1; i < 2; i += 2)
+        {
+            for (int j = -1; j < 2; j += 2)
+            {
+                corners.Add(new Vector3(size.x / 2 * i, 0f, size.z / 2 * j));
+            }
+        }
+
         animator = GetComponent<Animator>();
         animator.SetFloat("MoveSpeed", moveSpeed);
         hitAreaScript = hitArea.GetComponent<HitAreaScript>();
@@ -37,16 +50,16 @@ public class EnemyScript : CharacterBase
                 escapedPoint = Escape();
                 hasEscapedPoint = true;
             }
-            pathList = AStar.FindWay(transform.position, escapedPoint, true);
+            path = AStar.FindWay(transform.position, escapedPoint, true);
         }
         else
         {
             hasEscapedPoint = false;
-            pathList = AStar.FindWay(transform.position, target.transform.position, false);
+            path = AStar.FindWay(transform.position, target.transform.position, false);
         }
 
-        targetPath = new Vector3(pathList[0].Item1 - transform.position.x, 0, pathList[0].Item2 - transform.position.z);
-
+        targetPath = path - transform.position;
+        
 
         Move(targetPath);
     }
@@ -74,7 +87,7 @@ public class EnemyScript : CharacterBase
             animator.SetBool("IsMove", false);
             if (Time.time > nextAttackTime)
             {
-                dir *= -1;
+                //dir *= -1;
                 //transform.rotation = Quaternion.LookRotation(dir);
                 Attack();
             }
@@ -95,17 +108,6 @@ public class EnemyScript : CharacterBase
 
     private Vector3 Escape()
     {
-        var corners = new List<Vector3> { };
-        Vector3 size = GameObject.Find("Plane").GetComponent<Renderer>().bounds.size - (2 * Vector3.one);
-
-        for (int i = -1; i < 2; i += 2)
-        {
-            for (int j = -1; j < 2; j += 2)
-            {
-                corners.Add(new Vector3(size.x / 2 * i, 0f, size.z / 2 * j));
-            }
-        }
-
         float max = -1;
         int index = -1;
         for (int i = 0; i < corners.Count; i++)

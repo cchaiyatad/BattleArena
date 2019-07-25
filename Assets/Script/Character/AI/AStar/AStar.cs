@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class AStar
 {
-    public static List<(float, float)> FindWay(Vector3 start,Vector3 destination,bool isEscape)
+    public static Vector3 FindWay(Vector3 start, Vector3 destination, bool isEscape)
     {
         bool isFound = false;
         var openList = new List<Node> { };
@@ -14,7 +14,6 @@ public static class AStar
             G = 0,
             DestinationPosition = (destination.x, destination.z)
         };
-
 
         Node endNode = null;
 
@@ -34,21 +33,26 @@ public static class AStar
             }
 
             var adjacentList = new List<Node> { };
+            float xAxisRay;
+            float zAxisRay;
+            bool isHitObstacle;
+            Vector3 rayStartPoint = new Vector3(currentNode.currentPosition.Item1, 0,
+                currentNode.currentPosition.Item2);
+
             for (int i = 0; i < 360; i += 45)
             {
-                float xAxisRay = Mathf.Sin(Mathf.Deg2Rad * i);
-                float zAxisRay = Mathf.Cos(Mathf.Deg2Rad * i);
+                xAxisRay = Mathf.Sin(Mathf.Deg2Rad * i);
+                zAxisRay = Mathf.Cos(Mathf.Deg2Rad * i);
+                isHitObstacle = false;
 
-                if (Physics.Raycast(
-                    new Vector3(currentNode.currentPosition.Item1, 0, currentNode.currentPosition.Item2)
-                    , new Vector3(xAxisRay, 0, zAxisRay)
-                    , out RaycastHit hit, 1f))
+                if (Physics.Raycast(rayStartPoint, new Vector3(xAxisRay, 0, zAxisRay), out RaycastHit hitTarget, 1f))
                 {
-                    if (hit.transform.CompareTag("Obstacle"))
+                    if (hitTarget.transform.CompareTag("Obstacle"))
                     {
+                        isHitObstacle = true;
                         continue;
                     }
-                    if (hit.transform.CompareTag("Player"))
+                    if (hitTarget.transform.CompareTag("Player"))
                     {
                         if (isEscape)
                         {
@@ -67,7 +71,8 @@ public static class AStar
                     }
 
                 }
-                else
+
+                if (!isHitObstacle)
                 {
                     if (isEscape)
                     {
@@ -123,10 +128,10 @@ public static class AStar
 
         } while (openList.Count != 0);
 
-        return AStar.FindPath(endNode);
+        return FindPath(endNode);
     }
 
-    public static List<(float, float)> FindPath(Node node)
+    public static Vector3 FindPath(Node node)
     {
 
         var pathList = new List<(float, float)> { };
@@ -136,6 +141,6 @@ public static class AStar
             node = node.parentNode;
         }
         pathList.Reverse();
-        return pathList;
+        return new Vector3(pathList[0].Item1, 0, pathList[0].Item2);
     }
 }

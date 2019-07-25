@@ -1,13 +1,12 @@
 ﻿<Properties StartupConfiguration="{60942A5D-093A-93CC-E298-9AAFF4336EAD}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/Character/AI/NewClass.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/GameController/Arena/ArenaGameController.cs">
     <Files>
-      <File FileName="Assets/Script/CharacterBase.cs" Line="73" Column="11" />
-      <File FileName="Assets/Script/Fighter.cs" Line="14" Column="26" />
-      <File FileName="Assets/Script/PlayerScript.cs" Line="82" Column="1" />
-      <File FileName="Assets/Script/Character/AI/DungeonEnemyScript.cs" Line="22" Column="13" />
-      <File FileName="Assets/Script/Character/AI/EnemyScript.cs" Line="120" Column="10" />
-      <File FileName="Assets/Script/Character/AI/NewClass.cs" Line="46" Column="65" />
-      <File FileName="Assets/Script/Character/AI/NewClass.cs" Line="2" Column="13" />
+      <File FileName="Assets/Script/Character/AI/DungeonEnemyScript.cs" Line="11" Column="6" />
+      <File FileName="Assets/Script/Character/Player/PlayerScript.cs" Line="77" Column="10" />
+      <File FileName="Assets/Script/Character/AI/EnemyScript.cs" Line="13" Column="7" />
+      <File FileName="Assets/Script/Character/CharacterBase.cs" Line="52" Column="1" />
+      <File FileName="Assets/Script/Character/AI/AStar/NewMonoBehaviour.cs" Line="3" Column="22" />
+      <File FileName="Assets/Script/GameController/Arena/ArenaGameController.cs" Line="39" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -17,9 +16,14 @@
               <Node name="Script" expanded="True">
                 <Node name="Character" expanded="True">
                   <Node name="AI" expanded="True">
-                    <Node name="NewClass.cs" selected="True" />
+                    <Node name="AStar" expanded="True" />
                   </Node>
                   <Node name="Player" expanded="True" />
+                </Node>
+                <Node name="GameController" expanded="True">
+                  <Node name="Arena" expanded="True">
+                    <Node name="ArenaGameController.cs" selected="True" />
+                  </Node>
                 </Node>
               </Node>
             </Node>
@@ -30,7 +34,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="29ab2bbf-99f3-4366-8bd2-4159593f8589" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="53df18da-8f13-4562-b92a-da599d242de9" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

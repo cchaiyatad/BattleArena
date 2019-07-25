@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerScript : CharacterBase
 
 {
     private Vector3 direction;
+    [SerializeField]
+    private Text UI;
 
     void Start()
     {
@@ -77,5 +80,11 @@ public class PlayerScript : CharacterBase
             isHitObstacle = false;
         }
 
+    }
+
+    protected override void Damaged(int damage)
+    {
+        base.Damaged(damage);
+        UI.text = playerName + " HP: " + hp;
     }
 }
