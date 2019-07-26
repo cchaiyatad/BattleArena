@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ public abstract class CharacterBase : MonoBehaviour
 
     public GameObject hitArea;
 
+    public List<Skill> skills = new List<Skill> { };
     [HideInInspector]
     public string playerName;
     [HideInInspector]

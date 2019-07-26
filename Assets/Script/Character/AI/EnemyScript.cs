@@ -26,7 +26,7 @@ public class EnemyScript : CharacterBase
         animator = GetComponent<Animator>();
         animator.SetFloat("MoveSpeed", moveSpeed);
         hitAreaScript = hitArea.GetComponent<HitAreaScript>();
-        playerName = "enemy";
+        playerName = "Enemy";
     }
 
     void Update()

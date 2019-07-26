@@ -1,25 +1,38 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ArenaGameController : MonoBehaviour
 {
     public GameObject PauseMenu;
     public Text text;
-    public CharacterBase Player;
-    public CharacterBase Enemy;
+    public List<CharacterBase> character;
+    public List<Skill> skills;
 
     private bool isPause;
     private bool isFinish;
 
 
-    // Start is called before the first frame update
     void Awake()
     {
-        if(PlayerPrefs.GetInt("mode") == 1)
+        if (PlayerPrefs.GetInt("mode") == 1)
         {
-            GameObject.Find("Enemy").SetActive(false);
             GameObject.Find("Player").SetActive(false);
+            GameObject.Find("Enemy1").SetActive(false);
+            GameObject.Find("Enemy2").SetActive(false);
             gameObject.SetActive(false);
+
+        }
+        else
+        {
+            skills = new Skill().generateSkill();
+            while(skills.Count > 0)
+            {
+                int i = Random.Range(0, skills.Count);
+                character[character.Count - skills.Count].skills.Add(skills[i]);
+                print(character[character.Count - skills.Count].name + " " + skills[i].key);
+                skills.RemoveAt(i);
+            }
 
         }
 
@@ -27,7 +40,7 @@ public class ArenaGameController : MonoBehaviour
 
     private void Start()
     {
-        Player.playerName = "Player";
+        character[0].playerName = "Player";
     }
 
     // Update is called once per frame
@@ -46,15 +59,15 @@ public class ArenaGameController : MonoBehaviour
                 isPause = !isPause;
         }
 
-        if (Player.hp == 0 || Enemy.hp == 0)
+        if (character[0].hp == 0 || character[1].hp == 0)
         {
             isFinish = true;
             isPause = true;
-            if (Player.hp == 0)
+            if (character[0].hp == 0)
             {
                 text.text = "You lose";
             }
-            if (Enemy.hp == 0)
+            if (character[1].hp == 0)
             {
                 text.text = "You win";
             }
