@@ -10,12 +10,10 @@ public class EnemyScript : CharacterBase
     private Vector3 path;
     private Vector3 escapedPoint;
     private bool hasEscapedPoint;
-    //private bool isHit;
     private List<Vector3> corners = new List<Vector3> { };
 
     void Start()
     {
-        
         Vector3 size = GameObject.Find("Plane").GetComponent<Renderer>().bounds.size - (2 * Vector3.one);
         for (int i = -1; i < 2; i += 2)
         {
@@ -36,7 +34,7 @@ public class EnemyScript : CharacterBase
         CharacterBehavior();
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         if (isAlreadyDead)
         {
@@ -64,8 +62,7 @@ public class EnemyScript : CharacterBase
         Move(targetPath);
     }
 
-
-    protected override void Move(Vector3 dir)
+    public override void Move(Vector3 dir)
     {
 
         float distanceToTarget = (target.gameObject.transform.position - transform.position).magnitude;
@@ -77,7 +74,6 @@ public class EnemyScript : CharacterBase
 
         if (distanceToTarget <= 0.6)
         {
-
             dir *= -1;
         }
 
@@ -98,12 +94,6 @@ public class EnemyScript : CharacterBase
         dir.Normalize();
         transform.Translate(dir * moveSpeed * Time.deltaTime, Space.World);
         transform.rotation = Quaternion.LookRotation(dir);
-    }
-
-
-    protected override void CheckObstacle()
-    {
-        Debug.Log("obstacle");
     }
 
     private Vector3 Escape()

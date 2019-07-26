@@ -10,7 +10,6 @@ public class DungeonEnemyScript : EnemyScript
     void Awake()
     {
         target = GameObject.Find("Player");
-        
         script = GameObject.Find("GameController").GetComponent<DungeonSceneController>();
     }
 

@@ -4384,15 +4384,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e592855922474683bc497b4554d7b93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 3
   moveSpeed: 3
   attackDelay: 3
-  hp: 3
   hitArea: {fileID: 7757521122207146529, guid: 815c9f5c3aac448159618f4144ccb32d, type: 3}
-  hitAreaScript: {fileID: 0}
-  isHitObstacle: 0
-  attackState: 0
-  hitDirection: 0
   playerName: 
+  hitAreaScript: {fileID: 0}
+  animator: {fileID: 0}
+  attackState: 0
+  nextAttackTime: 0
+  isMove: 0
+  isAlreadyDead: 0
   target: {fileID: 1834503099}
   UI: {fileID: 374368702}
 --- !u!1 &1034918867
@@ -5782,7 +5784,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d635d5535a7d449b9f94458b40481d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players: []
 --- !u!1 &1452202438
 GameObject:
   m_ObjectHideFlags: 0
@@ -6945,16 +6946,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a8e0c12b89954c41b9d281c1545da46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 3
   moveSpeed: 3
   attackDelay: 3
-  hp: 3
   hitArea: {fileID: 7757521122207146529, guid: 815c9f5c3aac448159618f4144ccb32d, type: 3}
-  hitAreaScript: {fileID: 0}
-  isHitObstacle: 0
-  attackState: 0
-  hitDirection: 0
   playerName: 
+  hitAreaScript: {fileID: 0}
+  animator: {fileID: 0}
+  attackState: 0
+  nextAttackTime: 0
+  isMove: 0
+  isAlreadyDead: 0
   UI: {fileID: 472323150}
+  isMultiplayer: 0
 --- !u!136 &1834503101
 CapsuleCollider:
   m_ObjectHideFlags: 0

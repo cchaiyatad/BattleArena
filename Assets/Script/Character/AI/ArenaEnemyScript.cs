@@ -13,5 +13,4 @@ public class ArenaEnemyScript : EnemyScript
         UI.text = playerName + " HP: " + hp;
     }
 
-    
 }

@@ -2,29 +2,47 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class CharacterBase : MonoBehaviour, ICharacter { 
+public abstract class CharacterBase : MonoBehaviour
+{
+
+    public int hp = 3;
     public float moveSpeed = 3f;
     public float attackDelay = 3f;
-    public int hp = 3;
+
     public GameObject hitArea;
-    [HideInInspector] public HitAreaScript hitAreaScript;
 
-    public bool isHitObstacle;
-
-    public bool attackState;
-    public float hitDirection;
-
-    public Animator animator { get; set; }
-    public float nextAttackTime { get; set; }
-    public bool isMove { get; set; }
-    public bool isAlreadyDead { get; set; }
-
-    private Vector3 hitLocation;
+    [HideInInspector]
     public string playerName;
+    [HideInInspector]
+    public HitAreaScript hitAreaScript;
+    [HideInInspector]
+    public Animator animator;
+    [HideInInspector]
+    public bool attackState;
+    [HideInInspector]
+    public float nextAttackTime;
+    [HideInInspector]
+    public bool isMove;
+    [HideInInspector]
+    public bool isAlreadyDead;
 
-    protected abstract void Move(Vector3 dir);
+    private float hitDirection;
+    private Vector3 hitLocation;
 
-    protected abstract void CheckObstacle();
+    public abstract void Move(Vector3 dir);
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Obstacle"))
+        {
+            return;
+        }
+        HitAreaScript hitpointScript = other.GetComponent<HitAreaScript>();
+        if (hitpointScript.attacker != playerName && !isAlreadyDead)
+        {
+            Damaged(hitpointScript.damage);
+        }
+    }
 
     public void Attack()
     {
@@ -49,26 +67,10 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter {
         StartCoroutine(DamagedDelay());
     }
 
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Obstacle"))
-        {
-            return;
-        }
-        HitAreaScript hitpointScript = other.GetComponent<HitAreaScript>();
-        if (hitpointScript.attacker != playerName && !isAlreadyDead)
-        {
-            Damaged(hitpointScript.damage);
-        }
-    }
-
-
     public virtual void CharacterBehavior()
     {
         if (hp <= 0 && !isAlreadyDead)
-        {
             Dead();
-        }
     }
 
     IEnumerator SpawnAttack()

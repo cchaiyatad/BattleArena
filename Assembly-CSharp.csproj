@@ -70,7 +70,6 @@
     <Compile Include="Assets\Script\Character\CameraScript.cs" />
     <Compile Include="Assets\Script\Character\CharacterBase.cs" />
     <Compile Include="Assets\Script\Character\HitAreaScript.cs" />
-    <Compile Include="Assets\Script\Character\ICharacter.cs" />
     <Compile Include="Assets\Script\Character\Player\MultiplayerPlayerScript.cs" />
     <Compile Include="Assets\Script\Character\Player\PlayerScript.cs" />
     <Compile Include="Assets\Script\GameController\Arena\ArenaGameController.cs" />
