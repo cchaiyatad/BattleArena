@@ -2,8 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class CharacterBase : MonoBehaviour
-{
+public abstract class CharacterBase : MonoBehaviour, ICharacter { 
     public float moveSpeed = 3f;
     public float attackDelay = 3f;
     public int hp = 3;
@@ -27,21 +26,21 @@ public abstract class CharacterBase : MonoBehaviour
 
     protected abstract void CheckObstacle();
 
-    protected void Attack()
+    public void Attack()
     {
         nextAttackTime = Time.time + attackDelay;
         animator.SetTrigger("IsAttack");
         StartCoroutine(SpawnAttack());
     }
 
-    protected void Dead()
+    public void Dead()
     {
         hp = 0;
         animator.SetTrigger("IsDeath");
         isAlreadyDead = true;
     }
 
-    protected virtual void Damaged(int damage)
+    public virtual void Damaged(int damage)
     {
         animator.StopPlayback();
         animator.SetTrigger("IsDameged");
@@ -50,7 +49,7 @@ public abstract class CharacterBase : MonoBehaviour
         StartCoroutine(DamagedDelay());
     }
 
-    protected void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Obstacle"))
         {
@@ -64,7 +63,7 @@ public abstract class CharacterBase : MonoBehaviour
     }
 
 
-    protected virtual void CharacterBehavior()
+    public virtual void CharacterBehavior()
     {
         if (hp <= 0 && !isAlreadyDead)
         {

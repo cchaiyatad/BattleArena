@@ -13,13 +13,21 @@ public class ArenaGameController : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        if(PlayerPrefs.GetInt("mode") == 0)
+        if(PlayerPrefs.GetInt("mode") == 1)
         {
+            GameObject.Find("Enemy").SetActive(false);
+            GameObject.Find("Player").SetActive(false);
             gameObject.SetActive(false);
+
         }
 
+    }
+
+    private void Start()
+    {
+        Player.playerName = "Player";
     }
 
     // Update is called once per frame

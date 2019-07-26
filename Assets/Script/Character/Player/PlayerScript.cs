@@ -13,8 +13,7 @@ public class PlayerScript : CharacterBase
         animator = GetComponent<Animator>();
         animator.SetFloat("MoveSpeed", moveSpeed);
         hitAreaScript = hitArea.GetComponent<HitAreaScript>();
-        playerName = "player";
-
+        
     }
 
     void Update()
@@ -82,7 +81,7 @@ public class PlayerScript : CharacterBase
 
     }
 
-    protected override void Damaged(int damage)
+    public override void Damaged(int damage)
     {
         base.Damaged(damage);
         UI.text = playerName + " HP: " + hp;

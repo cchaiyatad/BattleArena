@@ -14,7 +14,7 @@ public class DungeonEnemyScript : EnemyScript
         script = GameObject.Find("GameController").GetComponent<DungeonSceneController>();
     }
 
-    protected override void CharacterBehavior()
+    public override void CharacterBehavior()
     {
         if (hp == 0 && !isAlreadyDead)
         {
