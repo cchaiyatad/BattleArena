@@ -26,8 +26,9 @@ public class DungeonEnemyScript : EnemyScript
 
             isAlreadyDead = true;
             Destroy(gameObject, 3f);
-
-        }   
+        }
+            //SpawnAttack(ref attackState, spawnAttackTime);
+        
     }
 }
 

@@ -6,11 +6,14 @@ public class PlayerScript : CharacterBase
 {
     private bool isHitObstacle;
     private Vector3 direction;
+    private Skill currentSkill;
+    public bool isUseSkill;
 
     [SerializeField]
     private Text UI;
 
     public bool isMultiplayer;
+
 
     void Start()
     {
@@ -39,6 +42,7 @@ public class PlayerScript : CharacterBase
                 Attack();
             }
         }
+        currentSkill = UseSkill();
         CharacterBehavior();
     }
 
@@ -55,7 +59,14 @@ public class PlayerScript : CharacterBase
         Move(direction);
         AttackRotate(direction);
     }
-
+    public override void CharacterBehavior()
+    {
+        base.CharacterBehavior();
+        if (isUseSkill)
+        {
+            SpawnAttack(ref isUseSkill, spawnAttackTime, currentSkill);
+        }
+    }
     public void CheckObstacle()
     {
 
@@ -84,7 +95,8 @@ public class PlayerScript : CharacterBase
         isMove = (dir != Vector3.zero);
         animator.SetBool("IsMove", isMove);
 
-        if (dir == Vector3.zero || attackState || isHitObstacle)
+        
+        if (dir == Vector3.zero || attackState || isHitObstacle || isUseSkill)
         {
             return;
         }
@@ -97,5 +109,25 @@ public class PlayerScript : CharacterBase
     {
         base.Damaged(damage);
         UI.text = playerName + " HP: " + hp;
+    }
+
+    public Skill UseSkill()
+    {
+        foreach (Skill skill in skills)
+        {
+            if (Input.GetKeyDown(skill.key))
+            {
+                if (skill.nextTime < Time.time)
+                {
+                    isUseSkill = true;
+                    animator.SetTrigger(skill.animation);
+                    skill.nextTime += skill.coolDown;
+                    return skill;
+
+                }
+
+            }
+        }
+        return new Skill();
     }
 }

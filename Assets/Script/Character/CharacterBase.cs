@@ -19,7 +19,7 @@ public abstract class CharacterBase : MonoBehaviour
     public HitAreaScript hitAreaScript;
     [HideInInspector]
     public Animator animator;
-    [HideInInspector]
+    //[HideInInspector]
     public bool attackState;
     [HideInInspector]
     public float nextAttackTime;
@@ -32,6 +32,8 @@ public abstract class CharacterBase : MonoBehaviour
     private Vector3 hitLocation;
 
     public abstract void Move(Vector3 dir);
+
+    public float spawnAttackTime;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -50,7 +52,8 @@ public abstract class CharacterBase : MonoBehaviour
     {
         nextAttackTime = Time.time + attackDelay;
         animator.SetTrigger("IsAttack");
-        StartCoroutine(SpawnAttack());
+        attackState = true;
+        spawnAttackTime = Time.time + 0.55f;
     }
 
     public void Dead()
@@ -66,35 +69,37 @@ public abstract class CharacterBase : MonoBehaviour
         animator.SetTrigger("IsDameged");
 
         hp -= damage;
-        StartCoroutine(DamagedDelay());
     }
 
     public virtual void CharacterBehavior()
     {
         if (hp <= 0 && !isAlreadyDead)
             Dead();
+
+        SpawnAttack(ref attackState, spawnAttackTime, new Skill());
+
     }
 
-    IEnumerator SpawnAttack()
+    public void SpawnAttack(ref bool check, float spawnTime, Skill skill)
     {
-        attackState = true;
-        hitAreaScript.attacker = playerName;
-        hitAreaScript.damage = 1;
-        yield return new WaitForSeconds(0.5f);
-        hitDirection = transform.rotation.eulerAngles.y;
-        hitLocation = gameObject.transform.position;
-        hitLocation.y = 0.5f;
-        hitLocation.x += Mathf.Sin(Mathf.Deg2Rad * hitDirection);
-        hitLocation.z += Mathf.Cos(Mathf.Deg2Rad * hitDirection);
-        Instantiate(hitArea, hitLocation, Quaternion.identity);
-        yield return new WaitForSeconds(0.1f);
-        attackState = false;
-    }
+        
+        if (check && Time.time > spawnTime)
+        {
+            hitAreaScript.attacker = playerName;
+            hitAreaScript.damage = skill.damage;
+            hitAreaScript.time = skill.time;
+            //hitArea.transform.localScale += new Vector3(skill.size - 1, 0, skill.size - 1);
+            hitArea.gameObject.GetComponent<BoxCollider>().size = new Vector3(skill.size,1,skill.size);
+            hitDirection = transform.rotation.eulerAngles.y;
+            hitLocation = gameObject.transform.position;
+            hitLocation.y = 0.55f;
+            hitLocation.x += Mathf.Sin(Mathf.Deg2Rad * hitDirection);
+            hitLocation.z += Mathf.Cos(Mathf.Deg2Rad * hitDirection);
+            Instantiate(hitArea, hitLocation, Quaternion.identity);
+            Debug.Log(check);
+            check = false;
+            Debug.Log(check);
+        }
 
-    IEnumerator DamagedDelay()
-    {
-        attackState = true;
-        yield return new WaitForSeconds(0.3f);
-        attackState = false;
     }
 }

@@ -1,44 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Skill
 {
+    public float nextTime { get; set; }
     public float coolDown { get; set; }
     public float size { get; set; }
-    public float damage { get; set; }
+    public int damage { get; set; }
     public float time { get; set; }
     public bool  moving { get; set; }
-    public string key;
+    public bool isUse { get; set; }
+    public KeyCode key;
     public string animation;
-
-    public Skill(string key, string animation)
-    {
-        coolDown = 8f;
-        size = 1;
-        damage = 1;
-        moving = false;
-        time = 0.2f;
-        this.key = key;
-        this.animation = animation;
-
-    }
 
     public Skill()
     {
+        nextTime = 0;
+        coolDown = 8f;
+        size = 0.8f;
+        damage = 1;
+        moving = false;
+        isUse = false;
+        time = 0.2f;
+
     }
 
+
+    public Skill(string key, string animation) : this()
+    {
+        this.animation = animation;
+        this.key = (KeyCode) Enum.Parse(typeof(KeyCode), key);
+    }
+
+   
     public List<Skill> generateSkill()
     {
         var skills = new List<Skill> { };
 
-        Skill skill1 = new Skill("U","IsUseSkill1");
-        skill1.size = 2f;
-        Skill skill2 = new Skill("I", "IsUseSkill2");
-        skill2.damage = 2f;
-        Skill skill3 = new Skill("O", "IsUseSkill3");
-        skill3.moving = true;
-        skill3.time = 3;
-        skill3.size = 0.2f;
+        Skill skill1 = new Skill("U", "IsUseSkill1")
+        {
+            size = 1.6f
+        };
+        Skill skill2 = new Skill("I", "IsUseSkill2")
+        {
+            damage = 2
+        };
+        Skill skill3 = new Skill("O", "IsUseSkill3")
+        {
+            moving = true,
+            time = 3,
+            size = 0.4f
+        };
         skills.Add(skill1);
         skills.Add(skill2);
         skills.Add(skill3);
