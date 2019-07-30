@@ -13,6 +13,7 @@ public class PlayerScript : CharacterBase
     private Text UI;
 
     public bool isMultiplayer;
+    private float usedSkillTime;
 
 
     void Start()
@@ -61,11 +62,9 @@ public class PlayerScript : CharacterBase
     }
     public override void CharacterBehavior()
     {
+        SpawnAttack(ref isUseSkill, usedSkillTime, currentSkill);
         base.CharacterBehavior();
-        if (isUseSkill)
-        {
-            SpawnAttack(ref isUseSkill, spawnAttackTime, currentSkill);
-        }
+        
     }
     public void CheckObstacle()
     {
@@ -95,7 +94,7 @@ public class PlayerScript : CharacterBase
         isMove = (dir != Vector3.zero);
         animator.SetBool("IsMove", isMove);
 
-        
+
         if (dir == Vector3.zero || attackState || isHitObstacle || isUseSkill)
         {
             return;
@@ -113,6 +112,10 @@ public class PlayerScript : CharacterBase
 
     public Skill UseSkill()
     {
+        if (isUseSkill)
+        {
+            return currentSkill;
+        }
         foreach (Skill skill in skills)
         {
             if (Input.GetKeyDown(skill.key))
@@ -121,13 +124,13 @@ public class PlayerScript : CharacterBase
                 {
                     isUseSkill = true;
                     animator.SetTrigger(skill.animation);
-                    skill.nextTime += skill.coolDown;
+                    skill.nextTime = Time.time + skill.coolDown;
+                    usedSkillTime = Time.time + 0.7f;
                     return skill;
-
                 }
-
             }
         }
+        
         return new Skill();
     }
 }

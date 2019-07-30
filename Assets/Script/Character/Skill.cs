@@ -16,7 +16,7 @@ public class Skill
 
     public Skill()
     {
-        nextTime = 0;
+        nextTime = Time.time;
         coolDown = 8f;
         size = 0.8f;
         damage = 1;

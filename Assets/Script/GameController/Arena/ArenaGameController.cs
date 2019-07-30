@@ -26,13 +26,14 @@ public class ArenaGameController : MonoBehaviour
         else
         {
             skills = new Skill().generateSkill();
-            while(skills.Count > 0)
-            {
-                int i = Random.Range(0, skills.Count);
-                character[character.Count - skills.Count].skills.Add(skills[i]);
-                print(character[character.Count - skills.Count].name + " " + skills[i].key);
-                skills.RemoveAt(i);
-            }
+            //while (skills.Count > 0)
+            //{
+            //    int i = Random.Range(0, skills.Count);
+            //    character[character.Count - skills.Count].skills.Add(skills[i]);
+            //    print(character[character.Count - skills.Count].name + " " + skills[i].key);
+            //    skills.RemoveAt(i);
+            //}
+            character[0].skills = skills;
 
         }
 

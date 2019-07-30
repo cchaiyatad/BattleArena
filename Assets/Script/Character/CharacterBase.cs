@@ -82,23 +82,25 @@ public abstract class CharacterBase : MonoBehaviour
 
     public void SpawnAttack(ref bool check, float spawnTime, Skill skill)
     {
-        
         if (check && Time.time > spawnTime)
         {
             hitAreaScript.attacker = playerName;
             hitAreaScript.damage = skill.damage;
             hitAreaScript.time = skill.time;
-            //hitArea.transform.localScale += new Vector3(skill.size - 1, 0, skill.size - 1);
-            hitArea.gameObject.GetComponent<BoxCollider>().size = new Vector3(skill.size,1,skill.size);
             hitDirection = transform.rotation.eulerAngles.y;
             hitLocation = gameObject.transform.position;
             hitLocation.y = 0.55f;
             hitLocation.x += Mathf.Sin(Mathf.Deg2Rad * hitDirection);
             hitLocation.z += Mathf.Cos(Mathf.Deg2Rad * hitDirection);
-            Instantiate(hitArea, hitLocation, Quaternion.identity);
-            Debug.Log(check);
+            hitArea.gameObject.GetComponent<BoxCollider>().size = new Vector3(skill.size, 0.5f, skill.size);
+            hitArea.transform.localScale = new Vector3(skill.size, 0.5f, skill.size);
+            GameObject hit = Instantiate(hitArea, hitLocation, Quaternion.identity);
+            if (skill.moving)
+            {
+                hit.GetComponent<Rigidbody>().velocity = transform.forward * 8f;
+                hit.GetComponent<HitAreaScript>().isMoving = true;
+            }
             check = false;
-            Debug.Log(check);
         }
 
     }
