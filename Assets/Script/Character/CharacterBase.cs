@@ -13,13 +13,13 @@ public abstract class CharacterBase : MonoBehaviour
     public GameObject hitArea;
 
     public List<Skill> skills = new List<Skill> { };
-    //[HideInInspector]
+    [HideInInspector]
     public string playerName;
     [HideInInspector]
     public HitAreaScript hitAreaScript;
     [HideInInspector]
     public Animator animator;
-    //[HideInInspector]
+    [HideInInspector]
     public bool attackState;
     [HideInInspector]
     public float nextAttackTime;
@@ -27,7 +27,9 @@ public abstract class CharacterBase : MonoBehaviour
     public bool isMove;
     [HideInInspector]
     public bool isAlreadyDead;
+    [HideInInspector]
     public bool isDead;
+    [HideInInspector]
     public string lastAttacker;
 
     private float hitDirection;
@@ -65,17 +67,6 @@ public abstract class CharacterBase : MonoBehaviour
         isDead = true;
         animator.SetTrigger("IsDeath");
         isAlreadyDead = true;
-
-        //if(skills.Count > 0)
-        //{
-        //    lastAttackerScript = 
-        //    foreach (Skill skill in skills)
-        //    {
-        //        lastAttacker.skills.add(skill);
-        //    }
-        //    skills.Clear();
-        //}
-        
 
     }
 
@@ -115,6 +106,7 @@ public abstract class CharacterBase : MonoBehaviour
             {
                 hit.GetComponent<Rigidbody>().velocity = transform.forward * 8f;
                 hit.GetComponent<HitAreaScript>().isMoving = true;
+                hit.GetComponent<MeshRenderer>().enabled = true;
             }
             check = false;
         }
