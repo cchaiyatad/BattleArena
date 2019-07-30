@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Skill
 {
+    public int id { get; set; }
     public float nextTime { get; set; }
     public float coolDown { get; set; }
     public float size { get; set; }
@@ -16,6 +17,7 @@ public class Skill
 
     public Skill()
     {
+        id = 0;
         nextTime = Time.time;
         coolDown = 8f;
         size = 0.8f;
@@ -40,14 +42,17 @@ public class Skill
 
         Skill skill1 = new Skill("U", "IsUseSkill1")
         {
+            id = 1,
             size = 1.6f
         };
         Skill skill2 = new Skill("I", "IsUseSkill2")
         {
+            id = 2,
             damage = 2
         };
         Skill skill3 = new Skill("O", "IsUseSkill3")
         {
+            id = 3,
             moving = true,
             time = 3,
             size = 0.4f

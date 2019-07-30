@@ -8,6 +8,7 @@ public class ArenaGameController : MonoBehaviour
     public Text text;
     public List<CharacterBase> character;
     public List<Skill> skills;
+    public GameObject skillMenu;
 
     private bool isPause;
     private bool isFinish;
@@ -17,9 +18,7 @@ public class ArenaGameController : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("mode") == 1)
         {
-            GameObject.Find("Player").SetActive(false);
-            GameObject.Find("Enemy1").SetActive(false);
-            GameObject.Find("Enemy2").SetActive(false);
+            GameObject.Find("SingleCharacter").SetActive(false);
             gameObject.SetActive(false);
 
         }
@@ -47,6 +46,7 @@ public class ArenaGameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateSkillMenu();
         if (isPause && !isFinish)
             Time.timeScale = 0f;
 
@@ -60,7 +60,7 @@ public class ArenaGameController : MonoBehaviour
                 isPause = !isPause;
         }
 
-        if (character[0].hp == 0 || character[1].hp == 0)
+        if (character[0].hp == 0 || (character[1].hp == 0 && character[2].hp == 0))
         {
             isFinish = true;
             isPause = true;
@@ -68,7 +68,7 @@ public class ArenaGameController : MonoBehaviour
             {
                 text.text = "You lose";
             }
-            if (character[1].hp == 0)
+            if (character[1].hp == 0 && character[2].hp == 0)
             {
                 text.text = "You win";
             }
@@ -76,5 +76,21 @@ public class ArenaGameController : MonoBehaviour
 
         PauseMenu.SetActive(isPause);
 
+    }
+
+    private void UpdateSkillMenu()
+    {
+        foreach(Skill skill in character[0].skills)
+        {
+            Text skillText = skillMenu.transform.GetChild(skill.id - 1).gameObject.GetComponent<Text>();
+            if (skill.nextTime > Time.time)
+            {
+                skillText.text = skill.key + " - Cool Down";
+            }
+            else
+            {
+                skillText.text = skill.key + " - Ready";
+            }
+        }
     }
 }
