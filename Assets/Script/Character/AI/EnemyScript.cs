@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyScript : CharacterBase
 {
     public GameObject target;
+    public bool isUseSkill;
     private Vector3 targetPath;
 
     private Vector3 path;
@@ -14,7 +15,6 @@ public class EnemyScript : CharacterBase
 
     void Start()
     {
-        
         Vector3 size = GameObject.Find("Plane").GetComponent<Renderer>().bounds.size - (2 * Vector3.one);
         for (int i = -1; i < 2; i += 2)
         {
@@ -68,7 +68,7 @@ public class EnemyScript : CharacterBase
 
         float distanceToTarget = (target.gameObject.transform.position - transform.position).magnitude;
 
-        if (attackState)
+        if (attackState || isUseSkill)
         {
             return;
         }
@@ -84,8 +84,6 @@ public class EnemyScript : CharacterBase
             animator.SetBool("IsMove", false);
             if (Time.time > nextAttackTime)
             {
-                //dir *= -1;
-                //transform.rotation = Quaternion.LookRotation(dir);
                 Attack();
             }
             return;
@@ -113,4 +111,5 @@ public class EnemyScript : CharacterBase
         }
         return corners[index];
     }
+    
 }
