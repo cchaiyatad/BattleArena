@@ -11,6 +11,7 @@ public class DungeonEnemyScript : EnemyScript
     {
         target = GameObject.Find("Player");
         script = GameObject.Find("GameController").GetComponent<DungeonSceneController>();
+        playerName = "Enemy";
     }
 
     public override void CharacterBehavior()

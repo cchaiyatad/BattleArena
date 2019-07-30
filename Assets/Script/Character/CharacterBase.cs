@@ -13,7 +13,7 @@ public abstract class CharacterBase : MonoBehaviour
     public GameObject hitArea;
 
     public List<Skill> skills = new List<Skill> { };
-    [HideInInspector]
+    //[HideInInspector]
     public string playerName;
     [HideInInspector]
     public HitAreaScript hitAreaScript;
@@ -27,6 +27,8 @@ public abstract class CharacterBase : MonoBehaviour
     public bool isMove;
     [HideInInspector]
     public bool isAlreadyDead;
+    public bool isDead;
+    public string lastAttacker;
 
     private float hitDirection;
     private Vector3 hitLocation;
@@ -44,6 +46,7 @@ public abstract class CharacterBase : MonoBehaviour
         HitAreaScript hitpointScript = other.GetComponent<HitAreaScript>();
         if (hitpointScript.attacker != playerName && !isAlreadyDead)
         {
+            lastAttacker = hitpointScript.attacker;
             Damaged(hitpointScript.damage);
         }
     }
@@ -59,8 +62,21 @@ public abstract class CharacterBase : MonoBehaviour
     public void Dead()
     {
         hp = 0;
+        isDead = true;
         animator.SetTrigger("IsDeath");
         isAlreadyDead = true;
+
+        //if(skills.Count > 0)
+        //{
+        //    lastAttackerScript = 
+        //    foreach (Skill skill in skills)
+        //    {
+        //        lastAttacker.skills.add(skill);
+        //    }
+        //    skills.Clear();
+        //}
+        
+
     }
 
     public virtual void Damaged(int damage)

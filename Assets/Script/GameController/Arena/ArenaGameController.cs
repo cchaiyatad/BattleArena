@@ -20,32 +20,30 @@ public class ArenaGameController : MonoBehaviour
         {
             GameObject.Find("SingleCharacter").SetActive(false);
             gameObject.SetActive(false);
-
         }
         else
         {
             skills = new Skill().generateSkill();
-            //while (skills.Count > 0)
-            //{
-            //    int i = Random.Range(0, skills.Count);
-            //    character[character.Count - skills.Count].skills.Add(skills[i]);
-            //    print(character[character.Count - skills.Count].name + " " + skills[i].key);
-            //    skills.RemoveAt(i);
-            //}
-            character[0].skills = skills;
-
+            while (skills.Count > 0)
+            {
+                int i = Random.Range(0, skills.Count);
+                character[character.Count - skills.Count].skills.Add(skills[i]);
+                skills.RemoveAt(i);
+            }
+            
         }
-
     }
 
     private void Start()
     {
         character[0].playerName = "Player";
+        character[1].playerName = "Enemy 1";
+        character[2].playerName = "Enemy 2";
     }
 
-    // Update is called once per frame
     void Update()
     {
+        CheckDead();
         UpdateSkillMenu();
         if (isPause && !isFinish)
             Time.timeScale = 0f;
@@ -60,18 +58,24 @@ public class ArenaGameController : MonoBehaviour
                 isPause = !isPause;
         }
 
-        if (character[0].hp == 0 || (character[1].hp == 0 && character[2].hp == 0))
+        if (character[0].isDead || (character[1].isDead && character[2].isDead))
         {
             isFinish = true;
             isPause = true;
-            if (character[0].hp == 0)
+
+            if (character[0].isDead)
             {
                 text.text = "You lose";
             }
-            if (character[1].hp == 0 && character[2].hp == 0)
+            if (character[1].isDead && character[2].isDead)
             {
                 text.text = "You win";
             }
+            if (character[0].isDead && character[1].isDead && character[2].isDead)
+            {
+                text.text = "Tie";
+            }
+
         }
 
         PauseMenu.SetActive(isPause);
@@ -80,7 +84,7 @@ public class ArenaGameController : MonoBehaviour
 
     private void UpdateSkillMenu()
     {
-        foreach(Skill skill in character[0].skills)
+        foreach (Skill skill in character[0].skills)
         {
             Text skillText = skillMenu.transform.GetChild(skill.id - 1).gameObject.GetComponent<Text>();
             if (skill.nextTime > Time.time)
@@ -93,4 +97,30 @@ public class ArenaGameController : MonoBehaviour
             }
         }
     }
+
+    private CharacterBase FindPlayerWithName(string attackerName)
+    {
+        foreach (CharacterBase chars in character)
+        {
+            if (chars.playerName == attackerName)
+            {
+                return chars;
+            }
+        }
+        return null;
+    }
+
+    private void CheckDead()
+    {
+        foreach (CharacterBase chars in character)
+        {
+
+            if (chars.isDead && chars.skills.Count > 0)
+            {
+                FindPlayerWithName(chars.lastAttacker).skills.AddRange(chars.skills);
+                chars.skills.Clear();
+            }
+        }
+    }
+
 }

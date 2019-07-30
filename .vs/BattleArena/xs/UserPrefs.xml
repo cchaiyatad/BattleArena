@@ -1,10 +1,12 @@
 ﻿<Properties StartupConfiguration="{60942A5D-093A-93CC-E298-9AAFF4336EAD}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/GameController/Arena/ArenaGameController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/Character/AI/DungeonEnemyScript.cs">
     <Files>
-      <File FileName="Assets/Script/Character/CharacterBase.cs" Line="102" Column="14" />
-      <File FileName="Assets/Script/Character/Player/PlayerScript.cs" Line="117" Column="33" />
-      <File FileName="Assets/Script/Character/Skill.cs" Line="19" Column="29" />
-      <File FileName="Assets/Script/GameController/Arena/ArenaGameController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/Character/CharacterBase.cs" Line="17" Column="24" />
+      <File FileName="Assets/Script/Character/Player/PlayerScript.cs" Line="10" Column="28" />
+      <File FileName="Assets/Script/GameController/Arena/ArenaGameController.cs" Line="41" Column="45" />
+      <File FileName="Assets/Script/Character/AI/EnemyScript.cs" Line="17" Column="9" />
+      <File FileName="Assets/Script/Character/AI/ArenaEnemyScript.cs" Line="10" Column="1" />
+      <File FileName="Assets/Script/Character/AI/DungeonEnemyScript.cs" Line="14" Column="30" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,13 +17,12 @@
                 <Node name="Character" expanded="True">
                   <Node name="AI" expanded="True">
                     <Node name="AStar" expanded="True" />
+                    <Node name="DungeonEnemyScript.cs" selected="True" />
                   </Node>
                   <Node name="Player" expanded="True" />
                 </Node>
                 <Node name="GameController" expanded="True">
-                  <Node name="Arena" expanded="True">
-                    <Node name="ArenaGameController.cs" selected="True" />
-                  </Node>
+                  <Node name="Arena" expanded="True" />
                 </Node>
               </Node>
             </Node>

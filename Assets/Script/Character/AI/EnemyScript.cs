@@ -14,6 +14,7 @@ public class EnemyScript : CharacterBase
 
     void Start()
     {
+        
         Vector3 size = GameObject.Find("Plane").GetComponent<Renderer>().bounds.size - (2 * Vector3.one);
         for (int i = -1; i < 2; i += 2)
         {
@@ -26,7 +27,7 @@ public class EnemyScript : CharacterBase
         animator = GetComponent<Animator>();
         animator.SetFloat("MoveSpeed", moveSpeed);
         hitAreaScript = hitArea.GetComponent<HitAreaScript>();
-        playerName = "Enemy";
+        
     }
 
     void Update()
