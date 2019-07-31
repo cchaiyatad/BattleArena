@@ -77,6 +77,7 @@
     <Compile Include="Assets\Script\GameController\Arena\ArenaMultiplayerGameController.cs" />
     <Compile Include="Assets\Script\GameController\Arena\ArenaMultiplayerMenuController.cs" />
     <Compile Include="Assets\Script\GameController\Dungeon\DungeonSceneController.cs" />
+    <Compile Include="Assets\Script\GameController\GameController.cs" />
     <Compile Include="Assets\Script\GameController\MenuController.cs" />
     <None Include="Assets\Photon\PhotonUnityNetworking\link.xml" />
     <None Include="Assets\Photon\PhotonLibs\Photon3Unity3D.xml" />

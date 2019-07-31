@@ -1,18 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class ArenaGameController : MonoBehaviour
+public class ArenaGameController : GameController
 {
-    public GameObject PauseMenu;
-    public Text text;
-    public List<CharacterBase> character;
-    public List<Skill> skills;
-    public GameObject skillMenu;
-
-    private bool isPause;
-    private bool isFinish;
-
+    
+    private List<Skill> skills;
 
     void Awake()
     {
@@ -44,20 +36,13 @@ public class ArenaGameController : MonoBehaviour
     void Update()
     {
         CheckDead();
-        UpdateSkillMenu();
-        if (isPause && !isFinish)
-            Time.timeScale = 0f;
+        UpdateSkillAndHPMenu();
+        Pause();
+        CheckFinish();
+    }
 
-        else
-            Time.timeScale = 1f;
-
-
-        if (!isFinish)
-        {
-            if (Input.GetKeyDown(KeyCode.P))
-                isPause = !isPause;
-        }
-
+    protected override void CheckFinish()
+    {
         if (character[0].isDead || (character[1].isDead && character[2].isDead))
         {
             isFinish = true;
@@ -65,35 +50,15 @@ public class ArenaGameController : MonoBehaviour
 
             if (character[0].isDead)
             {
-                text.text = "You lose";
+                pauseText.text = "You lose";
             }
             if (character[1].isDead && character[2].isDead)
             {
-                text.text = "You win";
+                pauseText.text = "You win";
             }
             if (character[0].isDead && character[1].isDead && character[2].isDead)
             {
-                text.text = "Tie";
-            }
-
-        }
-
-        PauseMenu.SetActive(isPause);
-
-    }
-
-    private void UpdateSkillMenu()
-    {
-        foreach (Skill skill in character[0].skills)
-        {
-            Text skillText = skillMenu.transform.GetChild(skill.id - 1).gameObject.GetComponent<Text>();
-            if (skill.nextTime > Time.time)
-            {
-                skillText.text = skill.key + " - Cool Down";
-            }
-            else
-            {
-                skillText.text = skill.key + " - Ready";
+                pauseText.text = "Tie";
             }
         }
     }
@@ -114,7 +79,6 @@ public class ArenaGameController : MonoBehaviour
     {
         foreach (CharacterBase chars in character)
         {
-
             if (chars.isDead && chars.skills.Count > 0)
             {
                 FindPlayerWithName(chars.lastAttacker).skills.AddRange(chars.skills);

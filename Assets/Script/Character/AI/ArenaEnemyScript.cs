@@ -1,20 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class ArenaEnemyScript : EnemyScript
 {
-    [SerializeField]
-    private Text UI;
+
     private Skill currentSkill;
     private float usedSkillTime;
-
-    public override void Damaged(int damage)
-    {
-        base.Damaged(damage);
-        UI.text = playerName + " HP: " + hp;
-    }
 
     public override void CharacterBehavior()
     {
@@ -69,6 +59,5 @@ public class ArenaEnemyScript : EnemyScript
         animator.SetTrigger(skill.animation);
         skill.nextTime = Time.time + skill.coolDown;
         usedSkillTime = Time.time + 0.7f;
-        //return skill;
     }
 }

@@ -9,9 +9,6 @@ public class PlayerScript : CharacterBase
     private Skill currentSkill;
     public bool isUseSkill;
 
-    [SerializeField]
-    private Text UI;
-
     public bool isMultiplayer;
     private float usedSkillTime;
 
@@ -102,12 +99,6 @@ public class PlayerScript : CharacterBase
 
         transform.Translate(dir * moveSpeed * Time.deltaTime, Space.World);
 
-    }
-
-    public override void Damaged(int damage)
-    {
-        base.Damaged(damage);
-        UI.text = playerName + " HP: " + hp;
     }
 
     public Skill UseSkill()

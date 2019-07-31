@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public abstract class CharacterBase : MonoBehaviour
 {
-
     public int hp = 3;
     public float moveSpeed = 3f;
     public float attackDelay = 3f;

@@ -1,13 +1,10 @@
 ﻿<Properties StartupConfiguration="{60942A5D-093A-93CC-E298-9AAFF4336EAD}|">
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/Character/AI/DungeonEnemyScript.cs">
     <Files>
-      <File FileName="Assets/Script/GameController/Dungeon/DungeonSceneController.cs" Line="43" Column="27" />
-      <File FileName="Assets/Script/Character/Player/PlayerScript.cs" Line="25" Column="34" />
-      <File FileName="Assets/Script/GameController/Arena/ArenaGameController.cs" Line="39" Column="9" />
-      <File FileName="Assets/Script/Character/AI/DungeonEnemyScript.cs" Line="31" Column="68" />
-      <File FileName="Assets/Script/Character/CharacterBase.cs" Line="86" Column="9" />
-      <File FileName="Assets/Script/Character/AI/EnemyScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/Script/Character/AI/ArenaEnemyScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/GameController/Arena/ArenaGameController.cs" Line="44" Column="38" />
+      <File FileName="Assets/Script/GameController/Dungeon/DungeonSceneController.cs" Line="11" Column="1" />
+      <File FileName="Assets/Script/Character/AI/DungeonEnemyScript.cs" Line="24" Column="1" />
+      <File FileName="Assets/Script/GameController/GameController.cs" Line="15" Column="29" NotebookId="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -17,7 +14,6 @@
               <Node name="Script" expanded="True">
                 <Node name="Character" expanded="True">
                   <Node name="AI" expanded="True">
-                    <Node name="AStar" expanded="True" />
                     <Node name="DungeonEnemyScript.cs" selected="True" />
                   </Node>
                   <Node name="Player" expanded="True" />
@@ -31,14 +27,14 @@
           </Node>
         </State>
       </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="BattleArena" expanded="True" selected="True" />
+        </State>
+      </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <DisabledProjects>
-    <String>PhotonUnityNetworking.csproj</String>
-    <String>PhotonUnityNetworking.Utilities.Culling.Editor.csproj</String>
-    <String>PhotonRealtime.csproj</String>
-  </DisabledProjects>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="62aa7512-02fe-4ba8-89b0-acce968a1e28" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
