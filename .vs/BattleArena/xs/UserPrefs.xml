@@ -1,12 +1,13 @@
 ﻿<Properties StartupConfiguration="{60942A5D-093A-93CC-E298-9AAFF4336EAD}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/Character/AI/ArenaEnemyScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/Character/AI/DungeonEnemyScript.cs">
     <Files>
-      <File FileName="Assets/Script/Character/CharacterBase.cs" Line="17" Column="24" />
-      <File FileName="Assets/Script/Character/Player/PlayerScript.cs" Line="63" Column="5" />
-      <File FileName="Assets/Script/GameController/Arena/ArenaGameController.cs" Line="41" Column="45" />
-      <File FileName="Assets/Script/Character/AI/ArenaEnemyScript.cs" Line="34" Column="33" />
-      <File FileName="Assets/Script/Character/AI/EnemyScript.cs" Line="68" Column="35" />
-      <File FileName="Assets/Script/Character/Skill.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/GameController/Dungeon/DungeonSceneController.cs" Line="43" Column="27" />
+      <File FileName="Assets/Script/Character/Player/PlayerScript.cs" Line="25" Column="34" />
+      <File FileName="Assets/Script/GameController/Arena/ArenaGameController.cs" Line="39" Column="9" />
+      <File FileName="Assets/Script/Character/AI/DungeonEnemyScript.cs" Line="31" Column="68" />
+      <File FileName="Assets/Script/Character/CharacterBase.cs" Line="86" Column="9" />
+      <File FileName="Assets/Script/Character/AI/EnemyScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/Character/AI/ArenaEnemyScript.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -17,12 +18,13 @@
                 <Node name="Character" expanded="True">
                   <Node name="AI" expanded="True">
                     <Node name="AStar" expanded="True" />
-                    <Node name="ArenaEnemyScript.cs" selected="True" />
+                    <Node name="DungeonEnemyScript.cs" selected="True" />
                   </Node>
                   <Node name="Player" expanded="True" />
                 </Node>
                 <Node name="GameController" expanded="True">
                   <Node name="Arena" expanded="True" />
+                  <Node name="Dungeon" expanded="True" />
                 </Node>
               </Node>
             </Node>
@@ -32,6 +34,11 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <DisabledProjects>
+    <String>PhotonUnityNetworking.csproj</String>
+    <String>PhotonUnityNetworking.Utilities.Culling.Editor.csproj</String>
+    <String>PhotonRealtime.csproj</String>
+  </DisabledProjects>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="62aa7512-02fe-4ba8-89b0-acce968a1e28" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

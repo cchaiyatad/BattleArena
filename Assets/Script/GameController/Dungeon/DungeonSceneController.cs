@@ -8,21 +8,24 @@ public class DungeonSceneController : MonoBehaviour
 {
     public GameObject PauseMenu;
     public Text text;
+    public Text CountUI;
     public CharacterBase Player;
     public CharacterBase Enemy;
     public int count;
+    public GameObject skillMenu;
 
     private bool isPause;
     private bool isFinish;
     private List<Vector3> corners = new List<Vector3> { };
     private float nextSpawnTime;
+    private float spanwCoolDown;
 
 
     // Start is called before the first frame update
     void Start()
     {
         Vector3 size = GameObject.Find("Plane").GetComponent<Renderer>().bounds.size - (2 * Vector3.one);
-
+        Player.playerName = "Player";
         for (int i = -1; i < 2; i += 2)
         {
             for (int j = -1; j < 2; j += 2)
@@ -31,16 +34,24 @@ public class DungeonSceneController : MonoBehaviour
             }
         }
 		nextSpawnTime = Time.time;
+        Player.skills = new Skill().generateSkill();
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        UpdateSkillMenu();
+        CountUI.text = "Count : " + count;
+        spanwCoolDown = 9f - (0.2f * count);
+        if(spanwCoolDown <= 4)
+        {
+            spanwCoolDown = 5f;
+        }
 
         if (nextSpawnTime < Time.time && !isPause && !isFinish)
         {
-            nextSpawnTime += 12f;
+            nextSpawnTime += spanwCoolDown;
             Instantiate(Enemy, corners[Random.Range(0, 4)], Quaternion.identity);
         }
 
@@ -57,17 +68,31 @@ public class DungeonSceneController : MonoBehaviour
                 isPause = !isPause;
         }
 
-        if (Player.hp == 0)
+        if (Player.isDead)
         {
             isFinish = true;
             isPause = true;
-            if (Player.hp == 0)
-            {
-                text.text = "Kill: " + count;
-            }
+            text.text = "Kill: " + count;
+            CountUI.gameObject.SetActive(false);
         }
 
         PauseMenu.SetActive(isPause);
 
+    }
+
+    private void UpdateSkillMenu()
+    {
+        foreach (Skill skill in Player.skills)
+        {
+            Text skillText = skillMenu.transform.GetChild(skill.id - 1).gameObject.GetComponent<Text>();
+            if (skill.nextTime > Time.time)
+            {
+                skillText.text = skill.key + " - Cool Down";
+            }
+            else
+            {
+                skillText.text = skill.key + " - Ready";
+            }
+        }
     }
 }

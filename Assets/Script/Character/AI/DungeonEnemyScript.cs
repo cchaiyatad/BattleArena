@@ -16,7 +16,7 @@ public class DungeonEnemyScript : EnemyScript
 
     public override void CharacterBehavior()
     {
-        if (hp == 0 && !isAlreadyDead)
+        if (hp <= 0 && !isAlreadyDead)
         {
             Dead();
             if (!isCount)
@@ -28,8 +28,8 @@ public class DungeonEnemyScript : EnemyScript
             isAlreadyDead = true;
             Destroy(gameObject, 3f);
         }
-            //SpawnAttack(ref attackState, spawnAttackTime);
-        
+        SpawnAttack(ref attackState, spawnAttackTime, new Skill());
+
     }
 }
 
