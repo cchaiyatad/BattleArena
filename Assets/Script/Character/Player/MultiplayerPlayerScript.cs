@@ -48,7 +48,7 @@ public class MultiplayerPlayerScript : MonoBehaviourPun, IPunObservable
     {
         if (photonView.IsMine && PhotonNetwork.IsConnected)
         {
-            if (playerScript.isAlreadyDead)
+            if (playerScript.isDead)
             {
                 return;
             }
@@ -70,7 +70,7 @@ public class MultiplayerPlayerScript : MonoBehaviourPun, IPunObservable
             return;
         }
         HitAreaScript hitpointScript = other.GetComponent<HitAreaScript>();
-        if (hitpointScript.attacker != playerScript.playerName && !playerScript.isAlreadyDead)
+        if (hitpointScript.attacker != playerScript.playerName && !playerScript.isDead)
         {
             playerScript.Damaged(hitpointScript.damage);
         }

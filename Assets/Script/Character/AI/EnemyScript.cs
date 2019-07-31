@@ -37,7 +37,7 @@ public class EnemyScript : CharacterBase
 
     void FixedUpdate()
     {
-        if (isAlreadyDead)
+        if (isDead)
         {
             return;
         }

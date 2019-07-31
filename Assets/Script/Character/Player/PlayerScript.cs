@@ -50,7 +50,7 @@ public class PlayerScript : CharacterBase
         {
             return;
         }
-        if (isAlreadyDead)
+        if (isDead)
         {
             return;
         }

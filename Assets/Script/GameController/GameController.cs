@@ -46,7 +46,6 @@ public abstract class GameController : MonoBehaviour
         else
             Time.timeScale = 1f;
 
-
         if (!isFinish)
         {
             if (Input.GetKeyDown(KeyCode.P))
@@ -56,6 +55,5 @@ public abstract class GameController : MonoBehaviour
         pauseMenu.SetActive(isPause);
 
     }
-
 
 }

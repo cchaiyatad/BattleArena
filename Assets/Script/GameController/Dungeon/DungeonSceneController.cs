@@ -7,17 +7,19 @@ using UnityEngine.UI;
 public class DungeonSceneController : GameController
 {
     public Text CountUI;
-    public CharacterBase Enemy;
+    public GameObject enemyPrefab;
     public int count;
 
-    private List<Vector3> corners = new List<Vector3> { };
+
+    public List<Vector3> corners = new List<Vector3> { };
     private float nextSpawnTime;
     private float spanwCoolDown;
+    public GameObject enemys;
 
 
     void Start()
     {
-		character[0].playerName = "Player";
+        character[0].playerName = "Player";
         character[0].skills = new Skill().generateSkill();
         Vector3 size = GameObject.Find("Plane").GetComponent<Renderer>().bounds.size - (2 * Vector3.one);
         for (int i = -1; i < 2; i += 2)
@@ -27,11 +29,15 @@ public class DungeonSceneController : GameController
                 corners.Add(new Vector3(size.x / 2 * i, 0f, size.z / 2 * j));
             }
         }
-		nextSpawnTime = Time.time;
-        
+        for (int i = 0; i < 10; i++)
+        {
+            GameObject enemy = Instantiate(enemyPrefab, corners[Random.Range(0, 4)], Quaternion.identity);
+            enemy.SetActive(false);
+            enemy.transform.parent = enemys.transform;
+        }
+        nextSpawnTime = Time.time;
     }
 
-    
     void Update()
     {
         UpdateSkillAndHPMenu();
@@ -41,16 +47,12 @@ public class DungeonSceneController : GameController
         CountUI.text = "Count : " + count;
 
         spanwCoolDown = 9f - (0.2f * count);
-        if(spanwCoolDown <= 4)
+        if (spanwCoolDown <= 3)
         {
-            spanwCoolDown = 5f;
+            spanwCoolDown = 3f;
         }
+        createEnemy();
 
-        if (nextSpawnTime < Time.time && !isPause && !isFinish)
-        {
-            nextSpawnTime += spanwCoolDown;
-            Instantiate(Enemy, corners[Random.Range(0, 4)], Quaternion.identity);
-        }
     }
 
     protected override void CheckFinish()
@@ -61,6 +63,23 @@ public class DungeonSceneController : GameController
             isPause = true;
             pauseText.text = "Kill: " + count;
             CountUI.gameObject.SetActive(false);
+        }
+    }
+
+    private void createEnemy()
+    {
+        if (nextSpawnTime < Time.time && !isPause && !isFinish)
+        {
+            for(int i = 0; i < enemys.transform.childCount; i++)
+            {
+                if (!enemys.transform.GetChild(i).gameObject.activeSelf)
+                {
+                    nextSpawnTime = Time.time + spanwCoolDown;
+                    enemys.transform.GetChild(i).gameObject.SetActive(true);
+                    break;
+                }
+            }
+            
         }
     }
 }

@@ -2,9 +2,10 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/Character/AI/DungeonEnemyScript.cs">
     <Files>
       <File FileName="Assets/Script/GameController/Arena/ArenaGameController.cs" Line="44" Column="38" />
-      <File FileName="Assets/Script/GameController/Dungeon/DungeonSceneController.cs" Line="11" Column="1" />
-      <File FileName="Assets/Script/Character/AI/DungeonEnemyScript.cs" Line="24" Column="1" />
-      <File FileName="Assets/Script/GameController/GameController.cs" Line="15" Column="29" NotebookId="1" />
+      <File FileName="Assets/Script/GameController/Dungeon/DungeonSceneController.cs" Line="54" Column="1" />
+      <File FileName="Assets/Script/Character/AI/DungeonEnemyScript.cs" Line="28" Column="24" />
+      <File FileName="Assets/Script/GameController/GameController.cs" Line="57" Column="6" />
+      <File FileName="Assets/Script/Character/CharacterBase.cs" Line="65" Column="38" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">

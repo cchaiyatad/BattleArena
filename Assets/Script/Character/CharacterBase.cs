@@ -25,8 +25,6 @@ public abstract class CharacterBase : MonoBehaviour
     [HideInInspector]
     public bool isMove;
     [HideInInspector]
-    public bool isAlreadyDead;
-    [HideInInspector]
     public bool isDead;
     [HideInInspector]
     public string lastAttacker;
@@ -45,7 +43,7 @@ public abstract class CharacterBase : MonoBehaviour
             return;
         }
         HitAreaScript hitpointScript = other.GetComponent<HitAreaScript>();
-        if (hitpointScript.attacker != playerName && !isAlreadyDead)
+        if (hitpointScript.attacker != playerName && !isDead)
         {
             lastAttacker = hitpointScript.attacker;
             Damaged(hitpointScript.damage);
@@ -65,7 +63,6 @@ public abstract class CharacterBase : MonoBehaviour
         hp = 0;
         isDead = true;
         animator.SetTrigger("IsDeath");
-        isAlreadyDead = true;
 
     }
 
@@ -79,7 +76,7 @@ public abstract class CharacterBase : MonoBehaviour
 
     public virtual void CharacterBehavior()
     {
-        if (hp <= 0 && !isAlreadyDead)
+        if (hp <= 0 && !isDead)
             Dead();
 
         SpawnAttack(ref attackState, spawnAttackTime, new Skill());
