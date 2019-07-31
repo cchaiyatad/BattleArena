@@ -1,11 +1,10 @@
 ﻿<Properties StartupConfiguration="{60942A5D-093A-93CC-E298-9AAFF4336EAD}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/Character/AI/DungeonEnemyScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/GameController/Arena/ArenaMultiplayerMenuController.cs">
     <Files>
-      <File FileName="Assets/Script/GameController/Arena/ArenaGameController.cs" Line="44" Column="38" />
-      <File FileName="Assets/Script/GameController/Dungeon/DungeonSceneController.cs" Line="54" Column="1" />
-      <File FileName="Assets/Script/Character/AI/DungeonEnemyScript.cs" Line="28" Column="24" />
-      <File FileName="Assets/Script/GameController/GameController.cs" Line="57" Column="6" />
-      <File FileName="Assets/Script/Character/CharacterBase.cs" Line="65" Column="38" />
+      <File FileName="Assets/Script/GameController/MenuController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/Character/Player/MultiplayerPlayerScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/GameController/Arena/ArenaMultiplayerMenuController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/GameController/Arena/ArenaMultiplayerGameController.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,13 +13,13 @@
             <Node name="Assets" expanded="True">
               <Node name="Script" expanded="True">
                 <Node name="Character" expanded="True">
-                  <Node name="AI" expanded="True">
-                    <Node name="DungeonEnemyScript.cs" selected="True" />
-                  </Node>
+                  <Node name="AI" expanded="True" />
                   <Node name="Player" expanded="True" />
                 </Node>
                 <Node name="GameController" expanded="True">
-                  <Node name="Arena" expanded="True" />
+                  <Node name="Arena" expanded="True">
+                    <Node name="ArenaMultiplayerMenuController.cs" selected="True" />
+                  </Node>
                   <Node name="Dungeon" expanded="True" />
                 </Node>
               </Node>

@@ -16,20 +16,18 @@ public class ArenaMultiplayerMenuController : MonoBehaviourPunCallbacks
     public InputField roomInputField;
     public Button button;
 
-    void Start()
-    {
-        ConnectToPhoton();
-    }
-
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
+    void Start()
+    {
+        ConnectToPhoton();
+    }
+
     public void OnMultiPlayerMenuClick()
     {
-        
-
         if (!isInRoom)
         {
             playerName = playerInputField.text;
@@ -42,7 +40,6 @@ public class ArenaMultiplayerMenuController : MonoBehaviourPunCallbacks
             LoadLevel();
         }
     }
-
 
     private void ConnectToPhoton()
     {
@@ -74,8 +71,6 @@ public class ArenaMultiplayerMenuController : MonoBehaviourPunCallbacks
         }
     }
 
-
-
     public override void OnConnected()
     {
         base.OnConnected();
@@ -98,7 +93,5 @@ public class ArenaMultiplayerMenuController : MonoBehaviourPunCallbacks
                 PhotonNetwork.CurrentRoom.PlayerCount + "/2)";
         }
     }
-
-
     
 }
