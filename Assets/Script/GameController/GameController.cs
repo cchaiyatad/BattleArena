@@ -17,7 +17,7 @@ public abstract class GameController : MonoBehaviour
 
     protected abstract void CheckFinish();
 
-    protected void UpdateSkillAndHPMenu()
+    protected virtual void UpdateSkillAndHPMenu()
     {
         for (int i = 0; i < character.Count; i++)
         {

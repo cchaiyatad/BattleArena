@@ -32,5 +32,6 @@ MonoBehaviour:
   - ChatMessage
   - ReceivedMessage
   - ReceivedAttackLocation
+  - ControllerReceivedMessage
   DisableAutoOpenWizard: 1
   ShowSettings: 0

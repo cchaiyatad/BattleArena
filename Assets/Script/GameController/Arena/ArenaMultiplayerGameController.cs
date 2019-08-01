@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class ArenaMultiplayerGameController : ArenaGameController
 {
     public GameObject hitArea;
-    private PhotonView photonView;
+    //private PhotonView photonView;
 
     private void Awake()
     {
@@ -15,6 +15,10 @@ public class ArenaMultiplayerGameController : ArenaGameController
         if (PlayerPrefs.GetInt("mode") == 0)
         {
             gameObject.SetActive(false);
+        }
+        else
+        {
+            HPUI.transform.GetChild(1).gameObject.SetActive(false);
         }
     }
 
@@ -28,7 +32,7 @@ public class ArenaMultiplayerGameController : ArenaGameController
             SceneManager.LoadScene("MainMenuScene");
             return;
         }
-        photonView = GetComponent<PhotonView>();
+        //photonView = GetComponent<PhotonView>();
         if (MultiplayerPlayerScript.Instance == null)
         {
             GameObject player;
@@ -94,4 +98,10 @@ public class ArenaMultiplayerGameController : ArenaGameController
         }
         hit.SetActive(true);
     }
+
+    protected override void UpdateSkillAndHPMenu()
+    {
+        base.UpdateSkillAndHPMenu();
+    }
+
 }

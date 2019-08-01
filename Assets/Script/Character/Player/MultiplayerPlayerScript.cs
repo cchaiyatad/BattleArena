@@ -28,11 +28,13 @@ public class MultiplayerPlayerScript : PlayerScript
             CameraScript.Player = transform;
         }
 
+        photonView.RPC("ReceivedMessage", RpcTarget.All, playerName);
+
     }
     [PunRPC]
     void ReceivedMessage(string a)
     {
-        Debug.Log(a + " " + PhotonNetwork.IsMasterClient);
+        Debug.Log(a + "  " + playerName);
     }
 
 
@@ -58,8 +60,6 @@ public class MultiplayerPlayerScript : PlayerScript
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Attack();
-
-                photonView.RPC("ReceivedMessage", RpcTarget.All, playerName);
             }
         }
         currentSkill = UseSkill();
