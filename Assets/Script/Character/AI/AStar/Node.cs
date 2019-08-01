@@ -40,7 +40,7 @@ public class Node : IComparable<Node>
         return CalculateH(DestinationPosition) + G;
     }
 
-    private float CalculateH((float, float) destination)
+    public float CalculateH((float, float) destination)
     {
         return Math.Abs(destination.Item1 - currentPosition.Item1) +
             Math.Abs(destination.Item2 - currentPosition.Item2);
@@ -58,5 +58,10 @@ public class Node : IComparable<Node>
     public int CompareTo(Node other)
     {
         return Compare(this, other);
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
 }

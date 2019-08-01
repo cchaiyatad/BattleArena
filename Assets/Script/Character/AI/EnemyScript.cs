@@ -115,7 +115,7 @@ public class EnemyScript : CharacterBase
         {
             randomIndex = Random.Range(0, corners.Count);
         }
-        print(randomIndex + " " + index + Mathf.Abs((corners[index] - transform.position).magnitude)+ " " + Mathf.Abs((corners[randomIndex] - transform.position).magnitude));
+        
         return corners[randomIndex];
     }
 

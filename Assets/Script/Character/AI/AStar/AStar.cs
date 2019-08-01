@@ -5,6 +5,7 @@ public static class AStar
 {
     public static Vector3 FindWay(Vector3 start, Vector3 destination, bool isEscape)
     {
+        float checkDistance = 1;
         bool isFound = false;
         var openList = new List<Node> { };
         var closeList = new List<Node> { };
@@ -36,16 +37,21 @@ public static class AStar
             float xAxisRay;
             float zAxisRay;
             bool isHitObstacle;
+            checkDistance = currentNode.CalculateH((destination.x, destination.z)) * 1 / 5;
+            if (checkDistance < 1)
+            {
+                checkDistance = 1;
+            }
             Vector3 rayStartPoint = new Vector3(currentNode.currentPosition.Item1, 0,
                 currentNode.currentPosition.Item2);
 
             for (int i = 0; i < 360; i += 45)
             {
-                xAxisRay = Mathf.Sin(Mathf.Deg2Rad * i);
-                zAxisRay = Mathf.Cos(Mathf.Deg2Rad * i);
+                xAxisRay = Mathf.Sin(Mathf.Deg2Rad * i) * checkDistance;
+                zAxisRay = Mathf.Cos(Mathf.Deg2Rad * i) * checkDistance;
                 isHitObstacle = false;
 
-                if (Physics.Raycast(rayStartPoint, new Vector3(xAxisRay, 0, zAxisRay), out RaycastHit hitTarget, 1f))
+                if (Physics.Raycast(rayStartPoint, new Vector3(xAxisRay, 0, zAxisRay), out RaycastHit hitTarget, checkDistance))
                 {
                     if (hitTarget.transform.CompareTag("Obstacle"))
                     {
@@ -63,7 +69,7 @@ public static class AStar
                         currentNode.currentPosition.Item2 + zAxisRay)
                         , currentNode)
                         {
-                            G = currentNode.G + 1,
+                            G = currentNode.G + checkDistance,
                             DestinationPosition = currentNode.DestinationPosition
                         };
                         isFound = true;
@@ -86,7 +92,7 @@ public static class AStar
                         currentNode.currentPosition.Item2 + zAxisRay)
                         , currentNode)
                             {
-                                G = currentNode.G + 1,
+                                G = currentNode.G + checkDistance,
                                 DestinationPosition = currentNode.DestinationPosition
                             };
                             isFound = true;
@@ -98,7 +104,7 @@ public static class AStar
                         currentNode.currentPosition.Item2 + zAxisRay)
                         , currentNode)
                     {
-                        G = currentNode.G + 1,
+                        G = currentNode.G + checkDistance,
                         DestinationPosition = currentNode.DestinationPosition
                     });
                 }
