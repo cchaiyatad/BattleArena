@@ -45,7 +45,7 @@ public abstract class CharacterBase : MonoBehaviour
         HitAreaScript hitpointScript = other.GetComponent<HitAreaScript>();
         if (hitpointScript.attacker != playerName && !isDead)
         {
-            if(hitpointScript.attacker == "")
+            if (hitpointScript.attacker == "")
             {
                 return;
             }
@@ -61,6 +61,14 @@ public abstract class CharacterBase : MonoBehaviour
         animator.SetTrigger("IsAttack");
         attackState = true;
         spawnAttackTime = Time.time + 0.55f;
+        foreach (Skill skill in skills)
+        {
+            if(skill.nextTime < Time.time)
+            {
+                skill.nextTime = Time.time ;
+            }
+            skill.nextTime += 0.3f;
+        }
     }
 
     public void Dead()

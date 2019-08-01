@@ -30,6 +30,10 @@ public class PlayerScript : CharacterBase
         //{
         //    return;
         //}
+        if (isDead)
+        {
+            return;
+        }
         direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         CheckObstacle();
 
@@ -117,6 +121,7 @@ public class PlayerScript : CharacterBase
                     animator.SetTrigger(skill.animation);
                     skill.nextTime = Time.time + skill.coolDown;
                     usedSkillTime = Time.time + 0.7f;
+                    nextAttackTime = Time.time + 0.3f;
                     return skill;
                 }
             }
