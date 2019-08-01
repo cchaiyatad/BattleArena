@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,7 +27,7 @@ public class EnemyScript : CharacterBase
         animator = GetComponent<Animator>();
         animator.SetFloat("MoveSpeed", moveSpeed);
         hitAreaScript = hitArea.GetComponent<HitAreaScript>();
-        
+
     }
 
     void Update()
@@ -58,7 +58,6 @@ public class EnemyScript : CharacterBase
         }
 
         targetPath = path - transform.position;
-        
 
         Move(targetPath);
     }
@@ -73,11 +72,11 @@ public class EnemyScript : CharacterBase
             return;
         }
 
-        if (distanceToTarget <= 0.6)
-        {
-            dir *= -1;
-        }
-
+        //if (distanceToTarget <= 0.6)
+        //{
+        //    print("0.6");
+        //    dir *= -1;
+        //}
 
         if (distanceToTarget <= 0.75)
         {
@@ -85,8 +84,9 @@ public class EnemyScript : CharacterBase
             if (Time.time > nextAttackTime)
             {
                 Attack();
+                return;
             }
-            return;
+            
         }
 
         animator.SetBool("IsMove", true);
@@ -97,19 +97,26 @@ public class EnemyScript : CharacterBase
 
     private Vector3 Escape()
     {
-        float max = -1;
-        int index = -1;
-        for (int i = 0; i < corners.Count; i++)
+        float distance;
+        float min = Mathf.Abs((corners[0] - transform.position).magnitude);
+        int index = 0;
+        for (int i = 1; i < corners.Count; i++)
         {
-            float distance = (corners[i] - transform.position).magnitude;
-            if (max < distance)
+            distance = Mathf.Abs((corners[i] - transform.position).magnitude);
+            if (min > distance)
             {
-                max = distance;
+                min = distance;
                 index = i;
             }
-
         }
-        return corners[index];
+
+        int randomIndex = index;
+        while (randomIndex == index)
+        {
+            randomIndex = Random.Range(0, corners.Count);
+        }
+        print(randomIndex + " " + index + Mathf.Abs((corners[index] - transform.position).magnitude)+ " " + Mathf.Abs((corners[randomIndex] - transform.position).magnitude));
+        return corners[randomIndex];
     }
-    
+
 }
