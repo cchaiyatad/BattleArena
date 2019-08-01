@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Photon.Pun;
 
 public abstract class GameController : MonoBehaviour
 {

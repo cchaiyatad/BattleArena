@@ -12,7 +12,7 @@ public abstract class CharacterBase : MonoBehaviour
     public GameObject hitArea;
 
     public List<Skill> skills = new List<Skill> { };
-    [HideInInspector]
+    //[HideInInspector]
     public string playerName;
     [HideInInspector]
     public HitAreaScript hitAreaScript;
@@ -45,6 +45,11 @@ public abstract class CharacterBase : MonoBehaviour
         HitAreaScript hitpointScript = other.GetComponent<HitAreaScript>();
         if (hitpointScript.attacker != playerName && !isDead)
         {
+            if(hitpointScript.attacker == "")
+            {
+                return;
+            }
+            print(hitpointScript.attacker + " " + playerName);
             lastAttacker = hitpointScript.attacker;
             Damaged(hitpointScript.damage);
         }
@@ -83,7 +88,7 @@ public abstract class CharacterBase : MonoBehaviour
 
     }
 
-    public void SpawnAttack(ref bool check, float spawnTime, Skill skill)
+    public virtual void SpawnAttack(ref bool check, float spawnTime, Skill skill)
     {
         if (check && Time.time > spawnTime)
         {

@@ -5,20 +5,20 @@ using UnityEngine.UI;
 public class PlayerScript : CharacterBase
 {
     private bool isHitObstacle;
-    private Vector3 direction;
-    private Skill currentSkill;
+    protected Vector3 direction;
+    protected Skill currentSkill;
     public bool isUseSkill;
 
-    public bool isMultiplayer;
+    //public bool isMultiplayer;
     private float usedSkillTime;
 
 
     void Start()
     {
-        if (isMultiplayer)
-        {
-            return;
-        }
+        //if (isMultiplayer)
+        //{
+        //    return;
+        //}
         animator = GetComponent<Animator>();
         animator.SetFloat("MoveSpeed", moveSpeed);
         hitAreaScript = hitArea.GetComponent<HitAreaScript>();
@@ -26,10 +26,10 @@ public class PlayerScript : CharacterBase
 
     void Update()
     {
-        if (isMultiplayer)
-        {
-            return;
-        }
+        //if (isMultiplayer)
+        //{
+        //    return;
+        //}
         direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         CheckObstacle();
 
@@ -46,10 +46,10 @@ public class PlayerScript : CharacterBase
 
     void FixedUpdate()
     {
-        if (isMultiplayer)
-        {
-            return;
-        }
+        //if (isMultiplayer)
+        //{
+        //    return;
+        //}
         if (isDead)
         {
             return;

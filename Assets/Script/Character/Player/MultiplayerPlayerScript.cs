@@ -2,82 +2,94 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class MultiplayerPlayerScript : MonoBehaviourPun, IPunObservable
+public class MultiplayerPlayerScript : PlayerScript
 {
-    private CameraScript cameraScript;
-    private PlayerScript playerScript;
-    private Vector3 direction;
+    public ArenaMultiplayerGameController arenaMultiplayerGameController;
+    private PhotonView photonView;
+    private CameraScript CameraScript;
+    public static GameObject Instance;
 
-    void Start()
+    private void Start()
     {
-        if (photonView.IsMine && PhotonNetwork.IsConnected)
+        photonView = GetComponent<PhotonView>();
+        animator = GetComponent<Animator>();
+        animator.SetFloat("MoveSpeed", moveSpeed);
+        hitAreaScript = hitArea.GetComponent<HitAreaScript>();
+        playerName = PhotonNetwork.NickName;
+        arenaMultiplayerGameController = GameObject.Find("GameController/MultiPlayerGameController").GetComponent<ArenaMultiplayerGameController>();
+
+        if (photonView.IsMine)
         {
-            playerScript = gameObject.GetComponent<PlayerScript>();
-            playerScript.animator = gameObject.GetComponent<Animator>();
-            cameraScript = GameObject.Find("Main Camera").GetComponent<CameraScript>();
-
-            cameraScript.Player = gameObject.transform;
-            playerScript.isMultiplayer = true;
-            playerScript.playerName = PhotonNetwork.NickName;
-            playerScript.animator.SetFloat("MoveSpeed", playerScript.moveSpeed);
-            playerScript.hitAreaScript = playerScript.hitArea.GetComponent<HitAreaScript>();
-        }
-    }
-
-    void Update()
-    {
-        if (photonView.IsMine && PhotonNetwork.IsConnected)
-        {
-            direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            playerScript.CheckObstacle();
-
-            if (Time.time > playerScript.nextAttackTime)
+            if (Instance == null)
             {
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    playerScript.Attack();
-                }
+                Instance = gameObject;
             }
-            playerScript.CharacterBehavior();
-
+            CameraScript = Camera.main.GetComponent<CameraScript>();
+            CameraScript.Player = transform;
         }
 
     }
-
-    void FixedUpdate()
+    [PunRPC]
+    void ReceivedMessage(string a)
     {
-        if (photonView.IsMine && PhotonNetwork.IsConnected)
-        {
-            if (playerScript.isDead)
-            {
-                return;
-            }
-            playerScript.Move(direction);
-            playerScript.AttackRotate(direction);
-            return;
-        }
-
+        Debug.Log(a + " " + PhotonNetwork.IsMasterClient);
     }
 
-    private void OnTriggerEnter(Collider other)
+
+    [PunRPC]
+    void ReceivedAttackLocation(string attacker, int skillID, Vector3 position, float direction)
+    {
+        Debug.Log(attacker + " " + skillID + " " + position + " " + direction);
+        arenaMultiplayerGameController.CreateAttack(attacker, skillID, position, direction);
+    }
+
+    private void Update()
     {
         if (!photonView.IsMine)
         {
             return;
         }
-        if (other.CompareTag("Obstacle"))
+
+        direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        CheckObstacle();
+
+        if (Time.time > nextAttackTime)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Attack();
+
+                photonView.RPC("ReceivedMessage", RpcTarget.All, playerName);
+            }
+        }
+        currentSkill = UseSkill();
+        CharacterBehavior();
+    }
+
+    private void FixedUpdate()
+    {
+        if (!photonView.IsMine)
         {
             return;
         }
-        HitAreaScript hitpointScript = other.GetComponent<HitAreaScript>();
-        if (hitpointScript.attacker != playerScript.playerName && !playerScript.isDead)
+
+        if (isDead)
         {
-            playerScript.Damaged(hitpointScript.damage);
+            return;
         }
+        Move(direction);
+        AttackRotate(direction);
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    public override void SpawnAttack(ref bool check, float spawnTime, Skill skill)
     {
-        throw new System.NotImplementedException();
+
+        if (check && Time.time > spawnTime)
+        {
+            photonView.RPC("ReceivedAttackLocation", RpcTarget.All,
+                    playerName, skill.id, transform.position, transform.rotation.eulerAngles.y);
+            check = false;
+        }
+
     }
 }

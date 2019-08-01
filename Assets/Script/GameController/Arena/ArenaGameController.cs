@@ -4,7 +4,7 @@ using UnityEngine;
 public class ArenaGameController : GameController
 {
     
-    private List<Skill> skills;
+    protected List<Skill> skills;
 
     void Awake()
     {

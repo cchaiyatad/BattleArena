@@ -19,10 +19,12 @@ public class ArenaMultiplayerMenuController : MonoBehaviourPunCallbacks
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
+        
     }
 
     void Start()
     {
+        PlayerPrefs.SetInt("mode", 1);
         ConnectToPhoton();
     }
 

@@ -10,6 +10,11 @@ public class CameraScript : MonoBehaviour
     void Start()
     {
         Offset = Player.transform.position - transform.position;
+        if (PlayerPrefs.GetInt("mode") == 1)
+        {
+            Offset = new Vector3(1.5f, -3, 1.5f);
+        }
+        
     }
 
     // Update is called once per frame
