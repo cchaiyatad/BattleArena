@@ -54,7 +54,7 @@ public class PlayerScript : CharacterBase
     }
     public void CheckObstacle()
     {
-        Debug.DrawLine(transform.position, transform.forward,Color.gray,5f);
+        
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 0.8f))
         {
             isHitObstacle = hit.transform.CompareTag("Obstacle");
