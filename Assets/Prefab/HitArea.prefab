@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 7757521122207146529}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1.6, y: 0.5, z: 1.6}
+  m_LocalScale: {x: 0.8, y: 0.5, z: 0.8}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -46,7 +46,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.6, y: 0.5, z: 1.6}
+  m_Size: {x: 0.8, y: 0.5, z: 0.8}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4320778862572675138
 MonoBehaviour:
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ba74b52d1d4444cd9b21a3c7da1c1f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attacker: Player
+  attacker: Enemy
   time: 0.2
   damage: 1
   isMoving: 0

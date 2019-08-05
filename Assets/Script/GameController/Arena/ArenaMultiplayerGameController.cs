@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class ArenaMultiplayerGameController : ArenaGameController
 {
     public GameObject hitArea;
-    //private PhotonView photonView;
 
     private void Awake()
     {
