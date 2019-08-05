@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class PlayerScript : CharacterBase
 {
@@ -9,16 +7,11 @@ public class PlayerScript : CharacterBase
     protected Skill currentSkill;
     public bool isUseSkill;
 
-    //public bool isMultiplayer;
     private float usedSkillTime;
 
 
     void Start()
     {
-        //if (isMultiplayer)
-        //{
-        //    return;
-        //}
         animator = GetComponent<Animator>();
         animator.SetFloat("MoveSpeed", moveSpeed);
         hitAreaScript = hitArea.GetComponent<HitAreaScript>();
@@ -26,10 +19,6 @@ public class PlayerScript : CharacterBase
 
     void Update()
     {
-        //if (isMultiplayer)
-        //{
-        //    return;
-        //}
         if (isDead)
         {
             return;
@@ -50,10 +39,6 @@ public class PlayerScript : CharacterBase
 
     void FixedUpdate()
     {
-        //if (isMultiplayer)
-        //{
-        //    return;
-        //}
         if (isDead)
         {
             return;
@@ -69,7 +54,7 @@ public class PlayerScript : CharacterBase
     }
     public void CheckObstacle()
     {
-
+        Debug.DrawLine(transform.position, transform.forward,Color.gray,5f);
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 0.8f))
         {
             isHitObstacle = hit.transform.CompareTag("Obstacle");

@@ -63,9 +63,9 @@ public abstract class CharacterBase : MonoBehaviour
         spawnAttackTime = Time.time + 0.55f;
         foreach (Skill skill in skills)
         {
-            if(skill.nextTime < Time.time)
+            if (skill.nextTime < Time.time)
             {
-                skill.nextTime = Time.time ;
+                skill.nextTime = Time.time;
             }
             skill.nextTime += 0.3f;
         }
