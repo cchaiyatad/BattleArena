@@ -15,7 +15,7 @@ public class DungeonEnemyScript : EnemyScript
         target = gameControllerScript.character[0].gameObject;
     }
 
-    public override void CharacterBehavior()
+    protected override void CharacterBehavior()
     {
         if (hp <= 0 && !isDead)
         {

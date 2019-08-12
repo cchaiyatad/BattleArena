@@ -37,7 +37,6 @@ public class EnemyScript : CharacterBase
         if (isDead)
             return;
 
-
         if (Time.time < nextAttackTime)
         {
             if (!hasEscapedPoint)
@@ -56,16 +55,17 @@ public class EnemyScript : CharacterBase
         targetPath = path - transform.position;
 
         Move(targetPath);
+
+        if(isAttack || isUseSkill)
+            AttackRotate(target.gameObject.transform.position - transform.position);
     }
 
-    public override void Move(Vector3 dir)
+    protected override void Move(Vector3 dir)
     {
-
         float distanceToTarget = (target.gameObject.transform.position - transform.position).magnitude;
 
         if (CheckCannotMove())
             return;
-
 
         if (distanceToTarget <= 0.75)
         {

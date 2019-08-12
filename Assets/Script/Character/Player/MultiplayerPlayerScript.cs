@@ -107,7 +107,7 @@ public class MultiplayerPlayerScript : PlayerScript
         AttackRotate(direction);
     }
 
-    public override void SpawnAttack(ref bool check, ref bool spawnAttack, float spawnTime, Skill skill)
+    protected override void SpawnAttack(ref bool check, ref bool spawnAttack, float spawnTime, Skill skill)
     {
         if (check && !spawnAttack && Time.time > spawnTime)
         {

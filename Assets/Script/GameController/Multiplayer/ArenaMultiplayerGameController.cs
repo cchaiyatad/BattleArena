@@ -90,7 +90,8 @@ public class ArenaMultiplayerGameController : ArenaGameController
         float zPosition = GetValueByKey<float>(attacker, ATTACKPOSTIONZKEY);
         float direction = GetValueByKey<float>(attacker, ATTACKDIRECTIONKEY);
         Vector3 hitLocation = new Vector3(xPosition, 0, zPosition);
-        Vector3 moveDirection = new Vector3(Mathf.Sin(Mathf.Deg2Rad * direction), 0, Mathf.Cos(Mathf.Deg2Rad * direction));
+        Vector3 moveDirection = new Vector3(Mathf.Sin(Mathf.Deg2Rad * direction), 0,
+            Mathf.Cos(Mathf.Deg2Rad * direction));
 
         if (skillID == -1)
             skill = new Skill();
@@ -99,7 +100,7 @@ public class ArenaMultiplayerGameController : ArenaGameController
 
         hitLocation.y = 0.55f;
         hitLocation += moveDirection;
-        GameObject hit = Instantiate(hitArea, hitLocation, Quaternion.identity);
+        GameObject hit = Instantiate(hitArea, hitLocation, Quaternion.Euler(0, direction, 0));
         HitAreaScript hitAreaScript = hit.GetComponent<HitAreaScript>();
 
         hitAreaScript.attacker = attacker;

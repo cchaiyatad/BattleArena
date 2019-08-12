@@ -42,7 +42,7 @@ public class PlayerScript : CharacterBase
         AttackRotate(direction);
     }
 
-    public void CheckObstacle()
+    protected void CheckObstacle()
     {
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 0.8f))
             isHitObstacle = hit.transform.CompareTag("Obstacle");
@@ -50,14 +50,7 @@ public class PlayerScript : CharacterBase
             isHitObstacle = false;
     }
 
-    public void AttackRotate(Vector3 dir)
-    {
-        if (dir == Vector3.zero)
-            return;
-        transform.rotation = Quaternion.LookRotation(dir);
-    }
-
-    public override void Move(Vector3 dir)
+    protected override void Move(Vector3 dir)
     {
         isMove = (dir != Vector3.zero);
         animator.SetBool("IsMove", isMove);
@@ -68,7 +61,7 @@ public class PlayerScript : CharacterBase
         transform.Translate(dir * moveSpeed * Time.deltaTime, Space.World);
     }
 
-    public Skill UseSkill()
+    protected Skill UseSkill()
     {
         if (isUseSkill)
             return currentSkill;
@@ -82,7 +75,7 @@ public class PlayerScript : CharacterBase
                     isUseSkill = true;
                     animator.SetTrigger(skill.animation);
                     skill.nextTime = Time.time + skill.coolDown;
-                    usedSkillTime = Time.time + 0.7f;
+                    spawnSkillTime = Time.time + 0.7f;
                     nextAttackTime = Time.time + 0.3f;
                     return skill;
                 }

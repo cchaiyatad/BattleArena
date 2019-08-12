@@ -9,11 +9,17 @@ public abstract class CharacterBase : MonoBehaviour
 
     public GameObject hitArea;
 
-    protected bool isAttack;
-    protected bool isUseSkill;
-    protected bool isSpawnAttack;
-    protected float usedSkillTime;
+    private float hitDirection;
+    private Vector3 hitLocation;
     protected Skill currentSkill;
+
+    protected bool isAttack;
+    protected float spawnAttackTime;
+
+    protected bool isUseSkill;
+    protected float spawnSkillTime;
+
+    protected bool isSpawnAttack;
 
     [HideInInspector]
     public List<Skill> skills = new List<Skill> { };
@@ -34,12 +40,7 @@ public abstract class CharacterBase : MonoBehaviour
     [HideInInspector]
     public string lastAttacker;
 
-    private float hitDirection;
-    private Vector3 hitLocation;
-
-    public abstract void Move(Vector3 dir);
-
-    public float spawnAttackTime;
+    protected abstract void Move(Vector3 dir);
 
     private void OnTriggerEnter(Collider other)
     {
@@ -57,7 +58,7 @@ public abstract class CharacterBase : MonoBehaviour
         }
     }
 
-    public void Attack()
+    protected void Attack()
     {
         nextAttackTime = Time.time + attackDelay;
         animator.SetTrigger("IsAttack");
@@ -72,14 +73,14 @@ public abstract class CharacterBase : MonoBehaviour
         }
     }
 
-    public void Dead()
+    protected void Dead()
     {
         hp = 0;
         isDead = true;
         animator.SetTrigger("IsDeath");
     }
 
-    public virtual void Damaged(int damage)
+    protected virtual void Damaged(int damage)
     {
         animator.StopPlayback();
         animator.SetTrigger("IsDameged");
@@ -90,16 +91,16 @@ public abstract class CharacterBase : MonoBehaviour
         hp -= damage;
     }
 
-    public virtual void CharacterBehavior()
+    protected virtual void CharacterBehavior()
     {
         if (hp <= 0 && !isDead)
             Dead();
 
         SpawnAttack(ref isAttack, ref isSpawnAttack, spawnAttackTime, new Skill());
-        SpawnAttack(ref isUseSkill, ref isSpawnAttack, usedSkillTime, currentSkill);
+        SpawnAttack(ref isUseSkill, ref isSpawnAttack, spawnSkillTime, currentSkill);
     }
 
-    public virtual void SpawnAttack(ref bool check, ref bool spawnAttack, float spawnTime, Skill skill)
+    protected virtual void SpawnAttack(ref bool check, ref bool spawnAttack, float spawnTime, Skill skill)
     {
         if (check && !spawnAttack && Time.time > spawnTime)
         {
@@ -113,7 +114,7 @@ public abstract class CharacterBase : MonoBehaviour
             hitLocation.z += Mathf.Cos(Mathf.Deg2Rad * hitDirection);
             hitArea.gameObject.GetComponent<BoxCollider>().size = new Vector3(skill.size, 0.5f, skill.size);
             hitArea.transform.localScale = new Vector3(skill.size, 0.5f, skill.size);
-            GameObject hit = Instantiate(hitArea, hitLocation, Quaternion.identity);
+            GameObject hit = Instantiate(hitArea, hitLocation, Quaternion.Euler(0, hitDirection, 0));
             if (skill.moving)
             {
                 hit.GetComponent<Rigidbody>().velocity = transform.forward * 8f;
@@ -137,5 +138,10 @@ public abstract class CharacterBase : MonoBehaviour
         return nextMoveAfterWasHittedTime > Time.time || isAttack || isUseSkill;
     }
 
-
+    protected void AttackRotate(Vector3 dir)
+    {
+        if (dir == Vector3.zero)
+            return;
+        transform.rotation = Quaternion.LookRotation(dir);
+    }
 }

@@ -2,13 +2,13 @@
 
 public class ArenaEnemyScript : EnemyScript
 {
-    public override void CharacterBehavior()
+    protected override void CharacterBehavior()
     {
         currentSkill = SkillAI();
         base.CharacterBehavior();
     }
 
-    public Skill SkillAI()
+    protected Skill SkillAI()
     {
         if (isUseSkill)
             return currentSkill;
@@ -45,11 +45,11 @@ public class ArenaEnemyScript : EnemyScript
         return new Skill();
     }
 
-    private void UseSkill(Skill skill)
+    protected void UseSkill(Skill skill)
     {
         isUseSkill = true;
         animator.SetTrigger(skill.animation);
         skill.nextTime = Time.time + skill.coolDown;
-        usedSkillTime = Time.time + 0.7f;
+        spawnSkillTime = Time.time + 0.7f;
     }
 }
