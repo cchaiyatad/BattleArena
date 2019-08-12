@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class CharacterBase : MonoBehaviour
 {
@@ -10,8 +8,14 @@ public abstract class CharacterBase : MonoBehaviour
     public float attackDelay = 3f;
 
     public GameObject hitArea;
-    protected bool isSpawnAttack;
 
+    protected bool isAttack;
+    protected bool isUseSkill;
+    protected bool isSpawnAttack;
+    protected float usedSkillTime;
+    protected Skill currentSkill;
+
+    [HideInInspector]
     public List<Skill> skills = new List<Skill> { };
     [HideInInspector]
     public string playerName;
@@ -20,13 +24,13 @@ public abstract class CharacterBase : MonoBehaviour
     [HideInInspector]
     public Animator animator;
     [HideInInspector]
-    public bool attackState;
-    [HideInInspector]
     public float nextAttackTime;
     [HideInInspector]
     public bool isMove;
     [HideInInspector]
     public bool isDead;
+    [HideInInspector]
+    public float nextMoveAfterWasHittedTime;
     [HideInInspector]
     public string lastAttacker;
 
@@ -40,16 +44,14 @@ public abstract class CharacterBase : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Obstacle"))
-        {
             return;
-        }
+
         HitAreaScript hitpointScript = other.GetComponent<HitAreaScript>();
         if (hitpointScript.attacker != playerName && !isDead)
         {
             if (hitpointScript.attacker == "")
-            {
                 return;
-            }
+
             lastAttacker = hitpointScript.attacker;
             Damaged(hitpointScript.damage);
         }
@@ -59,14 +61,13 @@ public abstract class CharacterBase : MonoBehaviour
     {
         nextAttackTime = Time.time + attackDelay;
         animator.SetTrigger("IsAttack");
-        attackState = true;
+        isAttack = true;
         spawnAttackTime = Time.time + 0.55f;
         foreach (Skill skill in skills)
         {
             if (skill.nextTime < Time.time)
-            {
                 skill.nextTime = Time.time;
-            }
+
             skill.nextTime += 0.3f;
         }
     }
@@ -76,13 +77,15 @@ public abstract class CharacterBase : MonoBehaviour
         hp = 0;
         isDead = true;
         animator.SetTrigger("IsDeath");
-
     }
 
     public virtual void Damaged(int damage)
     {
         animator.StopPlayback();
         animator.SetTrigger("IsDameged");
+        isAttack = false;
+        isUseSkill = false;
+        nextMoveAfterWasHittedTime = Time.time + 0.8f;
 
         hp -= damage;
     }
@@ -92,8 +95,8 @@ public abstract class CharacterBase : MonoBehaviour
         if (hp <= 0 && !isDead)
             Dead();
 
-        SpawnAttack(ref attackState,ref isSpawnAttack, spawnAttackTime, new Skill());
-
+        SpawnAttack(ref isAttack, ref isSpawnAttack, spawnAttackTime, new Skill());
+        SpawnAttack(ref isUseSkill, ref isSpawnAttack, usedSkillTime, currentSkill);
     }
 
     public virtual void SpawnAttack(ref bool check, ref bool spawnAttack, float spawnTime, Skill skill)
@@ -118,14 +121,21 @@ public abstract class CharacterBase : MonoBehaviour
                 hit.GetComponent<MeshRenderer>().enabled = true;
             }
             spawnAttack = true;
-            
+
         }
 
-        if(check && Time.time > spawnTime + 0.1f)
+        if (check && Time.time > spawnTime + 0.3f)
         {
             check = false;
             spawnAttack = false;
         }
 
     }
+
+    protected bool CheckCannotMove()
+    {
+        return nextMoveAfterWasHittedTime > Time.time || isAttack || isUseSkill;
+    }
+
+
 }

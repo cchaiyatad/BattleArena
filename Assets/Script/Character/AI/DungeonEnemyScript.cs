@@ -38,7 +38,7 @@ public class DungeonEnemyScript : EnemyScript
             transform.position = gameControllerScript.corners[Random.Range(0, gameControllerScript.corners.Count)];
         }
 
-        SpawnAttack(ref attackState, ref isSpawnAttack, spawnAttackTime, new Skill());
+        SpawnAttack(ref isAttack, ref isSpawnAttack, spawnAttackTime, new Skill());
 
     }
 }

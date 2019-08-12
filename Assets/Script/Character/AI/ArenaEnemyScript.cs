@@ -2,29 +2,22 @@
 
 public class ArenaEnemyScript : EnemyScript
 {
-
-    private Skill currentSkill;
-    private float usedSkillTime;
-
     public override void CharacterBehavior()
     {
         currentSkill = SkillAI();
-        SpawnAttack(ref isUseSkill,ref isSpawnAttack, usedSkillTime, currentSkill);
         base.CharacterBehavior();
     }
 
     public Skill SkillAI()
     {
         if (isUseSkill)
-        {
             return currentSkill;
-        }
+
         foreach (Skill skill in skills)
         {
             if (skill.nextTime > Time.time)
-            {
                 continue;
-            }
+
             float range = -1;
             switch (skill.id)
             {
@@ -43,9 +36,8 @@ public class ArenaEnemyScript : EnemyScript
             if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, range))
             {
                 if (hit.transform.CompareTag("Player"))
-                {
                     UseSkill(skill);
-                }
+
                 return skill;
             }
         }

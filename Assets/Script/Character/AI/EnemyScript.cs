@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyScript : CharacterBase
 {
     public GameObject target;
-    public bool isUseSkill;
     private Vector3 targetPath;
 
     private Vector3 path;
@@ -19,15 +18,13 @@ public class EnemyScript : CharacterBase
         for (int i = -1; i < 2; i += 2)
         {
             for (int j = -1; j < 2; j += 2)
-            {
                 corners.Add(new Vector3(size.x / 2 * i, 0f, size.z / 2 * j));
-            }
+
         }
 
         animator = GetComponent<Animator>();
         animator.SetFloat("MoveSpeed", moveSpeed);
         hitAreaScript = hitArea.GetComponent<HitAreaScript>();
-
     }
 
     void Update()
@@ -38,9 +35,8 @@ public class EnemyScript : CharacterBase
     void FixedUpdate()
     {
         if (isDead)
-        {
             return;
-        }
+
 
         if (Time.time < nextAttackTime)
         {
@@ -67,10 +63,9 @@ public class EnemyScript : CharacterBase
 
         float distanceToTarget = (target.gameObject.transform.position - transform.position).magnitude;
 
-        if (attackState || isUseSkill)
-        {
+        if (CheckCannotMove())
             return;
-        }
+
 
         if (distanceToTarget <= 0.75)
         {
@@ -80,7 +75,7 @@ public class EnemyScript : CharacterBase
                 Attack();
                 return;
             }
-            
+
         }
 
         animator.SetBool("IsMove", true);
@@ -106,11 +101,8 @@ public class EnemyScript : CharacterBase
 
         int randomIndex = index;
         while (randomIndex == index)
-        {
             randomIndex = Random.Range(0, corners.Count);
-        }
-        
+
         return corners[randomIndex];
     }
-
 }
