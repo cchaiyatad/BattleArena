@@ -17,8 +17,6 @@ public abstract class GameController : MonoBehaviour
 
 	protected virtual void UpdateSkillAndHPMenu()
     {
-        float timeCooldown;
-        float timeCalculated;
 
         for (int i = 0; i < character.Count; i++)
         {
@@ -29,22 +27,10 @@ public abstract class GameController : MonoBehaviour
         foreach (Skill skill in character[0].skills)
         {
             Text skillText = skillMenu.transform.GetChild(skill.id - 1).gameObject.GetComponent<Text>();
-            Image temp = skillText.transform.GetChild(0).transform.GetChild(0).GetComponent<Image>();
             
             if (skill.nextTime > Time.time)
             {
                 skillText.text = skill.key + " - Cool Down";
-
-                timeCooldown = skill.nextTime - Time.time;
-                timeCalculated = timeCooldown / skill.coolDown;                
-                if (timeCooldown <= 0)
-                {
-                    skill.coolDown = skill.coolDown;
-                }
-                else
-                {
-                    temp.fillAmount = timeCalculated;
-                }
             }
             else
             {

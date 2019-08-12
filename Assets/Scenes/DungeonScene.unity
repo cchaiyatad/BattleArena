@@ -1280,7 +1280,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2013945143}
-        m_MethodName: OnBackButtonClick
+        m_MethodName: BackButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9180,6 +9180,7 @@ MonoBehaviour:
   pauseText: {fileID: 425782469}
   character:
   - {fileID: 1025622259}
+  isFinish: 0
   CountUI: {fileID: 2031954089}
   enemyPrefab: {fileID: 149566787749568569, guid: 8b58bb42df92046749f7e8ddb61876d4,
     type: 3}
@@ -9264,7 +9265,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2013945141}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d8c1e854b86e4b0db977edc59cfcf6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a017ef11197d4c52baf72ac6565ce70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2031954087
