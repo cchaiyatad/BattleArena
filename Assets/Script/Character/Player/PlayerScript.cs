@@ -48,7 +48,7 @@ public class PlayerScript : CharacterBase
     }
     public override void CharacterBehavior()
     {
-        SpawnAttack(ref isUseSkill, usedSkillTime, currentSkill);
+        SpawnAttack(ref isUseSkill, ref isSpawnAttack,usedSkillTime, currentSkill);
         base.CharacterBehavior();
         
     }

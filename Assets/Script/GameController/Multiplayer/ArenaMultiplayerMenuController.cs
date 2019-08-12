@@ -89,6 +89,20 @@ public class ArenaMultiplayerMenuController : MonoBehaviourPunCallbacks
 
     }
 
+    private void UpdateStatusText()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            roomStatusText.text = "You are host, waiting for player (" +
+                PhotonNetwork.CurrentRoom.PlayerCount + "/2)";
+        }
+        else
+        {
+            roomStatusText.text = "Waiting for player/host (" +
+                PhotonNetwork.CurrentRoom.PlayerCount + "/2)";
+        }
+    }
+
     public override void OnConnected()
     {
         base.OnConnected();
@@ -102,16 +116,7 @@ public class ArenaMultiplayerMenuController : MonoBehaviourPunCallbacks
         roomStatusText.gameObject.SetActive(true);
         SetInteractable(false, false, PhotonNetwork.IsMasterClient, true);
         randomOrLeaveButton.GetComponentInChildren<Text>().text = "Leave";
-        if (PhotonNetwork.IsMasterClient)
-        {
-            roomStatusText.text = "You are host, waiting for player (" +
-                PhotonNetwork.CurrentRoom.PlayerCount + "/2)";
-        }
-        else
-        {
-            roomStatusText.text = "Waiting for player/host (" +
-                PhotonNetwork.CurrentRoom.PlayerCount + "/2)";
-        }
+        UpdateStatusText();
     }
 
     public void OnRandomButtonClick()
@@ -175,5 +180,12 @@ public class ArenaMultiplayerMenuController : MonoBehaviourPunCallbacks
         randomOrLeaveButton.GetComponentInChildren<Text>().text = "Random";
     }
 
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+        UpdateStatusText();
+    }
+
+    
 
 }

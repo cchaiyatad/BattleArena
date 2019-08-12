@@ -72,12 +72,6 @@ public class EnemyScript : CharacterBase
             return;
         }
 
-        //if (distanceToTarget <= 0.6)
-        //{
-        //    print("0.6");
-        //    dir *= -1;
-        //}
-
         if (distanceToTarget <= 0.75)
         {
             animator.SetBool("IsMove", false);

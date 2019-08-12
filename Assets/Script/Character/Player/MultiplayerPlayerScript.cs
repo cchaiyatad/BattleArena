@@ -107,21 +107,24 @@ public class MultiplayerPlayerScript : PlayerScript
         AttackRotate(direction);
     }
 
-    public override void SpawnAttack(ref bool check, float spawnTime, Skill skill)
+    public override void SpawnAttack(ref bool check, ref bool spawnAttack, float spawnTime, Skill skill)
     {
-        
-        if (check && Time.time > spawnTime)
+        if (check && !spawnAttack && Time.time > spawnTime)
         {
-            if (skill.id < 4)
-            {
-                SetValueByKey(playerName, SKILLIDKEY, skill.id);
-                SetValueByKey(playerName, ATTACKPOSTIONXKEY, transform.position.x);
-                SetValueByKey(playerName, ATTACKPOSTIONZKEY, transform.position.z);
-                SetValueByKey(playerName, ATTACKDIRECTIONKEY, transform.rotation.eulerAngles.y);
-                photonView.RPC("SendAttack", RpcTarget.All, playerName);
-            }
-            check = false;
+            SetValueByKey(playerName, SKILLIDKEY, skill.id);
+            SetValueByKey(playerName, ATTACKPOSTIONXKEY, transform.position.x);
+            SetValueByKey(playerName, ATTACKPOSTIONZKEY, transform.position.z);
+            SetValueByKey(playerName, ATTACKDIRECTIONKEY, transform.rotation.eulerAngles.y);
+            photonView.RPC("SendAttack", RpcTarget.All, playerName);
+            spawnAttack = true;
+
         }
+        if (check && Time.time > spawnTime + 0.1f)
+        {
+            check = false;
+            spawnAttack = false;
+        }
+
     }
 
     private void SetOtherCount(string otherPlayerName, string key)

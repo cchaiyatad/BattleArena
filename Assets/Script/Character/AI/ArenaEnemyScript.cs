@@ -9,7 +9,7 @@ public class ArenaEnemyScript : EnemyScript
     public override void CharacterBehavior()
     {
         currentSkill = SkillAI();
-        SpawnAttack(ref isUseSkill, usedSkillTime, currentSkill);
+        SpawnAttack(ref isUseSkill,ref isSpawnAttack, usedSkillTime, currentSkill);
         base.CharacterBehavior();
     }
 

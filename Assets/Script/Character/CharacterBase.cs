@@ -10,9 +10,10 @@ public abstract class CharacterBase : MonoBehaviour
     public float attackDelay = 3f;
 
     public GameObject hitArea;
+    protected bool isSpawnAttack;
 
     public List<Skill> skills = new List<Skill> { };
-    //[HideInInspector]
+    [HideInInspector]
     public string playerName;
     [HideInInspector]
     public HitAreaScript hitAreaScript;
@@ -49,7 +50,6 @@ public abstract class CharacterBase : MonoBehaviour
             {
                 return;
             }
-            print(hitpointScript.attacker + " " + playerName);
             lastAttacker = hitpointScript.attacker;
             Damaged(hitpointScript.damage);
         }
@@ -92,13 +92,13 @@ public abstract class CharacterBase : MonoBehaviour
         if (hp <= 0 && !isDead)
             Dead();
 
-        SpawnAttack(ref attackState, spawnAttackTime, new Skill());
+        SpawnAttack(ref attackState,ref isSpawnAttack, spawnAttackTime, new Skill());
 
     }
 
-    public virtual void SpawnAttack(ref bool check, float spawnTime, Skill skill)
+    public virtual void SpawnAttack(ref bool check, ref bool spawnAttack, float spawnTime, Skill skill)
     {
-        if (check && Time.time > spawnTime)
+        if (check && !spawnAttack && Time.time > spawnTime)
         {
             hitAreaScript.attacker = playerName;
             hitAreaScript.damage = skill.damage;
@@ -117,7 +117,14 @@ public abstract class CharacterBase : MonoBehaviour
                 hit.GetComponent<HitAreaScript>().isMoving = true;
                 hit.GetComponent<MeshRenderer>().enabled = true;
             }
+            spawnAttack = true;
+            
+        }
+
+        if(check && Time.time > spawnTime + 0.1f)
+        {
             check = false;
+            spawnAttack = false;
         }
 
     }
