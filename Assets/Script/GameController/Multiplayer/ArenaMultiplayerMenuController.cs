@@ -19,10 +19,8 @@ public class ArenaMultiplayerMenuController : MonoBehaviourPunCallbacks
 
     public void ConnectToPhoton()
     {
-        print("connect");
         if (PhotonNetwork.IsConnected)
         {
-            print("isconnect");
             connectStatusText.text = "Connected";
             SetInteractable(true, true, true, true);
             return;
@@ -136,7 +134,6 @@ public class ArenaMultiplayerMenuController : MonoBehaviourPunCallbacks
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        print("join fail");
         CreateRandomRoom();
     }
 
@@ -150,15 +147,11 @@ public class ArenaMultiplayerMenuController : MonoBehaviourPunCallbacks
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
-        print("create Fail");
         if (roomInputField.text == "")
-        {
             CreateRandomRoom();
-        }
         else
-        {
             roomStatusText.text = "Room name is used";
-        }
+
     }
 
     private void CreateRandomRoom()
@@ -186,6 +179,6 @@ public class ArenaMultiplayerMenuController : MonoBehaviourPunCallbacks
         UpdateStatusText();
     }
 
-    
+
 
 }
