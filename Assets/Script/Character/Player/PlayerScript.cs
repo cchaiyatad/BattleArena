@@ -24,7 +24,6 @@ public class PlayerScript : CharacterBase
         {
             if (Input.GetKeyDown(KeyCode.Space))
                 Attack();
-
         }
         currentSkill = UseSkill();
         CharacterBehavior();
