@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using Photon.Pun;
 
 public abstract class GameController : MonoBehaviour
 {
@@ -13,12 +11,15 @@ public abstract class GameController : MonoBehaviour
     public List<CharacterBase> character;
 
     protected bool isPause;
-    protected bool isFinish;
+    public bool isFinish;
 
-    protected abstract void CheckFinish();
+	protected abstract void CheckFinish();
 
-    protected virtual void UpdateSkillAndHPMenu()
+	protected virtual void UpdateSkillAndHPMenu()
     {
+        float timeCooldown;
+        float timeCalculated;
+
         for (int i = 0; i < character.Count; i++)
         {
             Text hptext = HPUI.transform.GetChild(i).GetComponent<Text>();
@@ -28,9 +29,22 @@ public abstract class GameController : MonoBehaviour
         foreach (Skill skill in character[0].skills)
         {
             Text skillText = skillMenu.transform.GetChild(skill.id - 1).gameObject.GetComponent<Text>();
+            Image temp = skillText.transform.GetChild(0).transform.GetChild(0).GetComponent<Image>();
+            
             if (skill.nextTime > Time.time)
             {
                 skillText.text = skill.key + " - Cool Down";
+
+                timeCooldown = skill.nextTime - Time.time;
+                timeCalculated = timeCooldown / skill.coolDown;                
+                if (timeCooldown <= 0)
+                {
+                    skill.coolDown = skill.coolDown;
+                }
+                else
+                {
+                    temp.fillAmount = timeCalculated;
+                }
             }
             else
             {
@@ -39,7 +53,7 @@ public abstract class GameController : MonoBehaviour
         }
     }
 
-    protected void Pause()
+    protected virtual void Pause()
     {
         if (isPause && !isFinish)
             Time.timeScale = 0f;
