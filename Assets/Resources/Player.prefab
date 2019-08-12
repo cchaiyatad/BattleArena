@@ -2635,13 +2635,11 @@ MonoBehaviour:
   playerName: 
   hitAreaScript: {fileID: 0}
   animator: {fileID: 0}
-  attackState: 0
   nextAttackTime: 0
   isMove: 0
   isDead: 0
+  nextMoveAfterWasHittedTime: 0
   lastAttacker: 
-  spawnAttackTime: 0
-  isUseSkill: 0
   arenaMultiplayerGameController: {fileID: 0}
 --- !u!114 &4812339615840788751
 MonoBehaviour:

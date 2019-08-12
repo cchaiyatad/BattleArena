@@ -32,7 +32,6 @@ public class ArenaEnemyScript : EnemyScript
                     break;
             }
 
-
             if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, range))
             {
                 if (hit.transform.CompareTag("Player"))

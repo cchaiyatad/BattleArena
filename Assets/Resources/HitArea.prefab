@@ -58,11 +58,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2781244096506417837}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ba74b52d1d4444cd9b21a3c7da1c1f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c29f16625d4a4aa7bc38c22f3e1c6aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   attacker: 
-  time: 0.2
+  time: 0.1
   damage: 1
   isMoving: 0
 --- !u!23 &5205996767466074701
@@ -72,7 +72,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2781244096506417837}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

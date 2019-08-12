@@ -15,18 +15,16 @@ public class PlayerScript : CharacterBase
     void Update()
     {
         if (isDead)
-        {
             return;
-        }
+
         direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         CheckObstacle();
 
         if (Time.time > nextAttackTime)
         {
             if (Input.GetKeyDown(KeyCode.Space))
-            {
                 Attack();
-            }
+
         }
         currentSkill = UseSkill();
         CharacterBehavior();
@@ -55,9 +53,9 @@ public class PlayerScript : CharacterBase
         isMove = (dir != Vector3.zero);
         animator.SetBool("IsMove", isMove);
 
-        if (dir == Vector3.zero || CheckCannotMove() || isHitObstacle )
+        if (dir == Vector3.zero || CheckCannotMove() || isHitObstacle)
             return;
-        
+
         transform.Translate(dir * moveSpeed * Time.deltaTime, Space.World);
     }
 
@@ -65,7 +63,7 @@ public class PlayerScript : CharacterBase
     {
         if (isUseSkill)
             return currentSkill;
-        
+
         foreach (Skill skill in skills)
         {
             if (Input.GetKeyDown(skill.key))

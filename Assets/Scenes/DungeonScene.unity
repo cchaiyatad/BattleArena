@@ -5006,20 +5006,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a8e0c12b89954c41b9d281c1545da46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 3
+  hp: 5
   moveSpeed: 3
   attackDelay: 3
   hitArea: {fileID: 7757521122207146529, guid: 815c9f5c3aac448159618f4144ccb32d, type: 3}
   playerName: 
   hitAreaScript: {fileID: 0}
   animator: {fileID: 0}
-  attackState: 0
   nextAttackTime: 0
   isMove: 0
   isDead: 0
+  nextMoveAfterWasHittedTime: 0
   lastAttacker: 
-  spawnAttackTime: 0
-  isUseSkill: 0
 --- !u!136 &1025622260
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7505,7 +7503,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Player HP: 3
+  m_Text: 'Player HP: 5
 
 '
 --- !u!222 &1571426631
