@@ -60,9 +60,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c29f16625d4a4aa7bc38c22f3e1c6aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attacker: Enemy
+  attacker: Player
   time: 0.2
-  damage: 1
+  damage: 2
   isMoving: 0
 --- !u!23 &-8858619074130722111
 MeshRenderer:
