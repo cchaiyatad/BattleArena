@@ -61,7 +61,6 @@ public class Node : IComparable<Node>
                 currentPosition.Item2);
     }
 
-    // ??
     public int CompareTo(Node other)
     {
         return Compare(this, other);

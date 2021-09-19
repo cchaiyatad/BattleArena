@@ -8,8 +8,6 @@ enum RayCastTarget
     Obstacle
 }
 
-
-
 public static class AStar
 {
     static List<Vector3> raycastDirectionList = new List<Vector3>(){
@@ -56,13 +54,20 @@ public static class AStar
         return true;
     }
 
-    // TODO: should not use isEscape flag; should we spilt this to two function (FindWayToPlayer\2, FindEscapeWay\2?)
+    // TODO-0: finish calculateSTH
+    // TODO-1: should not use isEscape flag; should we spilt this to two function (FindWayToPlayer\2, FindEscapeWay\2?)
+    // TODO-2: change from (float, float) to vector3 in Node
+    // TODO-3: FindDirection should not use list
+    // TODO-4: openList, closeList can be hashmap
+    // TODO-5: isFound?
+    // TODO-6: checkDistance
+    // TODO-7: Singleton
     public static Vector3 FindWay(Vector3 start, Vector3 destination, bool isEscape)
     {
         float checkDistance = 1;  // TODO: should we declare it here? What is this?
         bool isFound = false; // TODO:  Rename? isFoundPlayer? --> We might not need this field at all
         var openList = new List<Node> { }; // TODO:  Rename? Can we use hash and queue? 
-                                           // var map = new Dictionary<string, string>(); map.Add("cat", "orange");
+        // var map = new Dictionary<string, string>(); map.Add("cat", "orange");
         var closeList = new List<Node> { }; // TODO:  Rename? Can we use hash?
         Node currentNode;
         Node startNode = new Node((start.x, start.z))
@@ -90,7 +95,6 @@ public static class AStar
 
             var adjacentList = new List<Node> { };
 
-            bool isHitObstacle;
 
             // TODO:  what is 1/5 do here?
             checkDistance = currentNode.CalculateH() * 1 / 5;
@@ -106,14 +110,12 @@ public static class AStar
             {
                 Vector3 raycastDirection = rawRaycastDirection * checkDistance;
 
-                isHitObstacle = false;
                 var targetType = GetRayCastTarget(rayStartPoint, raycastDirection, checkDistance);
+
                 if (targetType == RayCastTarget.Obstacle)
                 {
-                    isHitObstacle = true;
                     continue;
                 }
-
                 else if (targetType == RayCastTarget.Player)
                 {
                     if (isEscape)
@@ -124,9 +126,7 @@ public static class AStar
                     isFound = true;
                     break;
                 }
-
-                // TODO: spilt function addToAdjacentList?
-                if (!isHitObstacle)
+                else
                 {
                     if (isEscape)
                     {
@@ -176,9 +176,9 @@ public static class AStar
         return FindDirection(destinationNode);
     }
 
-    // TODO: should rename FindFirstPath\1 ?
     public static Vector3 FindDirection(Node node)
     {
+
         var pathList = new List<(float, float)> { };
         while (node.parentNode != null)
         {
