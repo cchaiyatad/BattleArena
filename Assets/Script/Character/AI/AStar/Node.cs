@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public class Node : IComparable<Node>
 {
@@ -34,13 +35,11 @@ public class Node : IComparable<Node>
         return node.currentPosition == currentPosition;
     }
 
-    // GetP ?
     private float CalculateP()
     {
         return CalculateH() + G;
     }
 
-    // TODO: Should we rename to be CalculateH/0 ? 
     public float CalculateH()
     {
         return Math.Abs(DestinationPosition.Item1 - currentPosition.Item1) +
@@ -54,6 +53,12 @@ public class Node : IComparable<Node>
             return "postion = " + currentPosition;
         }
         return "postion = " + currentPosition + " Parent Postion = " + parentNode.currentPosition + " G = " + G + " H = " + CalculateH() + " P = " + CalculateP();
+    }
+    public Vector3 getCurrentPositionAsVector3()
+    {
+        return new Vector3(currentPosition.Item1,
+                0,
+                currentPosition.Item2);
     }
 
     // ??
