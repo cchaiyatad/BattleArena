@@ -30,7 +30,17 @@ public static class AStar
         }
         return RayCastTarget.Nothing;
     }
-
+    private static Node createNodeFromRaycast(Vector3 raycastDirection, Node currentNode, float distance)
+    {
+        return new Node((
+                    currentNode.currentPosition.Item1 + raycastDirection.x,
+                    currentNode.currentPosition.Item2 + raycastDirection.z)
+                    , currentNode)
+        {
+            G = currentNode.G + distance,
+            DestinationPosition = currentNode.DestinationPosition
+        };
+    }
     // TODO: should not use isEscape flag; should we spilt this to two function (FindWayToPlayer\2, FindEscapeWay\2?)
     public static Vector3 FindWay(Vector3 start, Vector3 destination, bool isEscape)
     {
@@ -46,7 +56,7 @@ public static class AStar
             DestinationPosition = (destination.x, destination.z)
         };
 
-        Node endNode = null;
+        Node destinationNode = null;
 
         openList.Add(startNode);
 
@@ -85,7 +95,9 @@ public static class AStar
                 zAxisRay = Mathf.Cos(Mathf.Deg2Rad * i) * checkDistance;
                 isHitObstacle = false;
 
-                var targetType = GetRayCastTarget(rayStartPoint, new Vector3(xAxisRay, 0, zAxisRay), checkDistance);
+                Vector3 raycastDirection = new Vector3(xAxisRay, 0, zAxisRay);
+
+                var targetType = GetRayCastTarget(rayStartPoint, raycastDirection, checkDistance);
                 if (targetType == RayCastTarget.Obstacle)
                 {
                     isHitObstacle = true;
@@ -98,15 +110,7 @@ public static class AStar
                     {
                         continue;
                     }
-                    // TODO: Duplicate code
-                    endNode = new Node((
-                    currentNode.currentPosition.Item1 + xAxisRay,
-                    currentNode.currentPosition.Item2 + zAxisRay)
-                    , currentNode)
-                    {
-                        G = currentNode.G + checkDistance,
-                        DestinationPosition = currentNode.DestinationPosition
-                    };
+                    destinationNode = createNodeFromRaycast(raycastDirection, currentNode, checkDistance);
                     isFound = true;
                     break;
                 }
@@ -123,29 +127,14 @@ public static class AStar
                         if ((currentX + xAxisRay - destination.x) * (destination.x - currentX) >= 0 &&
                             (currentZ + zAxisRay - destination.z) * (destination.z - currentZ) >= 0)
                         {
-                            // TODO: Duplicate code
-                            endNode = new Node((
-                            currentNode.currentPosition.Item1 + xAxisRay,
-                            currentNode.currentPosition.Item2 + zAxisRay)
-                            , currentNode)
-                            {
-                                G = currentNode.G + checkDistance,
-                                DestinationPosition = currentNode.DestinationPosition
-                            };
+                            destinationNode = createNodeFromRaycast(raycastDirection, currentNode, checkDistance);
                             isFound = true;
                             break;
                         }
                     }
 
-                    // TODO: ?
-                    adjacentList.Add(new Node((
-                        currentNode.currentPosition.Item1 + xAxisRay,
-                        currentNode.currentPosition.Item2 + zAxisRay)
-                        , currentNode)
-                    {
-                        G = currentNode.G + checkDistance,
-                        DestinationPosition = currentNode.DestinationPosition
-                    });
+                    var nextNode = createNodeFromRaycast(raycastDirection, currentNode, checkDistance);
+                    adjacentList.Add(nextNode);
                 }
             }
 
@@ -176,7 +165,7 @@ public static class AStar
 
         } while (openList.Count != 0); //BFS?
 
-        return FindPath(endNode);
+        return FindPath(destinationNode);
     }
     // public static Vector3 FindWay(Vector3 start, Vector3 destination, bool isEscape) 
     // {
@@ -191,7 +180,7 @@ public static class AStar
     //         DestinationPosition = (destination.x, destination.z)
     //     };
 
-    //     Node endNode = null;
+    //     Node destinationNode = null;
 
     //     openList.Add(startNode);
 
@@ -248,7 +237,7 @@ public static class AStar
     //                         continue;
     //                     }
     //                     // TODO: Duplicate code
-    //                     endNode = new Node((
+    //                     destinationNode = new Node((
     //                     currentNode.currentPosition.Item1 + xAxisRay,
     //                     currentNode.currentPosition.Item2 + zAxisRay)
     //                     , currentNode)
@@ -274,7 +263,7 @@ public static class AStar
     //                         (currentZ + zAxisRay - destination.z) * (destination.z - currentZ) >= 0)
     //                     {
     //                         // TODO: Duplicate code
-    //                         endNode = new Node((
+    //                         destinationNode = new Node((
     //                         currentNode.currentPosition.Item1 + xAxisRay,
     //                         currentNode.currentPosition.Item2 + zAxisRay)
     //                         , currentNode)
@@ -326,7 +315,7 @@ public static class AStar
 
     //     } while (openList.Count != 0); //BFS?
 
-    //     return FindPath(endNode);
+    //     return FindPath(destinationNode);
     // }
 
     // TODO: should rename FindFirstPath\1 ?
