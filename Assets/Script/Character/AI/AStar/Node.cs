@@ -2,7 +2,7 @@
 
 public class Node : IComparable<Node>
 {
-
+    // TODO: Can we use vector3? because y will always be the same
     public (float, float) currentPosition;
     public Node parentNode;
 
@@ -12,7 +12,6 @@ public class Node : IComparable<Node>
 
     public Node((float, float) currentPosition, Node parentNode = null)
     {
-
         this.currentPosition = currentPosition;
         this.parentNode = parentNode;
     }
@@ -35,15 +34,17 @@ public class Node : IComparable<Node>
         return node.currentPosition == currentPosition;
     }
 
+    // GetP ?
     private float CalculateP()
     {
-        return CalculateH(DestinationPosition) + G;
+        return CalculateH() + G;
     }
 
-    public float CalculateH((float, float) destination)
+    // TODO: Should we rename to be CalculateH/0 ? 
+    public float CalculateH()
     {
-        return Math.Abs(destination.Item1 - currentPosition.Item1) +
-            Math.Abs(destination.Item2 - currentPosition.Item2);
+        return Math.Abs(DestinationPosition.Item1 - currentPosition.Item1) +
+            Math.Abs(DestinationPosition.Item2 - currentPosition.Item2);
     }
 
     public override string ToString()
@@ -52,9 +53,10 @@ public class Node : IComparable<Node>
         {
             return "postion = " + currentPosition;
         }
-        return "postion = " + currentPosition + " Parent Postion = " + parentNode.currentPosition + " G = " + G + " H = " + CalculateH(DestinationPosition) + " P = " + CalculateP();
+        return "postion = " + currentPosition + " Parent Postion = " + parentNode.currentPosition + " G = " + G + " H = " + CalculateH() + " P = " + CalculateP();
     }
 
+    // ??
     public int CompareTo(Node other)
     {
         return Compare(this, other);
