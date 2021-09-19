@@ -1,14 +1,43 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+enum RayCastTarget
+{
+    Nothing,
+    Player,
+    Obstacle
+}
+
+
+
+
 public static class AStar
 {
+
+    private static RayCastTarget GetRayCastTarget(Vector3 rayStartPoint, Vector3 direction, float distance)
+    {
+        if (Physics.Raycast(rayStartPoint, direction, out RaycastHit hitTarget, distance))
+        {
+            if (hitTarget.transform.CompareTag("Player"))
+            {
+                return RayCastTarget.Player;
+            }
+            if (hitTarget.transform.CompareTag("Obstacle"))
+            {
+                return RayCastTarget.Obstacle;
+            }
+
+        }
+        return RayCastTarget.Nothing;
+    }
+
     // TODO: should not use isEscape flag; should we spilt this to two function (FindWayToPlayer\2, FindEscapeWay\2?)
     public static Vector3 FindWay(Vector3 start, Vector3 destination, bool isEscape)
     {
         float checkDistance = 1;  // TODO: should we declare it here? What is this?
         bool isFound = false; // TODO:  Rename? isFoundPlayer? --> We might not need this field at all
-        var openList = new List<Node> { }; // TODO:  Rename? Can we use hash and queue?
+        var openList = new List<Node> { }; // TODO:  Rename? Can we use hash and queue? 
+        // var map = new Dictionary<string, string>(); map.Add("cat", "orange");
         var closeList = new List<Node> { }; // TODO:  Rename? Can we use hash?
         Node currentNode;
         Node startNode = new Node((start.x, start.z))
@@ -56,37 +85,32 @@ public static class AStar
                 zAxisRay = Mathf.Cos(Mathf.Deg2Rad * i) * checkDistance;
                 isHitObstacle = false;
 
-                // TODO: make function? return isHitObstacle, isHitPlayer instead?
-                if (Physics.Raycast(rayStartPoint, new Vector3(xAxisRay, 0, zAxisRay), out RaycastHit hitTarget, checkDistance))
+                var targetType = GetRayCastTarget(rayStartPoint, new Vector3(xAxisRay, 0, zAxisRay), checkDistance);
+                if (targetType == RayCastTarget.Obstacle)
                 {
-                    // TODO: refactor? check tag function
-                    if (hitTarget.transform.CompareTag("Obstacle"))
+                    isHitObstacle = true;
+                    continue;
+                }
+
+                else if (targetType == RayCastTarget.Player)
+                {
+                    if (isEscape)
                     {
-                        isHitObstacle = true;
                         continue;
                     }
-
-                    // TODO: refactor? check tag function
-                    if (hitTarget.transform.CompareTag("Player"))
+                    // TODO: Duplicate code
+                    endNode = new Node((
+                    currentNode.currentPosition.Item1 + xAxisRay,
+                    currentNode.currentPosition.Item2 + zAxisRay)
+                    , currentNode)
                     {
-                        if (isEscape)
-                        {
-                            continue;
-                        }
-                        // TODO: Duplicate code
-                        endNode = new Node((
-                        currentNode.currentPosition.Item1 + xAxisRay,
-                        currentNode.currentPosition.Item2 + zAxisRay)
-                        , currentNode)
-                        {
-                            G = currentNode.G + checkDistance,
-                            DestinationPosition = currentNode.DestinationPosition
-                        };
-                        isFound = true;
-                        break;
-                    }
-
+                        G = currentNode.G + checkDistance,
+                        DestinationPosition = currentNode.DestinationPosition
+                    };
+                    isFound = true;
+                    break;
                 }
+
 
                 // TODO: spilt function addToAdjacentList?
                 if (!isHitObstacle)
