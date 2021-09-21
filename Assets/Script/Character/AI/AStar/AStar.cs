@@ -160,9 +160,7 @@ public class AStar
 
     private bool isAtEscapePoint(Node currentNode, Vector3 raycastDirection, Vector3 destination)
     {
-        Vector3 NewH = currentNode.currentPosition + raycastDirection - destination;
-        Vector3 OldH = destination - currentNode.currentPosition;
-        return NewH.x * OldH.x >= 0 && NewH.z * OldH.z >= 0;
+        return (currentNode.currentPosition + raycastDirection - destination).sqrMagnitude >= 0.2;
     }
 
     private bool isNotInFringe(Node node, Dictionary<Node, bool> willVisitNode)
