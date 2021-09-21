@@ -3,15 +3,14 @@ using UnityEngine;
 
 public class Node : IComparable<Node>
 {
-    // TODO: Can we use vector3? because y will always be the same
-    public (float, float) currentPosition;
+    public Vector3 currentPosition;
     public Node parentNode;
 
-    public (float, float) DestinationPosition { get; set; }
+    public Vector3 DestinationPosition { get; set; }
     public float G { get; set; }
 
 
-    public Node((float, float) currentPosition, Node parentNode = null)
+    public Node(Vector3 currentPosition, Node parentNode = null)
     {
         this.currentPosition = currentPosition;
         this.parentNode = parentNode;
@@ -42,8 +41,8 @@ public class Node : IComparable<Node>
 
     public float CalculateH()
     {
-        return Math.Abs(DestinationPosition.Item1 - currentPosition.Item1) +
-            Math.Abs(DestinationPosition.Item2 - currentPosition.Item2);
+        return Math.Abs(DestinationPosition.x - currentPosition.x) +
+            Math.Abs(DestinationPosition.z - currentPosition.z);
     }
 
     public override string ToString()
@@ -54,12 +53,12 @@ public class Node : IComparable<Node>
         }
         return "postion = " + currentPosition + " Parent Postion = " + parentNode.currentPosition + " G = " + G + " H = " + CalculateH() + " P = " + CalculateP();
     }
-    public Vector3 getCurrentPositionAsVector3()
-    {
-        return new Vector3(currentPosition.Item1,
-                0,
-                currentPosition.Item2);
-    }
+    // public Vector3 getCurrentPositionAsVector3()
+    // {
+    //     return new Vector3(currentPosition.x,
+    //             0,
+    //             currentPosition.z);
+    // }
 
     public int CompareTo(Node other)
     {

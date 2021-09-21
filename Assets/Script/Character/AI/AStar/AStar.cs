@@ -9,11 +9,8 @@ enum RayCastTarget
 }
 // TODO-0: Rename calculateSTH
 
-// TODO-2: change from (float, float) to vector3 in Node
 
 // TODO-1: should not use isEscape flag; should we spilt this to two function (FindWayToPlayer\2, FindEscapeWay\2?)
-// TODO-3: FindDirection should not use list
-// TODO-4: openList, closeList can be hashmap
 // TODO-5: isFound?
 // TODO-6: checkDistance
 
@@ -63,10 +60,7 @@ public class AStar
     }
     private Node createNodeFromRaycast(Vector3 raycastDirection, Node currentNode, float distance)
     {
-        return new Node((
-                    currentNode.currentPosition.Item1 + raycastDirection.x,
-                    currentNode.currentPosition.Item2 + raycastDirection.z)
-                    , currentNode)
+        return new Node(currentNode.currentPosition + raycastDirection, currentNode)
         {
             G = currentNode.G + distance,
             DestinationPosition = currentNode.DestinationPosition
@@ -75,38 +69,54 @@ public class AStar
 
     private bool calculateSTH(Node currentNode, Vector3 raycastDirection, Vector3 destination)
     {
-        float currentX = currentNode.currentPosition.Item1;
-        float currentZ = currentNode.currentPosition.Item2;
+        float currentX = currentNode.currentPosition.x;
+        float currentZ = currentNode.currentPosition.z;
         return ((currentX + raycastDirection.x - destination.x) * (destination.x - currentX) >= 0 &&
                             (currentZ + raycastDirection.z - destination.z) * (destination.z - currentZ) >= 0);
     }
 
+    private bool isNotInFringe(Node node, Dictionary<Node, bool> willVisitNode)
+    {
+        return !willVisitNode.ContainsKey(node);
+    }
+
+    private bool isAlreadyVisited(Node node, Dictionary<Node, bool> visitedNode)
+    {
+        return visitedNode.ContainsKey(node);
+    }
+    private void AddToFringe(Node node, List<Node> fringe, Dictionary<Node, bool> willVisitNode)
+    {
+        fringe.Add(node);
+        willVisitNode.Add(node, true);
+    }
 
     public Vector3 FindWay(Vector3 start, Vector3 destination, bool isEscape)
     {
         float checkDistance = 1;  // TODO: should we declare it here? What is this?
         bool isFound = false; // TODO:  Rename? isFoundPlayer? --> We might not need this field at all
-        var openList = new List<Node> { }; // TODO:  Rename? Can we use hash and queue? 
-        // var map = new Dictionary<string, string>(); map.Add("cat", "orange");
-        var closeList = new List<Node> { }; // TODO:  Rename? Can we use hash?
+
+        var fringe = new List<Node> { };
+        var willVisitNode = new Dictionary<Node, bool>();
+        var visitedNode = new Dictionary<Node, bool>();
+
         Node currentNode;
-        Node startNode = new Node((start.x, start.z))
+        Node startNode = new Node(start)
         {
             G = 0,
-            DestinationPosition = (destination.x, destination.z)
+            DestinationPosition = destination
         };
 
         Node destinationNode = null;
 
-        openList.Add(startNode);
+        fringe.Add(startNode);
 
         do
         {
-            openList.Sort();
+            fringe.Sort();
 
-            currentNode = openList[0];
-            closeList.Add(currentNode);
-            openList.RemoveAt(0);
+            currentNode = fringe[0];
+            visitedNode.Add(currentNode, true);
+            fringe.RemoveAt(0);
 
             if (isFound)
             {
@@ -123,7 +133,7 @@ public class AStar
                 checkDistance = 1;
             }
 
-            Vector3 rayStartPoint = currentNode.getCurrentPositionAsVector3();
+            Vector3 rayStartPoint = currentNode.currentPosition;
 
 
             foreach (Vector3 rawRaycastDirection in raycastDirectionList)
@@ -166,43 +176,42 @@ public class AStar
 
             foreach (Node node in adjacentList)
             {
-                // bigO = n, hash?
-                if (closeList.Contains(node))
+                if (isAlreadyVisited(node, visitedNode))
                 {
                     continue;
                 }
-                // bigO = n, hash?
-                else if (!openList.Contains(node))
+                else if (isNotInFringe(node, willVisitNode))
                 {
-                    openList.Add(node);
+                    AddToFringe(node, fringe, willVisitNode);
                 }
-                else
+                else // not invisitedNode, inFringe
                 {
                     //TODO: make function
-                    if (openList.Find(j => j.Equals(node)).Compare(openList.Find(j => j.Equals(node)), node) == 1)
+                    if (fringe.Find(j => j.Equals(node)).Compare(fringe.Find(j => j.Equals(node)), node) == 1)
                     {
-                        openList.Remove(openList.Find(j => j.Equals(node)));
-                        openList.Add(node);
+                        fringe.Remove(fringe.Find(j => j.Equals(node)));
+                        AddToFringe(node, fringe, willVisitNode);
                     }
                 }
             }
 
-        } while (openList.Count != 0); //BFS?
+        } while (fringe.Count != 0);
+
+
+        if (destinationNode == null)
+        {
+            return start; // ??
+        }
 
         return FindDirection(destinationNode);
     }
 
     public Vector3 FindDirection(Node node)
     {
-
-        var pathList = new List<(float, float)> { };
-        while (node.parentNode != null)
+        while (node.parentNode.parentNode != null)
         {
-            pathList.Add(node.currentPosition);
             node = node.parentNode;
         }
-        // return new Vector3(node.currentPosition.Item1, 0, node.currentPosition.Item2);
-        pathList.Reverse();
-        return new Vector3(pathList[0].Item1, 0, pathList[0].Item2);
+        return node.currentPosition;
     }
 }
