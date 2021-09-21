@@ -125,13 +125,8 @@ public class AStar
 
             var adjacentList = new List<Node> { };
 
-
-            // TODO:  what is 1/5 do here?
             checkDistance = currentNode.CalculateH() * 1 / 5;
-            if (checkDistance < 1)
-            {
-                checkDistance = 1;
-            }
+            checkDistance = checkDistance < 1 ? 1 : checkDistance;
 
             Vector3 rayStartPoint = currentNode.currentPosition;
 
