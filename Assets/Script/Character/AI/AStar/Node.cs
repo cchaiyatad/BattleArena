@@ -53,13 +53,6 @@ public class Node : IComparable<Node>
         }
         return "postion = " + currentPosition + " Parent Postion = " + parentNode.currentPosition + " G = " + G + " H = " + CalculateH() + " P = " + CalculateP();
     }
-    // public Vector3 getCurrentPositionAsVector3()
-    // {
-    //     return new Vector3(currentPosition.x,
-    //             0,
-    //             currentPosition.z);
-    // }
-
     public int CompareTo(Node other)
     {
         return Compare(this, other);

@@ -8,8 +8,6 @@ enum RayCastTarget
     Obstacle
 }
 
-// TODO-1: should not use isEscape flag; should we spilt this to two function (FindWayToPlayer\2, FindEscapeWay\2?)
-
 public class AStar
 {
     private static AStar instance;
@@ -25,69 +23,6 @@ public class AStar
             instance = new AStar();
         }
         return instance;
-    }
-
-    private List<Vector3> raycastDirectionList = new List<Vector3>(){
-       new Vector3(Mathf.Sin(Mathf.Deg2Rad* 45), 0, Mathf.Cos(Mathf.Deg2Rad* 45)), //45
-       new Vector3(Mathf.Sin(Mathf.Deg2Rad* 90), 0, Mathf.Cos(Mathf.Deg2Rad* 90)), //90
-       new Vector3(Mathf.Sin(Mathf.Deg2Rad* 135), 0, Mathf.Cos(Mathf.Deg2Rad* 135)), //135
-       new Vector3(Mathf.Sin(Mathf.Deg2Rad* 180), 0, Mathf.Cos(Mathf.Deg2Rad* 180)), //180
-       new Vector3(Mathf.Sin(Mathf.Deg2Rad* 225), 0, Mathf.Cos(Mathf.Deg2Rad* 225)), //225
-       new Vector3(Mathf.Sin(Mathf.Deg2Rad* 270), 0, Mathf.Cos(Mathf.Deg2Rad* 270)), //270
-       new Vector3(Mathf.Sin(Mathf.Deg2Rad* 315), 0, Mathf.Cos(Mathf.Deg2Rad* 315)), //315
-       new Vector3(Mathf.Sin(Mathf.Deg2Rad* 360), 0, Mathf.Cos(Mathf.Deg2Rad* 360))  //360
-    };
-
-    private RayCastTarget GetRayCastTarget(Vector3 rayStartPoint, Vector3 direction, float distance)
-    {
-        if (Physics.Raycast(rayStartPoint, direction, out RaycastHit hitTarget, distance))
-        {
-            if (hitTarget.transform.CompareTag("Player"))
-            {
-                return RayCastTarget.Player;
-            }
-            if (hitTarget.transform.CompareTag("Obstacle"))
-            {
-                return RayCastTarget.Obstacle;
-            }
-
-        }
-        return RayCastTarget.Nothing;
-    }
-    private Node createNodeFromRaycast(Vector3 raycastDirection, Node currentNode, float distance)
-    {
-        return new Node(currentNode.currentPosition + raycastDirection, currentNode)
-        {
-            G = currentNode.G + distance,
-            DestinationPosition = currentNode.DestinationPosition
-        };
-    }
-
-    private bool isAtEscapePoint(Node currentNode, Vector3 raycastDirection, Vector3 destination)
-    {
-        Vector3 NewH = currentNode.currentPosition + raycastDirection - destination;
-        Vector3 OldH = destination - currentNode.currentPosition;
-        return NewH.x * OldH.x >= 0 && NewH.z * OldH.z >= 0;
-    }
-
-    private bool isNotInFringe(Node node, Dictionary<Node, bool> willVisitNode)
-    {
-        return !willVisitNode.ContainsKey(node);
-    }
-
-    private bool isAlreadyVisited(Node node, Dictionary<Node, bool> visitedNode)
-    {
-        return visitedNode.ContainsKey(node);
-    }
-    private void AddToFringe(Node node, List<Node> fringe, Dictionary<Node, bool> willVisitNode)
-    {
-        fringe.Add(node);
-        willVisitNode.Add(node, true);
-    }
-
-    private bool isFoundTarget(Node destinationNode)
-    {
-        return destinationNode != null;
     }
 
     public Vector3 FindWay(Vector3 start, Vector3 destination, bool isEscape)
@@ -179,15 +114,82 @@ public class AStar
         } while (fringe.Count != 0);
 
 
-        if (destinationNode == null)
+        if (isNotFoundTarget(destinationNode))
         {
-            return start; // ??
+            return start;
         }
 
         return FindDirection(destinationNode);
     }
 
-    public Vector3 FindDirection(Node node)
+    private List<Vector3> raycastDirectionList = new List<Vector3>(){
+       new Vector3(Mathf.Sin(Mathf.Deg2Rad* 45), 0, Mathf.Cos(Mathf.Deg2Rad* 45)), //45
+       new Vector3(Mathf.Sin(Mathf.Deg2Rad* 90), 0, Mathf.Cos(Mathf.Deg2Rad* 90)), //90
+       new Vector3(Mathf.Sin(Mathf.Deg2Rad* 135), 0, Mathf.Cos(Mathf.Deg2Rad* 135)), //135
+       new Vector3(Mathf.Sin(Mathf.Deg2Rad* 180), 0, Mathf.Cos(Mathf.Deg2Rad* 180)), //180
+       new Vector3(Mathf.Sin(Mathf.Deg2Rad* 225), 0, Mathf.Cos(Mathf.Deg2Rad* 225)), //225
+       new Vector3(Mathf.Sin(Mathf.Deg2Rad* 270), 0, Mathf.Cos(Mathf.Deg2Rad* 270)), //270
+       new Vector3(Mathf.Sin(Mathf.Deg2Rad* 315), 0, Mathf.Cos(Mathf.Deg2Rad* 315)), //315
+       new Vector3(Mathf.Sin(Mathf.Deg2Rad* 360), 0, Mathf.Cos(Mathf.Deg2Rad* 360))  //360
+    };
+
+    private RayCastTarget GetRayCastTarget(Vector3 rayStartPoint, Vector3 direction, float distance)
+    {
+        if (Physics.Raycast(rayStartPoint, direction, out RaycastHit hitTarget, distance))
+        {
+            if (hitTarget.transform.CompareTag("Player"))
+            {
+                return RayCastTarget.Player;
+            }
+            if (hitTarget.transform.CompareTag("Obstacle"))
+            {
+                return RayCastTarget.Obstacle;
+            }
+
+        }
+        return RayCastTarget.Nothing;
+    }
+    private Node createNodeFromRaycast(Vector3 raycastDirection, Node currentNode, float distance)
+    {
+        return new Node(currentNode.currentPosition + raycastDirection, currentNode)
+        {
+            G = currentNode.G + distance,
+            DestinationPosition = currentNode.DestinationPosition
+        };
+    }
+
+    private bool isAtEscapePoint(Node currentNode, Vector3 raycastDirection, Vector3 destination)
+    {
+        Vector3 NewH = currentNode.currentPosition + raycastDirection - destination;
+        Vector3 OldH = destination - currentNode.currentPosition;
+        return NewH.x * OldH.x >= 0 && NewH.z * OldH.z >= 0;
+    }
+
+    private bool isNotInFringe(Node node, Dictionary<Node, bool> willVisitNode)
+    {
+        return !willVisitNode.ContainsKey(node);
+    }
+
+    private bool isAlreadyVisited(Node node, Dictionary<Node, bool> visitedNode)
+    {
+        return visitedNode.ContainsKey(node);
+    }
+    private void AddToFringe(Node node, List<Node> fringe, Dictionary<Node, bool> willVisitNode)
+    {
+        fringe.Add(node);
+        willVisitNode.Add(node, true);
+    }
+
+    private bool isFoundTarget(Node destinationNode)
+    {
+        return destinationNode != null;
+    }
+    private bool isNotFoundTarget(Node destinationNode)
+    {
+        return destinationNode == null;
+    }
+
+    private Vector3 FindDirection(Node node)
     {
         while (node.parentNode.parentNode != null)
         {
