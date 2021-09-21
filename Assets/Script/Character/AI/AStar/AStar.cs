@@ -184,15 +184,6 @@ public class AStar
                 {
                     AddToFringe(node, fringe, willVisitNode);
                 }
-                else // not invisitedNode, inFringe
-                {
-                    //TODO: make function
-                    if (fringe.Find(j => j.Equals(node)).Compare(fringe.Find(j => j.Equals(node)), node) == 1)
-                    {
-                        fringe.Remove(fringe.Find(j => j.Equals(node)));
-                        AddToFringe(node, fringe, willVisitNode);
-                    }
-                }
             }
 
         } while (fringe.Count != 0);
