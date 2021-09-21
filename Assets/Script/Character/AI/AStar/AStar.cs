@@ -7,12 +7,8 @@ enum RayCastTarget
     Player,
     Obstacle
 }
-// TODO-0: Rename calculateSTH
-
 
 // TODO-1: should not use isEscape flag; should we spilt this to two function (FindWayToPlayer\2, FindEscapeWay\2?)
-// TODO-5: isFound?
-// TODO-6: checkDistance
 
 public class AStar
 {
@@ -67,12 +63,11 @@ public class AStar
         };
     }
 
-    private bool calculateSTH(Node currentNode, Vector3 raycastDirection, Vector3 destination)
+    private bool isAtEscapePoint(Node currentNode, Vector3 raycastDirection, Vector3 destination)
     {
-        float currentX = currentNode.currentPosition.x;
-        float currentZ = currentNode.currentPosition.z;
-        return ((currentX + raycastDirection.x - destination.x) * (destination.x - currentX) >= 0 &&
-                            (currentZ + raycastDirection.z - destination.z) * (destination.z - currentZ) >= 0);
+        Vector3 NewH = currentNode.currentPosition + raycastDirection - destination;
+        Vector3 OldH = destination - currentNode.currentPosition;
+        return NewH.x * OldH.x >= 0 && NewH.z * OldH.z >= 0;
     }
 
     private bool isNotInFringe(Node node, Dictionary<Node, bool> willVisitNode)
@@ -90,11 +85,13 @@ public class AStar
         willVisitNode.Add(node, true);
     }
 
+    private bool isFoundTarget(Node destinationNode)
+    {
+        return destinationNode != null;
+    }
+
     public Vector3 FindWay(Vector3 start, Vector3 destination, bool isEscape)
     {
-        float checkDistance = 1;  // TODO: should we declare it here? What is this?
-        bool isFound = false; // TODO:  Rename? isFoundPlayer? --> We might not need this field at all
-
         var fringe = new List<Node> { };
         var willVisitNode = new Dictionary<Node, bool>();
         var visitedNode = new Dictionary<Node, bool>();
@@ -118,14 +115,14 @@ public class AStar
             visitedNode.Add(currentNode, true);
             fringe.RemoveAt(0);
 
-            if (isFound)
+            if (isFoundTarget(destinationNode))
             {
                 break;
             }
 
             var adjacentList = new List<Node> { };
 
-            checkDistance = currentNode.CalculateH() * 1 / 5;
+            float checkDistance = currentNode.CalculateH() * 1 / 5;
             checkDistance = checkDistance < 1 ? 1 : checkDistance;
 
             Vector3 rayStartPoint = currentNode.currentPosition;
@@ -148,17 +145,15 @@ public class AStar
                         continue;
                     }
                     destinationNode = createNodeFromRaycast(raycastDirection, currentNode, checkDistance);
-                    isFound = true;
                     break;
                 }
                 else
                 {
                     if (isEscape)
                     {
-                        if (calculateSTH(currentNode, raycastDirection, destination))
+                        if (isAtEscapePoint(currentNode, raycastDirection, destination))
                         {
                             destinationNode = createNodeFromRaycast(raycastDirection, currentNode, checkDistance);
-                            isFound = true;
                             break;
                         }
                     }
