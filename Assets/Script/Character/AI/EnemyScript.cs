@@ -43,19 +43,19 @@ public class EnemyScript : CharacterBase
                 escapedPoint = Escape();
                 hasEscapedPoint = true;
             }
-            path = AStar.FindWay(transform.position, escapedPoint, true);
+            path = AStar.getInstance().FindWay(transform.position, escapedPoint, true);
         }
         else
         {
             hasEscapedPoint = false;
-            path = AStar.FindWay(transform.position, target.transform.position, false);
+            path = AStar.getInstance().FindWay(transform.position, target.transform.position, false);
         }
 
         targetPath = path - transform.position;
 
         Move(targetPath);
 
-        if(isAttack || isUseSkill)
+        if (isAttack || isUseSkill)
             AttackRotate(target.gameObject.transform.position - transform.position);
     }
 

@@ -7,10 +7,34 @@ enum RayCastTarget
     Player,
     Obstacle
 }
+// TODO-0: Rename calculateSTH
 
-public static class AStar
+// TODO-2: change from (float, float) to vector3 in Node
+
+// TODO-1: should not use isEscape flag; should we spilt this to two function (FindWayToPlayer\2, FindEscapeWay\2?)
+// TODO-3: FindDirection should not use list
+// TODO-4: openList, closeList can be hashmap
+// TODO-5: isFound?
+// TODO-6: checkDistance
+
+public class AStar
 {
-    static List<Vector3> raycastDirectionList = new List<Vector3>(){
+    private static AStar instance;
+
+    private AStar()
+    {
+    }
+
+    public static AStar getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new AStar();
+        }
+        return instance;
+    }
+
+    private List<Vector3> raycastDirectionList = new List<Vector3>(){
        new Vector3(Mathf.Sin(Mathf.Deg2Rad* 45), 0, Mathf.Cos(Mathf.Deg2Rad* 45)), //45
        new Vector3(Mathf.Sin(Mathf.Deg2Rad* 90), 0, Mathf.Cos(Mathf.Deg2Rad* 90)), //90
        new Vector3(Mathf.Sin(Mathf.Deg2Rad* 135), 0, Mathf.Cos(Mathf.Deg2Rad* 135)), //135
@@ -21,7 +45,7 @@ public static class AStar
        new Vector3(Mathf.Sin(Mathf.Deg2Rad* 360), 0, Mathf.Cos(Mathf.Deg2Rad* 360))  //360
     };
 
-    private static RayCastTarget GetRayCastTarget(Vector3 rayStartPoint, Vector3 direction, float distance)
+    private RayCastTarget GetRayCastTarget(Vector3 rayStartPoint, Vector3 direction, float distance)
     {
         if (Physics.Raycast(rayStartPoint, direction, out RaycastHit hitTarget, distance))
         {
@@ -37,7 +61,7 @@ public static class AStar
         }
         return RayCastTarget.Nothing;
     }
-    private static Node createNodeFromRaycast(Vector3 raycastDirection, Node currentNode, float distance)
+    private Node createNodeFromRaycast(Vector3 raycastDirection, Node currentNode, float distance)
     {
         return new Node((
                     currentNode.currentPosition.Item1 + raycastDirection.x,
@@ -49,20 +73,16 @@ public static class AStar
         };
     }
 
-    private static bool calculateSTH(Node currentNode, Vector3 raycastDirection, float distance)
+    private bool calculateSTH(Node currentNode, Vector3 raycastDirection, Vector3 destination)
     {
-        return true;
+        float currentX = currentNode.currentPosition.Item1;
+        float currentZ = currentNode.currentPosition.Item2;
+        return ((currentX + raycastDirection.x - destination.x) * (destination.x - currentX) >= 0 &&
+                            (currentZ + raycastDirection.z - destination.z) * (destination.z - currentZ) >= 0);
     }
 
-    // TODO-0: finish calculateSTH
-    // TODO-1: should not use isEscape flag; should we spilt this to two function (FindWayToPlayer\2, FindEscapeWay\2?)
-    // TODO-2: change from (float, float) to vector3 in Node
-    // TODO-3: FindDirection should not use list
-    // TODO-4: openList, closeList can be hashmap
-    // TODO-5: isFound?
-    // TODO-6: checkDistance
-    // TODO-7: Singleton
-    public static Vector3 FindWay(Vector3 start, Vector3 destination, bool isEscape)
+
+    public Vector3 FindWay(Vector3 start, Vector3 destination, bool isEscape)
     {
         float checkDistance = 1;  // TODO: should we declare it here? What is this?
         bool isFound = false; // TODO:  Rename? isFoundPlayer? --> We might not need this field at all
@@ -130,11 +150,7 @@ public static class AStar
                 {
                     if (isEscape)
                     {
-                        float currentX = currentNode.currentPosition.Item1;
-                        float currentZ = currentNode.currentPosition.Item2;
-                        // TODO: Move to another function
-                        if ((currentX + raycastDirection.x - destination.x) * (destination.x - currentX) >= 0 &&
-                            (currentZ + raycastDirection.z - destination.z) * (destination.z - currentZ) >= 0)
+                        if (calculateSTH(currentNode, raycastDirection, destination))
                         {
                             destinationNode = createNodeFromRaycast(raycastDirection, currentNode, checkDistance);
                             isFound = true;
@@ -176,7 +192,7 @@ public static class AStar
         return FindDirection(destinationNode);
     }
 
-    public static Vector3 FindDirection(Node node)
+    public Vector3 FindDirection(Node node)
     {
 
         var pathList = new List<(float, float)> { };
